@@ -1,4 +1,4 @@
-package com.townscript.forum.dao;
+package com.townscript.forum.dao.user;
 
 
 import java.util.HashSet;
@@ -9,11 +9,10 @@ import java.util.Set;
 import org.hibernate.Query;
 
 import org.hibernate.HibernateException;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import com.townscript.forum.model.UserHibernate;
+import com.townscript.forum.model.user.UserHibernate;
 
 public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHibernateDao{
 
@@ -72,7 +71,7 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 	}
 
 	@Override
-	public UserHibernate getUserByUserNameAndPassword(String userName, String password) {
+	public long getUserByUserNameAndPassword(String userName, String password) {
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 //		Transaction tx = null;
@@ -86,7 +85,7 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 			List<UserHibernate> lists = query.list();
 			
 //			tx.commit();
-			return lists.get(0);
+			return lists.get(0).getUserId();
             
 		}
 		catch(HibernateException ex)
@@ -96,7 +95,7 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 			ex.printStackTrace();
 		}
 
-		return null;
+		return 0;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.townscript.forum.model;
+package com.townscript.forum.model.user;
 
 import javax.persistence.*;
 
@@ -19,15 +19,28 @@ public class UserHibernate {
 	@Column(name="USER_EMAIL")
 	private String userEmail;
 	
+	@Column(name="USER_MOBILE")
+	private String userMobile;
+
+	@Column(name="DATE_TIME_CREATED")
+	private String userDateTime;
+
+	@Column(name="USER_PROPIC")
+	private byte[] userPropic;
+	
 	public UserHibernate() {
 	}
 
-	public UserHibernate(Integer userId, String userName, String password, String userEmail) {
+	public UserHibernate(Integer userId, String userName, String password, String userEmail, String userMobile,
+			String userDateTime, byte[] userPropic) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
 		this.password = password;
 		this.userEmail = userEmail;
+		this.userMobile = userMobile;
+		this.userDateTime = userDateTime;
+		this.userPropic = userPropic;
 	}
 
 	public Integer getUserId() {
@@ -60,5 +73,29 @@ public class UserHibernate {
 
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
+	}
+
+	public String getUserMobile() {
+		return userMobile;
+	}
+
+	public void setUserMobile(String userMobile) {
+		this.userMobile = userMobile;
+	}
+
+	public String getUserDateTime() {
+		return userDateTime;
+	}
+
+	public void setUserDateTime(String userDateTime) {
+		this.userDateTime = userDateTime;
+	}
+
+	public byte[] getUserPropic() {
+		return userPropic;
+	}
+
+	public void setUserPropic(byte[] userPropic) {
+		this.userPropic = userPropic;
 	}
 }

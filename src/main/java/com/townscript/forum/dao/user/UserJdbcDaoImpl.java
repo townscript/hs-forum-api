@@ -1,4 +1,4 @@
-package com.townscript.forum.dao;
+package com.townscript.forum.dao.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.townscript.forum.model.UserJdbc;
+import com.townscript.forum.model.user.UserJdbc;
 import com.townscript.forum.utility.ConnectionWithDatabase;
 
 

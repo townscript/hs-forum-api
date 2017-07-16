@@ -1,4 +1,4 @@
-package com.townscript.forum.model;
+package com.townscript.forum.model.user;
 
 public class UserJdbc {
 	private Integer userId;
