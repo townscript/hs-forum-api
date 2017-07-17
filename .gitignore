@@ -1,5 +1,3 @@
-.settings
 .classpath
-.project
 build/
 src/main/webapp/WEB-INF/lib
