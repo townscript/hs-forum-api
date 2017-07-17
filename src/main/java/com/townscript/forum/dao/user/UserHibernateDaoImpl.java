@@ -71,7 +71,7 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 	}
 
 	@Override
-	public long getUserByUserNameAndPassword(String userName, String password) {
+	public UserHibernate getUserByUserNameAndPassword(String userName, String password) {
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 //		Transaction tx = null;
@@ -85,7 +85,7 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 			List<UserHibernate> lists = query.list();
 			
 //			tx.commit();
-			return lists.get(0).getUserId();
+			return lists.get(0);
             
 		}
 		catch(HibernateException ex)
@@ -95,7 +95,7 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 			ex.printStackTrace();
 		}
 
-		return 0;
+		return null;
 	}
 
 	@Override

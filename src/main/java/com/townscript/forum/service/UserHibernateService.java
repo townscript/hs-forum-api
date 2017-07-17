@@ -2,7 +2,7 @@ package com.townscript.forum.service;
 
 import java.util.Set;
 
-import com.townscript.forum.model.UserHibernate;
+import com.townscript.forum.model.user.UserHibernate;
 
 public interface UserHibernateService 
 {	

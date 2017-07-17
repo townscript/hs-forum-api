@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.townscript.forum.dao.UserHibernateDao;
-import com.townscript.forum.model.UserHibernate;
+import com.townscript.forum.dao.user.UserHibernateDao;
+import com.townscript.forum.model.user.UserHibernate;
 
 @Service
 @Transactional

@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.townscript.forum.model.UserHibernate;
+import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.utility.ConnectionWithDatabase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
