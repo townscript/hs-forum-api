@@ -1,7 +1,6 @@
 package com.townscript.forum.controller.topic;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -21,7 +20,6 @@ import com.townscript.forum.constants.ErrorCodes;
 import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.service.TopicService;
-import com.townscript.forum.service.UserHibernateService;
 import com.townscript.forum.vo.CreateTopicVo;
 import com.townscript.forum.vo.HttpResponseVo;
 
@@ -45,7 +43,6 @@ public class TopicController {
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/createTopic", method=RequestMethod.POST)
 	public ResponseEntity<HttpResponseVo> createTopic(String topicJsonStr){
-		HttpResponseVo httpResponseVo = null;
 		CreateTopicVo createTopicVo = null;
 		try{
 			ObjectMapper mapper = new ObjectMapper();
@@ -54,7 +51,7 @@ public class TopicController {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_SUCCESS, null, null), null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
 		}
 		
 		TopicHibernate topic=new TopicHibernate();
@@ -68,30 +65,51 @@ public class TopicController {
 		long topicId = topicService.createTopic(topic);
 		topic.setTopicId(topicId);
 		
-		//httpResponseVo= new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topic, topicId);
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topic, topicId), null, HttpStatus.OK);
 	}
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getAllTopics", method=RequestMethod.GET)
-	public Collection<TopicHibernate> getAllTopics(){
-		Collection<TopicHibernate> topicList = topicService.getAllTopics();
-		return topicList;
+	public ResponseEntity<HttpResponseVo> getAllTopics(){
+		Collection<TopicHibernate> topicList = null;
+		try{
+			topicList = topicService.getAllTopics();
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topicList, null), null, HttpStatus.OK);
 	}
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getTopicById", method=RequestMethod.POST)
-	public TopicHibernate getTopicById(@RequestParam(value="topicId") long topicId) {
-		TopicHibernate topic = topicService.getTopicById(topicId);
-		return topic;
+	public ResponseEntity<HttpResponseVo> getTopicById(@RequestParam(value="topicId") long topicId) {
+		TopicHibernate topic = null;
+		try{
+			topic = topicService.getTopicById(topicId);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topic, null), null, HttpStatus.OK);
 	}
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getTopicsByUserName", method=RequestMethod.POST)
-	public Collection<TopicHibernate> getTopicsByUserName(@RequestParam(value="userName") String userName) {
-		Collection<TopicHibernate> topicList = topicService.getTopicsByUsername(userName);
-		return topicList;
+	public ResponseEntity<HttpResponseVo> getTopicsByUserName(@RequestParam(value="userName") String userName) {
+		Collection<TopicHibernate> topicList = null;
+		try{
+			UserHibernate user = null;
+			topicList = topicService.getTopicsByUsername(userName);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topicList, null), null, HttpStatus.OK);
 	}
-	
 	
 }
