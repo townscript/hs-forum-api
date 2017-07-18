@@ -1,11 +1,14 @@
 package com.townscript.forum.dao.topic;
 
-import java.util.Set;
+import java.util.Collection;
 
 import com.townscript.forum.model.topic.TopicHibernate;
 
 public interface TopicHibernateDao {
+	long createTopic(TopicHibernate topic);
+    String updateTopic(TopicHibernate topic);
+    String deleteTopicById(long id);
 	TopicHibernate getTopicById(long id);
-    Set<TopicHibernate> getAllTopics();
-    long insertTopic(TopicHibernate topic);
+    Collection<TopicHibernate> getAllTopics();
+    //Collection<TopicHibernate> getTopicsByUsername(String username);
 }
