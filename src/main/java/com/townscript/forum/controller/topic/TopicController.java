@@ -57,6 +57,7 @@ public class TopicController {
 		
 		//TODO: topicUserMap table: set userId by userName for new topic entry
 		//TODO: rollback logic
+		//TODO: response entity
 		
 		long topicId = topicService.createTopic(topic);
 		topic.setTopicId(topicId);
