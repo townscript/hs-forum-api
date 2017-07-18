@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.townscript.forum.model.UserHibernate;
+import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.service.UserHibernateService;
 
 //@ContextConfiguration(locations="/com/townscript/forum/main-bean.xml")

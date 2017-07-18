@@ -1,10 +1,7 @@
 package com.townscript.forum.dao.topic;
 
-
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Query;
 
@@ -12,12 +9,90 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.townscript.forum.constants.Constants;
 import com.townscript.forum.model.topic.TopicHibernate;
 
 public class TopicHibernateDaoImpl extends HibernateDaoSupport implements TopicHibernateDao{
 	
 	@Override
 	public TopicHibernate getTopicById(long id) {
+		
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try{
+			String queryString = "FROM "+TopicHibernate.class.getName()+" WHERE topicId=:topicId";
+			Query query = session.createQuery(queryString);
+			query.setParameter("topicId", id);
+			List<TopicHibernate> topicList = query.list();
+			return topicList.iterator().next();	
+			
+		} catch(HibernateException ex) {
+			ex.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public Collection<TopicHibernate> getAllTopics() {
+		// TODO Auto-generated method stub
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try{
+			List<TopicHibernate> topicList = session.createQuery("FROM TopicHibernate").list();
+			return topicList;
+			
+		} catch(HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public long createTopic(TopicHibernate topic) {
+		// TODO Auto-generated method stub
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try{
+			getHibernateTemplate().saveOrUpdate(topic);
+			return topic.getTopicId();
+			
+		} catch(HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public String updateTopic(TopicHibernate topic) {
+		// TODO Auto-generated method stub
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try{
+			getHibernateTemplate().update(topic);
+			return Constants.MSG_SUCCESS;
+			
+		} catch(HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return Constants.MSG_FAIL;
+	}
+
+	@Override
+	public String deleteTopicById(long id) {
+		// TODO Auto-generated method stub
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		
+		try {
+			TopicHibernate topic = new TopicHibernate();
+			topic.setTopicId(id);
+			getHibernateTemplate().delete(topic);
+			return Constants.MSG_SUCCESS;
+		    
+		} catch(HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return Constants.MSG_FAIL;
+	}
+
+	/*@Override
+	public Collection<TopicHibernate> getTopicsByUsername() {
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
@@ -25,50 +100,12 @@ public class TopicHibernateDaoImpl extends HibernateDaoSupport implements TopicH
 			Query query = session.createQuery(queryString);
 			query.setParameter("topicId", id);
 			List<TopicHibernate> topicList = query.list();
-			return topicList.get(0);			
-		}
-		catch(HibernateException ex)
-		{
-			ex.printStackTrace();
-		}
-
-		return null;
-	}
-
-	@Override
-	public Set<TopicHibernate> getAllTopics() {
-		// TODO Auto-generated method stub
-		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-		try{
-			List<TopicHibernate> topicList = session.createQuery("FROM TopicHibernate").list();
+			return topicList.iterator().next();	
 			
-			Set<TopicHibernate> topics = new HashSet<TopicHibernate>();
-			for(Iterator iterator = topicList.iterator();iterator.hasNext();)
-			{
-				TopicHibernate topic = (TopicHibernate)iterator.next();
-				topics.add(topic);
-			}
-			return topics;
-		}
-		catch(HibernateException ex)
-		{
+		} catch(HibernateException ex) {
 			ex.printStackTrace();
 		}
-		return null;
-	}
 
-	@Override
-	public long insertTopic(TopicHibernate topic) {
-		// TODO Auto-generated method stub
-		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-		try{
-			getHibernateTemplate().saveOrUpdate(topic);
-			return topic.getTopicId();
-		}
-		catch(HibernateException ex)
-		{
-			ex.printStackTrace();
-		}
-		return 0;
-	}
+		return null;
+	}*/
 }
