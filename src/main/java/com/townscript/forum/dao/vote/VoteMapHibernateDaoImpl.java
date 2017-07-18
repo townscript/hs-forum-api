@@ -1,6 +1,9 @@
 package com.townscript.forum.dao.vote;
 
+import java.util.Collection;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -36,5 +39,23 @@ public class VoteMapHibernateDaoImpl extends HibernateDaoSupport implements Vote
 			ex.printStackTrace();
 		}
 		return false;
+	}
+	
+	@Override
+	public Collection<VoteMapHibernate> getVoteByUserIdAndTopicId(long userId, long topicId){
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try{
+			String queryString = "FROM VoteMapHibernate WHERE USER_ID=:userId AND TOPIC_ID=:topicId";
+			Query query = session.createQuery(queryString);
+			query.setParameter("userId", userId);
+			Collection<VoteMapHibernate> voteMapList = query.list(); 
+			
+			return voteMapList;		
+		}
+		catch(HibernateException ex)
+		{
+			ex.printStackTrace();
+		}
+		return null;
 	}
 }

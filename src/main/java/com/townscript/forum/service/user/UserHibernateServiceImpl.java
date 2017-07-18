@@ -1,9 +1,8 @@
-package com.townscript.forum.service;
+package com.townscript.forum.service.user;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +32,7 @@ public class UserHibernateServiceImpl implements UserHibernateService{
 	}
 
 	@Override
-	public Set<UserHibernate> getAllUsers() {
+	public Collection<UserHibernate> getAllUsers() {
 		// TODO Auto-generated method stub
 			
 		return userDao.getAllUsers();

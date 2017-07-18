@@ -1,4 +1,4 @@
-package com.townscript.forum.controller.user;
+package com.townscript.forum.controller.comment;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -8,24 +8,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.townscript.forum.model.comment.CommentHibernate;
+import com.townscript.forum.model.comment.CommentMapHibernate;
 import com.townscript.forum.model.user.UserHibernate;
-import com.townscript.forum.service.user.UserHibernateService;
+import com.townscript.forum.service.comment.CommentHibernateService;
+
 
 //@ContextConfiguration(locations="/com/townscript/forum/main-bean.xml")
 @RestController
 @RequestMapping(value="/user")
-public class UserRESTController {
+public class CommentRESTController {
 	
-	public UserRESTController() {
+	public CommentRESTController() {
 		super();
-        if (userService == null) {
+        if (commentService == null) {
                 ApplicationContext context = new ClassPathXmlApplicationContext(
                                 "com/townscript/forum/main-bean.xml");
-                userService = (UserHibernateService) context
-                                .getBean("UserHibernateServiceImpl");
+                commentService = (CommentHibernateService) context
+                                .getBean("CommentHibernateServiceImpl");
         }
 	}
-	private UserHibernateService userService;
+	private CommentHibernateService commentService;
 	
 //	public UserHibernateService getUserService() {
 //		return userService;
@@ -36,9 +39,15 @@ public class UserRESTController {
 //	}
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping(value="/getUser", method=RequestMethod.POST)
-	public UserHibernate getUserByUserNameAndPassword(@RequestParam(value="userName") String userName, @RequestParam(value="userPassword") String userPassword){
-		return userService.getUserByUserNameAndPassword(userName, userPassword);
+	@RequestMapping(value="/newComment", method=RequestMethod.POST)
+	public boolean addComment(@RequestParam(value="topicId") String topicId, @RequestParam(value="userName") String userName, @RequestParam(value="commentValue") String commentValue, @RequestParam(value="commentValue") String commentType){
+		CommentHibernate comment = new CommentHibernate();
+		CommentMapHibernate commentMap = new CommentMapHibernate();
+		
+		
+		user.setUserEmail(userEmail);
+		user.setPassword(userPassword);
+		return userService.insertUser(user);
 	}
 	
 	@Secured("ROLE_ADMIN")

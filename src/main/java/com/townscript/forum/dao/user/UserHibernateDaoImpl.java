@@ -1,14 +1,11 @@
 package com.townscript.forum.dao.user;
 
 
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-
-import org.hibernate.Query;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -23,7 +20,7 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 //	}
 	
 	@Override
-	public UserHibernate getUser(int id) {
+	public UserHibernate getUser(long id) {
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 //		Transaction tx = null;		
@@ -44,22 +41,14 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 	}
 
 	@Override
-	public Set<UserHibernate> getAllUsers() {
+	public Collection<UserHibernate> getAllUsers() {
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 //		Transaction tx = null;
 		try{
 //			tx = session.beginTransaction();
-			List<UserHibernate> userList = session.createQuery("FROM UserHibernate").list();
-			
-			Set<UserHibernate> users = new HashSet<UserHibernate>();
-			for(Iterator iterator = userList.iterator();iterator.hasNext();)
-			{
-				UserHibernate user = (UserHibernate)iterator.next();
-				users.add(user);
-			}
-//			tx.commit();
-			return users;
+			Collection<UserHibernate> userList = session.createQuery("FROM UserHibernate").list();
+			return userList;
 		}
 		catch(HibernateException ex)
 		{
@@ -139,7 +128,7 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 	}
 
 	@Override
-	public boolean deleteUser(int id) {
+	public boolean deleteUser(long id) {
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 //		Transaction tx = null;

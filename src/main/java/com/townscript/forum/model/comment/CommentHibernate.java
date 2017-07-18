@@ -13,8 +13,8 @@ public class CommentHibernate {
 	@Column(name="COMMENT_TYPE")
 	private String commentType;
 	
-	@Column(name="COMMENT_TEXT")
-	private String commentText;
+	@Column(name="COMMENT_VALUE")
+	private String commentValue;
 	
 	@Column(name="DATE_TIME_CREATED")
 	private String commentDateTime;
@@ -22,11 +22,11 @@ public class CommentHibernate {
 	public CommentHibernate() {
 	}
 	
-	public CommentHibernate(Long commentId, String commentType, String commentText, String commentDateTime) {
+	public CommentHibernate(Long commentId, String commentType, String commentValue, String commentDateTime) {
 		super();
 		this.commentId = commentId;
 		this.commentType = commentType;
-		this.commentText = commentText;
+		this.commentValue = commentValue;
 		this.commentDateTime = commentDateTime;
 	}
 
@@ -46,12 +46,12 @@ public class CommentHibernate {
 		this.commentType = commentType;
 	}
 
-	public String getCommentText() {
-		return commentText;
+	public String getCommentValue() {
+		return commentValue;
 	}
 
-	public void setCommentText(String commentText) {
-		this.commentText = commentText;
+	public void setCommentValue(String commentValue) {
+		this.commentValue = commentValue;
 	}
 
 	public String getCommentDateTime() {
