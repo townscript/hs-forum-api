@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.townscript.forum.constants.Constants;
+import com.townscript.forum.constants.ErrorCodes;
 import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.service.TopicService;
 import com.townscript.forum.service.UserHibernateService;
 import com.townscript.forum.vo.CreateTopicVo;
+import com.townscript.forum.vo.HttpResponseVo;
 
 //@ContextConfiguration(locations="/com/townscript/forum/main-bean.xml")
 @RestController
@@ -39,8 +44,8 @@ public class TopicController {
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/createTopic", method=RequestMethod.POST)
-	public TopicHibernate createTopic(String topicJsonStr){
-		
+	public ResponseEntity<HttpResponseVo> createTopic(String topicJsonStr){
+		HttpResponseVo httpResponseVo = null;
 		CreateTopicVo createTopicVo = null;
 		try{
 			ObjectMapper mapper = new ObjectMapper();
@@ -49,6 +54,7 @@ public class TopicController {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
+			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_SUCCESS, null, null), null, HttpStatus.BAD_REQUEST);
 		}
 		
 		TopicHibernate topic=new TopicHibernate();
@@ -62,7 +68,8 @@ public class TopicController {
 		long topicId = topicService.createTopic(topic);
 		topic.setTopicId(topicId);
 		
-		return topic;
+		//httpResponseVo= new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topic, topicId);
+		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topic, topicId), null, HttpStatus.OK);
 	}
 	
 	//@Secured("ROLE_ADMIN")
