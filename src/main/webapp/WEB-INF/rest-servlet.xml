@@ -30,6 +30,12 @@
        </bean>
        
 	<context:component-scan base-package="com.townscript.forum" />
+
+   	<bean class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name = "prefix" value = "/WEB-INF/jsp/" />
+    	<property name = "suffix" value = ".jsp" />
+    </bean>
+	
 	<mvc:annotation-driven />
 	
 	<!-- <security:global-method-security secured-annotations="enabled" /> -->
