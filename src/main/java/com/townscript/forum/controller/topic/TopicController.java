@@ -19,7 +19,7 @@ import com.townscript.forum.constants.Constants;
 import com.townscript.forum.constants.ErrorCodes;
 import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.user.UserHibernate;
-import com.townscript.forum.service.TopicService;
+import com.townscript.forum.service.topic.TopicService;
 import com.townscript.forum.vo.CreateTopicVo;
 import com.townscript.forum.vo.HttpResponseVo;
 
