@@ -1,13 +1,13 @@
-package com.townscript.forum.service;
+package com.townscript.forum.service.user;
 
-import java.util.Set;
+import java.util.Collection;
 
 import com.townscript.forum.model.user.UserHibernate;
 
 public interface UserHibernateService 
 {	
 		UserHibernate getUser(int id);
-	    Set<UserHibernate> getAllUsers();
+	    Collection<UserHibernate> getAllUsers();
 	    UserHibernate getUserByUserNameAndPassword(String userName,String userPassword);
 	    boolean insertUser(UserHibernate user);
 	    boolean updateUser(UserHibernate user);

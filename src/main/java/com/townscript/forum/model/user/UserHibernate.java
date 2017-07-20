@@ -1,6 +1,12 @@
 package com.townscript.forum.model.user;
 
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_data_table")
@@ -23,7 +29,7 @@ public class UserHibernate {
 	private String userMobile;
 
 	@Column(name="DATE_TIME_CREATED")
-	private String userDateTime;
+	private Date userDateTime;
 
 	@Column(name="USER_PROPIC")
 	private byte[] userPropic;
@@ -32,7 +38,7 @@ public class UserHibernate {
 	}
 
 	public UserHibernate(Long userId, String userName, String password, String userEmail, String userMobile,
-			String userDateTime, byte[] userPropic) {
+			Date userDateTime, byte[] userPropic) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -83,11 +89,11 @@ public class UserHibernate {
 		this.userMobile = userMobile;
 	}
 
-	public String getUserDateTime() {
+	public Date getUserDateTime() {
 		return userDateTime;
 	}
 
-	public void setUserDateTime(String userDateTime) {
+	public void setUserDateTime(Date userDateTime) {
 		this.userDateTime = userDateTime;
 	}
 

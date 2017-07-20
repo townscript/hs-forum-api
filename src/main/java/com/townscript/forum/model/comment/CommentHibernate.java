@@ -1,6 +1,12 @@
 package com.townscript.forum.model.comment;
 
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "comment_data_table")
@@ -8,21 +14,21 @@ public class CommentHibernate {
 	
 	@Id @GeneratedValue
 	@Column(name="COMMENT_ID")
-	private Long commentId;
+	private long commentId;
 	
 	@Column(name="COMMENT_TYPE")
-	private String commentType;
+	private char commentType;
 	
 	@Column(name="COMMENT_VALUE")
 	private String commentValue;
 	
 	@Column(name="DATE_TIME_CREATED")
-	private String commentDateTime;
+	private Date commentDateTime;
 	
 	public CommentHibernate() {
 	}
 	
-	public CommentHibernate(Long commentId, String commentType, String commentValue, String commentDateTime) {
+	public CommentHibernate(long commentId, char commentType, String commentValue, Date commentDateTime) {
 		super();
 		this.commentId = commentId;
 		this.commentType = commentType;
@@ -30,19 +36,19 @@ public class CommentHibernate {
 		this.commentDateTime = commentDateTime;
 	}
 
-	public Long getCommentId() {
+	public long getCommentId() {
 		return commentId;
 	}
 
-	public void setCommentId(Long commentId) {
+	public void setCommentId(long commentId) {
 		this.commentId = commentId;
 	}
 
-	public String getCommentType() {
+	public char getCommentType() {
 		return commentType;
 	}
 
-	public void setCommentType(String commentType) {
+	public void setCommentType(char commentType) {
 		this.commentType = commentType;
 	}
 
@@ -54,11 +60,11 @@ public class CommentHibernate {
 		this.commentValue = commentValue;
 	}
 
-	public String getCommentDateTime() {
+	public Date getCommentDateTime() {
 		return commentDateTime;
 	}
 
-	public void setCommentDateTime(String commentDateTime) {
+	public void setCommentDateTime(Date commentDateTime) {
 		this.commentDateTime = commentDateTime;
 	}
 }

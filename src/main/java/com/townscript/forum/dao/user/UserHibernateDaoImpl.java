@@ -94,7 +94,7 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 //		Transaction tx = null;
 		try{
 //			tx = session.beginTransaction();
-			getHibernateTemplate().saveOrUpdate(user);
+			getHibernateTemplate().save(user);
 //			tx.commit();
 			return true;
 		}
