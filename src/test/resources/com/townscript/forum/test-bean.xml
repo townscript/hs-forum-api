@@ -20,12 +20,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
         <property name="dataSource" ref="dataSource" />
         <property name="annotatedClasses">
             <list>
-                <value>com.townscript.forum.model.comment.CommentHibernate</value>
-                <!-- <value>com.townscript.forum.model.comment.CommentMapHibernate</value>
+                <!-- <value>com.townscript.forum.model.comment.CommentHibernate</value>
+                <value>com.townscript.forum.model.comment.CommentMapHibernate</value>
                 <value>com.townscript.forum.model.topic.TopicHibernate</value>
-                <value>com.townscript.forum.model.topic.TopicMapHibernate</value>
+                <value>com.townscript.forum.model.topic.TopicMapHibernate</value> -->
                 <value>com.townscript.forum.model.user.UserHibernate</value>
-                <value>com.townscript.forum.model.vote.VoteMapHibernate</value>
+                <!-- <value>com.townscript.forum.model.vote.VoteMapHibernate</value>
                 <value>com.townscript.forum.model.vote.VoteMasterHibernate</value> -->
             </list>
         </property>
