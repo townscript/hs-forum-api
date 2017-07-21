@@ -7,5 +7,5 @@ import com.townscript.forum.model.user.UserHibernate;
 public interface CommentHibernateService 
 {	
 		long addComment(TopicHibernate topic, CommentHibernate comment, UserHibernate user);
-		String submitVote(TopicHibernate topic, UserHibernate user, Integer voteValue);
+		boolean submitVote(TopicHibernate topic, UserHibernate user, int voteValue);
 }

@@ -1,9 +1,9 @@
-package com.townscript.forum.service;
+package com.townscript.forum.service.topic;
 
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +12,7 @@ import com.townscript.forum.model.topic.TopicHibernate;
 
 @Service
 @Transactional
-public class TopicServiceImpl implements TopicService{
+public class TopicServiceImpl extends HibernateDaoSupport implements TopicService{
 
 	@Autowired
 	private TopicHibernateDao topicDao;

@@ -1,6 +1,7 @@
 package com.townscript.forum.service.comment;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,20 +16,47 @@ import com.townscript.forum.model.vote.VoteMapHibernate;
 
 @Service
 @Transactional
-public class CommentHibernateServiceImpl implements CommentHibernateService{
+public class CommentHibernateServiceImpl extends HibernateDaoSupport implements CommentHibernateService{
 
 	@Autowired
 	private CommentHibernateDao commentDao;
+	@Autowired
 	private CommentMapHibernateDao commentMapDao;
-	private CommentMapHibernate commentMap;
+	@Autowired
 	private VoteMapHibernateDao voteMapDao;
-	private VoteMapHibernate voteMap;
+	
+	public CommentHibernateDao getCommentDao() {
+		return commentDao;
+	}
+
+	public void setCommentDao(CommentHibernateDao commentDao) {
+		this.commentDao = commentDao;
+	}
+
+	public CommentMapHibernateDao getCommentMapDao() {
+		return commentMapDao;
+	}
+
+	public void setCommentMapDao(CommentMapHibernateDao commentMapDao) {
+		this.commentMapDao = commentMapDao;
+	}
+
+	public VoteMapHibernateDao getVoteMapDao() {
+		return voteMapDao;
+	}
+
+	public void setVoteMapDao(VoteMapHibernateDao voteMapDao) {
+		this.voteMapDao = voteMapDao;
+	}
 	
 	@Override
-	public long addComment(TopicHibernate topic, CommentHibernate comment, UserHibernate user){
+	public long addComment(TopicHibernate topic, CommentHibernate comment, UserHibernate user)
+	{
 		// TODO Auto-generated method stub
 		
 		long commentId = commentDao.addComment(comment);
+		comment.setCommentId(commentId);
+		CommentMapHibernate commentMap = new CommentMapHibernate();
 		commentMap.setTopicId(topic.getTopicId());
 		commentMap.setUserId(user.getUserId());
 		commentMap.setCommentId(commentId);
@@ -40,23 +68,23 @@ public class CommentHibernateServiceImpl implements CommentHibernateService{
 	}
 
 	@Override
-	public String submitVote(TopicHibernate topic, UserHibernate user, Integer voteValue){
-		
-		String errorCode1 = "1001";
+	public boolean submitVote(TopicHibernate topic, UserHibernate user, int voteValue)
+	{
+		VoteMapHibernate voteMap = new VoteMapHibernate();
+		voteMap.setTopicId(topic.getTopicId());
+		voteMap.setUserId(user.getUserId());
+		voteMap.setVoteValue(voteValue);
 		if(voteMapDao.getVoteByUserIdAndTopicId(user.getUserId(), topic.getTopicId())==null)
 		{
-			voteMap.setTopicId(topic.getTopicId());
-			voteMap.setUserId(user.getUserId());
-			voteMap.setVoteValue(voteValue);
 			if(voteMapDao.addVoteMap(voteMap))
 			{
-				return errorCode1; //define error codes
+				return true; //define error codes
 			}
 		}
 		else if(voteMapDao.updateVoteMap(voteMap))
 		{
-			return errorCode1;
+			return true;
 		}
-		return "CodeNotResponding";
+		return false;
 	}
 }

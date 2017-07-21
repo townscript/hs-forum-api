@@ -1,4 +1,4 @@
-package com.townscript.forum.service;
+package com.townscript.forum.service.topic;
 
 import java.util.Collection;
 

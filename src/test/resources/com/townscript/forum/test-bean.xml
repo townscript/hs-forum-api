@@ -20,7 +20,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
         <property name="dataSource" ref="dataSource" />
         <property name="annotatedClasses">
             <list>
-                <value>com.townscript.forum.model.UserHibernate</value>
+                <!-- <value>com.townscript.forum.model.comment.CommentHibernate</value>
+                <value>com.townscript.forum.model.comment.CommentMapHibernate</value>
+                <value>com.townscript.forum.model.topic.TopicHibernate</value>
+                <value>com.townscript.forum.model.topic.TopicMapHibernate</value> -->
+                <value>com.townscript.forum.model.user.UserHibernate</value>
+                <!-- <value>com.townscript.forum.model.vote.VoteMapHibernate</value>
+                <value>com.townscript.forum.model.vote.VoteMasterHibernate</value> -->
             </list>
         </property>
         <property name="hibernateProperties">
@@ -39,20 +45,33 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     <bean id="hibernateTransactionManager"  
         class="org.springframework.orm.hibernate3.HibernateTransactionManager">  
         <property name="sessionFactory" ref="sessionFactory" />  
-    </bean> 
-    
-    <bean id="UserHibernateDaoImpl" class="com.townscript.forum.dao.UserHibernateDaoImpl">
+    </bean>
+     
+	<!-- <bean id="CommentHibernateDaoImpl" class="com.townscript.forum.dao.comment.CommentHibernateDaoImpl">
     	<property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-    <bean id="UserHibernateServiceImpl" class="com.townscript.forum.service.UserHibernateServiceImpl">
+    <bean id="CommentMapHibernateDaoImpl" class="com.townscript.forum.dao.comment.CommentMapHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="VoteMapHibernateDaoImpl" class="com.townscript.forum.dao.vote.VoteMapHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="CommentHibernateServiceImpl" class="com.townscript.forum.service.comment.CommentHibernateServiceImpl">
+    	<property name="commentDao" ref="CommentHibernateDaoImpl"/>
+    	<property name="commentMapDao" ref="CommentMapHibernateDaoImpl"/>
+    	<property name="voteMapDao" ref="VoteMapHibernateDaoImpl"/>
+    </bean> -->
+        
+    <bean id="UserHibernateDaoImpl" class="com.townscript.forum.dao.user.UserHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="UserHibernateServiceImpl" class="com.townscript.forum.service.user.UserHibernateServiceImpl">
     	<property name="userDao" ref="UserHibernateDaoImpl"/>
     </bean>
-    
-   <!--   <bean id="UserHnateServiceTestImpl" class="com.townscript.forum.service.UserHibernateServiceTestImpl">
-    	<property name="sessionFactory" ref="sessionFactory"/>
-    	<property name="userService" ref="UserHnateServiceImpl"/>
-    </bean>-->
     
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate" lazy-init="true">
               <constructor-arg>

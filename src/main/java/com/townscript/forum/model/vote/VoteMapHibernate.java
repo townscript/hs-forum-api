@@ -8,46 +8,46 @@ public class VoteMapHibernate {
 	
 	@Id @GeneratedValue
 	@Column(name="TOPIC_ID")
-	private Long topicId;
+	private long topicId;
 
 	@Id @GeneratedValue
 	@Column(name="VOTE_VALUE")
-	private Integer voteValue;
+	private int voteValue;
 	
 	@Column(name="USER_ID")
-	private Long userId;
+	private long userId;
 	
 	public VoteMapHibernate() {
 	}
 
-	public VoteMapHibernate(Long topicId, Integer voteValue, Long userId) {
+	public VoteMapHibernate(long topicId, int voteValue, long userId) {
 		super();
 		this.topicId = topicId;
 		this.voteValue = voteValue;
 		this.userId = userId;
 	}
 
-	public Long getTopicId() {
+	public long getTopicId() {
 		return topicId;
 	}
 
-	public void setTopicId(Long topicId) {
+	public void setTopicId(long topicId) {
 		this.topicId = topicId;
 	}
 
-	public Integer getVoteValue() {
+	public int getVoteValue() {
 		return voteValue;
 	}
 
-	public void setVoteValue(Integer voteValue) {
+	public void setVoteValue(int voteValue) {
 		this.voteValue = voteValue;
 	}
 
-	public Long getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 }
