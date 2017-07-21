@@ -12,4 +12,5 @@ public interface UserHibernateService
 	    boolean insertUser(UserHibernate user);
 	    boolean updateUser(UserHibernate user);
 	    boolean deleteUser(int id);
+		boolean isUniqueUser(String username);
 }

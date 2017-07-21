@@ -88,6 +88,24 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 	}
 
 	@Override
+	public UserHibernate getUserByUserName(String userName) {
+		// TODO Auto-generated method stub
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try {
+			String queryString = "FROM "+UserHibernate.class.getName()+" WHERE userName=:user";
+			Query query = session.createQuery(queryString);
+			query.setParameter("user", userName);
+			List<UserHibernate> lists = query.list();
+			
+			return lists.get(0);
+            
+		} catch(HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
 	public boolean insertUser(UserHibernate user) {
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();

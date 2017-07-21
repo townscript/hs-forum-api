@@ -43,13 +43,26 @@ public class UserRESTController {
 	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/newUser", method=RequestMethod.POST)
-	public boolean insertUser(@RequestParam(value="userName") String userName, @RequestParam(value="userEmail") String userEmail, @RequestParam(value="userPassword") String userPassword)
-	{
+	public boolean insertUser(@RequestParam(value="userName") String userName, @RequestParam(value="userEmail") String userEmail, @RequestParam(value="userPassword") String userPassword){
 		UserHibernate user = new UserHibernate();
 		user.setUserName(userName);
 		user.setUserEmail(userEmail);
 		user.setPassword(userPassword);
 		return userService.insertUser(user);
+	}
+	
+	//@Secured("ROLE_ADMIN")
+	@RequestMapping(value="/isUniqueUser", method=RequestMethod.POST)
+	public boolean isUniqueUser(@RequestParam(value="userName") String userName){
+		boolean isUnique = false; 
+		
+		try{
+			isUnique = userService.isUniqueUser(userName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return isUnique;
 	}
 	
 }

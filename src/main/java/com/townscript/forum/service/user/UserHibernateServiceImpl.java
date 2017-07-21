@@ -39,6 +39,21 @@ public class UserHibernateServiceImpl implements UserHibernateService{
 	}
 		
 	@Override
+	public boolean isUniqueUser(String username) {
+		boolean isUnique = true;	
+		Collection<UserHibernate> usersList = userDao.getAllUsers();
+		
+		for(UserHibernate user : usersList) {
+			if(username.equals(user.getUserName())) {
+				isUnique = false;
+				break;
+			}
+		}
+		
+		return isUnique;
+	}
+	
+	@Override
 	public UserHibernate getUserByUserNameAndPassword(String userName, String userPassword) {
 		// TODO Auto-generated method stub
 	
