@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+
+<div id='container' class='container navbar navbar-default navbar-rigth'>
+	<!--<a href='index.html' class='navbar-brand'>ForumApp</a>-->
+
+	<!--<ul class='nav navbar-nav navbar-right'>
+		<li><a class='nav navbar navbar-brand navbar-right' href='index.html'>Home</a></li>
+		<li><a class='nav navbar navbar-brand navbar-right' href='profile.html'>My Profile</a></li>
+		<li><a class='nav navbar navbar-brand navbar-right' href='settings.html'>Settings</a></li>
+	</ul>-->
+
+	<div class='row'>
+		<a href='index.html' class='navbar-brand'>ForumApp</a>
+		<ul class='list-unstyled list-inline'>
+			<li><a class='nav navbar navbar-brand navbar-right' href='index.html'>Home</a></li>
+			<li><a class='nav navbar navbar-brand navbar-right' href='profile.html'>My Profile</a></li>
+			<li>
+				<a class='nav navbar navbar-brand navbar-right' href='#'>Settings<span class='caret'></span></a>
+				<ul class='dropdown-menu'>
+					<li><a href='update-password.html'>Update Password</a></li>
+					<li><a href='contact-details.html'>Contact Details</a></li>
+					<li><a href='notification-settings.html'>Notification Settings</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<div class='row well well-lg'>
+		<div class='row'>
+			<div class='col-md-1'>
+				<label> Title </label> 
+			</div>
+			<div class='col-md-5'>
+				<input type='text' name='title' required=''/>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-1'>
+				<label> Description </label> 
+			</div>
+			<div class='col-md-5'>
+				<input type='textarea' name='description' required=''/>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-md-1'>
+				<label> Tags </label> 
+			</div>
+			<div class='col-md-5'>
+				<input type='text' name='tags' placeholder='e.g. sports,music, etc'/>
+			</div>
+		</div>
+		<div class='row'>
+			<p></p>
+		</div>
+		<div class='row'>
+			<div class='col-md-1'>
+				<input type='submit' name='submit' class='btn btn-success'/>
+			</div>
+			<div class='col-md-1'>
+				<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
+			</div>
+		</div>
+		
+	</div>
+
+</div>
+
+<script src="'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+
+</body>
+</html>
