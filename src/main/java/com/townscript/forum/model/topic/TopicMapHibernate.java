@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "topic_map_table")
 public class TopicMapHibernate {
 	
-	@Id @GeneratedValue
+	@Id
 	@Column(name="TOPIC_ID")
 	private Long topicId;
 	

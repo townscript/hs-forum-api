@@ -62,7 +62,7 @@ public class TopicController {
 		//TODO: rollback logic
 		//TODO: response entity
 		
-		long topicId = topicService.createTopic(topic);
+		long topicId = topicService.createTopic(topic,user);
 		topic.setTopicId(topicId);
 		
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topic, topicId), null, HttpStatus.OK);

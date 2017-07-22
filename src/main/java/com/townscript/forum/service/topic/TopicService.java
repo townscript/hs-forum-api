@@ -3,9 +3,10 @@ package com.townscript.forum.service.topic;
 import java.util.Collection;
 
 import com.townscript.forum.model.topic.TopicHibernate;
+import com.townscript.forum.model.user.UserHibernate;
 
 public interface TopicService {
-		long createTopic(TopicHibernate topic);
+		long createTopic(TopicHibernate topic, UserHibernate user);
 		String updateTopic(TopicHibernate topic);
 	    String deleteTopicById(long id);
 		Collection<TopicHibernate> getAllTopics();

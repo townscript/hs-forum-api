@@ -1,11 +1,11 @@
 package com.townscript.forum.dao.topic;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.Query;
-
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -51,8 +51,10 @@ public class TopicHibernateDaoImpl extends HibernateDaoSupport implements TopicH
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
-			getHibernateTemplate().saveOrUpdate(topic);
-			return topic.getTopicId();
+			Serializable result = session.save(topic);
+			Long tempId = (Long)result;
+			long topicId = tempId.longValue();
+			return topicId;
 			
 		} catch(HibernateException ex) {
 			ex.printStackTrace();
@@ -82,7 +84,7 @@ public class TopicHibernateDaoImpl extends HibernateDaoSupport implements TopicH
 		try {
 			TopicHibernate topic = new TopicHibernate();
 			topic.setTopicId(id);
-			getHibernateTemplate().delete(topic);
+			session.delete(topic);
 			return Constants.MSG_SUCCESS;
 		    
 		} catch(HibernateException ex) {
