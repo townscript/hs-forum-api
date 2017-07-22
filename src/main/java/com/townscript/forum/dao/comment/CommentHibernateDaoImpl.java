@@ -1,10 +1,10 @@
 package com.townscript.forum.dao.comment;
 
+import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.Query;
-
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -36,8 +36,11 @@ public class CommentHibernateDaoImpl extends HibernateDaoSupport implements Comm
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
-			getHibernateTemplate().saveOrUpdate(comment);
-			return comment.getCommentId();
+			Serializable result = session.save(comment);
+			Long idTemp = (Long)result;
+			long commentId = idTemp.longValue();
+			return commentId;
+			
 		}
 		catch(HibernateException ex)
 		{

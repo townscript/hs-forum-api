@@ -1,7 +1,6 @@
 package com.townscript.forum.service.comment;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +15,7 @@ import com.townscript.forum.model.vote.VoteMapHibernate;
 
 @Service
 @Transactional
-public class CommentHibernateServiceImpl extends HibernateDaoSupport implements CommentHibernateService{
+public class CommentHibernateServiceImpl implements CommentHibernateService{
 
 	@Autowired
 	private CommentHibernateDao commentDao;
@@ -32,7 +31,7 @@ public class CommentHibernateServiceImpl extends HibernateDaoSupport implements 
 	public void setCommentDao(CommentHibernateDao commentDao) {
 		this.commentDao = commentDao;
 	}
-
+	
 	public CommentMapHibernateDao getCommentMapDao() {
 		return commentMapDao;
 	}
@@ -48,20 +47,18 @@ public class CommentHibernateServiceImpl extends HibernateDaoSupport implements 
 	public void setVoteMapDao(VoteMapHibernateDao voteMapDao) {
 		this.voteMapDao = voteMapDao;
 	}
-	
+
 	@Override
 	public long addComment(TopicHibernate topic, CommentHibernate comment, UserHibernate user)
 	{
 		// TODO Auto-generated method stub
-		
+	
 		long commentId = commentDao.addComment(comment);
-		comment.setCommentId(commentId);
 		CommentMapHibernate commentMap = new CommentMapHibernate();
 		commentMap.setTopicId(topic.getTopicId());
 		commentMap.setUserId(user.getUserId());
 		commentMap.setCommentId(commentId);
-		if(commentMapDao.addCommentMap(commentMap))
-		{
+		if(commentMapDao.addCommentMap(commentMap)){
 			return commentId;
 		}
 		return 0;
@@ -74,7 +71,7 @@ public class CommentHibernateServiceImpl extends HibernateDaoSupport implements 
 		voteMap.setTopicId(topic.getTopicId());
 		voteMap.setUserId(user.getUserId());
 		voteMap.setVoteValue(voteValue);
-		if(voteMapDao.getVoteByUserIdAndTopicId(user.getUserId(), topic.getTopicId())==null)
+		if(voteMapDao.getVoteByUserIdAndTopicId(user.getUserId(), topic.getTopicId()).isEmpty())
 		{
 			if(voteMapDao.addVoteMap(voteMap))
 			{

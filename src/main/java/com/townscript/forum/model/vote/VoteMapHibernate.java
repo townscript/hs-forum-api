@@ -7,10 +7,12 @@ import javax.persistence.*;
 public class VoteMapHibernate {
 	
 	@Id @GeneratedValue
+	@Column(name="VOTE_ID")
+	private long voteId;
+	
 	@Column(name="TOPIC_ID")
 	private long topicId;
 
-	@Id @GeneratedValue
 	@Column(name="VOTE_VALUE")
 	private int voteValue;
 	

@@ -13,7 +13,7 @@ public class CommentMapHibernateDaoImpl extends HibernateDaoSupport implements C
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
-			getHibernateTemplate().saveOrUpdate(commentMap);
+			session.save(commentMap);
 			return true;
 		}
 		catch(HibernateException ex)

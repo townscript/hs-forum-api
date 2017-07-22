@@ -80,12 +80,12 @@ public class CommentRESTController {
 		user.setUserName(userVo.getUserName());
 		user.setUserPropic(userVo.getUserPropic());
 		
-		long commentId = commentService.addComment(topic, comment, user);
+		long commentId = commentService.addComment(topic,comment,user);
 		comment.setCommentId(commentId);
 		
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, comment, commentId), null, HttpStatus.OK);
 	}
-	
+	/*
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/submitVote", method=RequestMethod.POST)
 	public String submitVote(String voteJsonStr)
@@ -125,5 +125,5 @@ public class CommentRESTController {
 		
 		return ErrorCodes.SUCCESS;
 	}
-	
+*/	
 }

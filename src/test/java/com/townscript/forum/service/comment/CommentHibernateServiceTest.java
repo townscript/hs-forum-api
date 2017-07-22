@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.townscript.forum.model.comment.CommentHibernate;
 import com.townscript.forum.model.topic.TopicHibernate;
@@ -72,7 +73,7 @@ public class CommentHibernateServiceTest extends HibernateDaoSupport{
 		comment.setCommentValue(commentValue);
 		comment.setCommentDateTime(commentDateTime);
 		
-		long commentId = commentService.addComment(topic, comment, user);
+		long commentId = commentService.addComment(topic,comment,user);
 		
 		// Now read the comment by Id and check if it has been really added
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -92,7 +93,7 @@ public class CommentHibernateServiceTest extends HibernateDaoSupport{
 			ex.printStackTrace();
 		}
 	}
-	
+	/*
 	@Test
 	public void submitVoteTest()
 	{		
@@ -122,4 +123,4 @@ public class CommentHibernateServiceTest extends HibernateDaoSupport{
 			ex.printStackTrace();
 		}
 	}
-}
+*/}

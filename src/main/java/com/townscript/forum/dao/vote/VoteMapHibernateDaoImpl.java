@@ -16,7 +16,7 @@ public class VoteMapHibernateDaoImpl extends HibernateDaoSupport implements Vote
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
-			getHibernateTemplate().saveOrUpdate(voteMap);
+			session.saveOrUpdate(voteMap);
 			return true;
 		}
 		catch(HibernateException ex)
@@ -31,7 +31,7 @@ public class VoteMapHibernateDaoImpl extends HibernateDaoSupport implements Vote
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
-			getHibernateTemplate().update(voteMap);
+			session.update(voteMap);
 			return true;		
 		}
 		catch(HibernateException ex)
@@ -45,9 +45,10 @@ public class VoteMapHibernateDaoImpl extends HibernateDaoSupport implements Vote
 	public Collection<VoteMapHibernate> getVoteByUserIdAndTopicId(long userId, long topicId){
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
-			String queryString = "FROM VoteMapHibernate WHERE USER_ID=:userId AND TOPIC_ID=:topicId";
+			String queryString = "FROM VoteMapHibernate WHERE userId=:userId AND topicId=:topicId";
 			Query query = session.createQuery(queryString);
 			query.setParameter("userId", userId);
+			query.setParameter("topicId", topicId);
 			Collection<VoteMapHibernate> voteMapList = query.list(); 
 			
 			return voteMapList;		

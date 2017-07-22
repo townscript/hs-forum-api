@@ -6,47 +6,47 @@ import javax.persistence.*;
 @Table(name = "comment_map_table")
 public class CommentMapHibernate {
 	
-	@Id @GeneratedValue
+	@Id
 	@Column(name="COMMENT_ID")
-	private Long commentId;
+	private long commentId;
 	
 	@Column(name="TOPIC_ID")
-	private Long topicId;
+	private long topicId;
 	
 	@Column(name="USER_ID")
-	private Long userId;
+	private long userId;
 	
 	public CommentMapHibernate() {
 	}
 
-	public CommentMapHibernate(Long commentId, Long topicId, Long userId) {
+	public CommentMapHibernate(long commentId, long topicId, long userId) {
 		super();
 		this.commentId = commentId;
 		this.topicId = topicId;
 		this.userId = userId;
 	}
 
-	public Long getCommentId() {
+	public long getCommentId() {
 		return commentId;
 	}
 
-	public void setCommentId(Long commentId) {
+	public void setCommentId(long commentId) {
 		this.commentId = commentId;
 	}
 
-	public Long getTopicId() {
+	public long getTopicId() {
 		return topicId;
 	}
 
-	public void setTopicId(Long topicId) {
+	public void setTopicId(long topicId) {
 		this.topicId = topicId;
 	}
 
-	public Long getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 }

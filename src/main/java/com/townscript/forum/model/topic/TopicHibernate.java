@@ -1,6 +1,12 @@
 package com.townscript.forum.model.topic;
 
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "topic_data_table")
@@ -8,7 +14,7 @@ public class TopicHibernate {
 	
 	@Id @GeneratedValue
 	@Column(name="TOPIC_ID")
-	private Long topicId;
+	private long topicId;
 	
 	@Column(name="TOPIC_TITLE")
 	private String topicTitle;
@@ -17,7 +23,7 @@ public class TopicHibernate {
 	private String topicTags;
 	
 	@Column(name="DATE_TIME_CREATED")
-	private String topicDateTime;
+	private Date topicDateTime;
 	
 	@Column(name="TOPIC_URL")
 	private String topicUrl;
@@ -28,7 +34,7 @@ public class TopicHibernate {
 	public TopicHibernate() {
 	}
 
-	public TopicHibernate(Long topicId, String topicTitle, String topicTags, String topicDateTime, String topicUrl,
+	public TopicHibernate(long topicId, String topicTitle, String topicTags, Date topicDateTime, String topicUrl,
 			String topicDescription) {
 		super();
 		this.topicId = topicId;
@@ -39,11 +45,11 @@ public class TopicHibernate {
 		this.topicDescription = topicDescription;
 	}
 
-	public Long getTopicId() {
+	public long getTopicId() {
 		return topicId;
 	}
 
-	public void setTopicId(Long topicId) {
+	public void setTopicId(long topicId) {
 		this.topicId = topicId;
 	}
 
@@ -63,11 +69,11 @@ public class TopicHibernate {
 		this.topicTags = topicTags;
 	}
 
-	public String getTopicDateTime() {
+	public Date getTopicDateTime() {
 		return topicDateTime;
 	}
 
-	public void setTopicDateTime(String topicDateTime) {
+	public void setTopicDateTime(Date topicDateTime) {
 		this.topicDateTime = topicDateTime;
 	}
 
