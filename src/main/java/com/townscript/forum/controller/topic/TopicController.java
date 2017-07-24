@@ -62,7 +62,7 @@ public class TopicController {
 		//TODO: rollback logic
 		//TODO: response entity
 		
-		long topicId = topicService.createTopic(topic,user);
+		Long topicId = null;//topicService.createTopic(topic,user);
 		topic.setTopicId(topicId);
 		
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topic, topicId), null, HttpStatus.OK);
@@ -81,6 +81,11 @@ public class TopicController {
 		}
 		
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topicList, null), null, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/getDummyTopic", method=RequestMethod.GET)
+	public String dummyMethod(){
+		return "dummy topic";
 	}
 	
 	//@Secured("ROLE_ADMIN")
