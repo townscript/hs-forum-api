@@ -40,7 +40,7 @@
 				</div>
 				<div class='row'>
 					<div class='col-md-1'>
-						<input type='button' value="Submit" name='submit' onclick="loginCheck()" class='btn btn-success'/>
+						<input type='button' value="Submit" name="Submit" class='btn btn-success'  onclick="loginCheck()"/>
 					</div>
 					<div class='col-md-1'>
 						<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
@@ -69,17 +69,19 @@
 		var loginUrl="http://localhost:8080/forum-api/login/checkLogin";
 		
 		$.ajax({
+			type: "POST",
 			url: loginUrl,
 			data: {
 				username: username,
 				password: password
 			},
-			type: "POST",
-			success: function(smartphone) {
-				if(data.status == "success"){
+			dataType: "text",
+			success: function(data) {
+				alert(data);
+				if(data == "success"){
 					window.location.href="http://localhost:8080/forum-api/login/loginSuccess";
 				}else{
-				    alert("Incorrect userName and/or password!");
+				    alert("Incorrect username and/or password!");
 				}
 			}
 		});

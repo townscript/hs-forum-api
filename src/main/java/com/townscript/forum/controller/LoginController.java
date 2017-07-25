@@ -32,8 +32,8 @@ public class LoginController {
         }
 	}
 	
-	/*@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
-	public ResponseEntity<HttpResponseVo> checkLogin(String loginJsonStr){
+	@RequestMapping(value="/checkLogin1", method=RequestMethod.POST)
+	public ResponseEntity<HttpResponseVo> checkLogin1(String loginJsonStr){
 		LoginVo loginVo = null;
 		try{
 			ObjectMapper mapper = new ObjectMapper();
@@ -56,7 +56,7 @@ public class LoginController {
 		}
 		
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.LOGIN_ERROR, Constants.LOGIN_ERROR, isvalidLogin, null), null, HttpStatus.BAD_REQUEST);
-	}*/
+	}
 	
 	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
 	public String checkLogin(String username, String password){
@@ -65,6 +65,7 @@ public class LoginController {
 		try {
 			isvalidLogin = loginService.checkLogin(username, password);
 			if (isvalidLogin) {
+			System.out.println("###############################################");
 				return Constants.MSG_SUCCESS;
 			}
 		} catch(Exception e) {
