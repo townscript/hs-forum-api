@@ -24,14 +24,14 @@
 		<form action='#'>
 			<div class='row well well-lg'>
 				<div class='row' id="usersignup_header">
-        			<h3><span>User Signup</span></h3>
+        			<h3><span>User SignUp</span></h3>
       			</div>
 				<div class='row'>
 					<div class='col-md-2'>
 						<label> Email Id </label> 
 					</div>
 					<div class='col-md-6'>
-						<input type='text' name='email' required=''/>
+						<input type='text' id="email" name='email' required/>
 					</div>
 				</div>
 				<div class='row'>
@@ -39,7 +39,7 @@
 						<label> Mobile Number </label> 
 					</div>
 					<div class='col-md-6'>
-						<input type='textarea' name='mobile' required=''/>
+						<input type="text" id="mobile" name='mobile' required/>
 					</div>
 				</div>
 				<div class='row'>
@@ -47,7 +47,7 @@
 						<label> User Name </label> 
 					</div>
 					<div class='col-md-6'>
-						<input type='text' name='username' required=''/>
+						<input type="text" id="username" name='username' required/>
 					</div>
 				</div>
 				<div class='row'>
@@ -55,7 +55,7 @@
 						<label> Password </label> 
 					</div>
 					<div class='col-md-6'>
-						<input type='password' name='password' required=''/>
+						<input type='password' id="password" name='password' autocomplete="off" required/>
 					</div>
 				</div>
 				<div class='row'>
@@ -63,7 +63,7 @@
 						<label> Retype Password </label> 
 					</div>
 					<div class='col-md-6'>
-						<input type='password' name='password2' required=''/>
+						<input type='password' id="password2" name='password2' autocomplete="off" required onblur="validatePwd()"/>
 					</div>
 				</div>
 				<div class='row'>
@@ -71,7 +71,7 @@
 				</div>
 				<div class='row'>
 					<div class='col-md-2'>
-						<input type='submit' name='submit' class='btn btn-success'/>
+						<input type='button' value="Submit" name='submit' class='btn btn-success' onClick="doSignUp()"/>
 					</div>
 					<div class='col-md-2'>
 						<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
@@ -84,8 +84,55 @@
 	
 </div>
 
-<script src="'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="../static/js/bootstrap.js"></script>
+
+<script type="text/javascript">
+	function doSignUp(){
+		var username = $("#username").val();
+		var password = $("#password").val();
+		var mobile = $("#mobile").val();
+		var email = $("#email").val();
+		
+		var signUpUrl="http://localhost:8080/forum-api/user/newUser";
+		
+		$.ajax({
+			type: "POST",
+			url: signUpUrl,
+			data: {
+				userName: username,
+				userPassword: password,
+				userEmail : email,
+				userMobile : mobile
+			},
+			dataType: "text",
+			success: function(data) {
+				//alert(data);
+				if(data){
+					window.location.href="http://localhost:8080/forum-api/login/checkLogin";
+				}else{
+				    alert("Some error, please try again!");
+				}
+			}
+		});
+	}
+</script>
+
+<script type="text/javascript">	
+	function validatePwd(){
+		var pwd = $("#password").val();
+		var pwd2 = $("#password2").val();
+		
+		alert("pwd1: "+pwd);
+		alert("pwd2: "+pwd2);
+		
+		if(pwd.length != pwd2 && pwd!=pwd2){
+			alert("Both passwords did not match, try again!");
+			$("#password").val("");
+			$("#password2").val("");
+		}
+	}
+</script>
 
 </body>
 </html>

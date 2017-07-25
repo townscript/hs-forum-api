@@ -1,5 +1,7 @@
 package com.townscript.forum.controller.user;
 
+import java.util.Date;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.access.annotation.Secured;
@@ -43,11 +45,13 @@ public class UserRESTController {
 	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/newUser", method=RequestMethod.POST)
-	public boolean insertUser(@RequestParam(value="userName") String userName, @RequestParam(value="userEmail") String userEmail, @RequestParam(value="userPassword") String userPassword){
+	public boolean insertUser(@RequestParam(value="userName") String userName, @RequestParam(value="userEmail") String userEmail, @RequestParam(value="userPassword") String userPassword, @RequestParam(value="userMobile") String userMobile){
 		UserHibernate user = new UserHibernate();
 		user.setUserName(userName);
 		user.setUserEmail(userEmail);
 		user.setPassword(userPassword);
+		user.setUserMobile(userMobile);
+		user.setUserDateTime(new Date());
 		return userService.insertUser(user);
 	}
 	
