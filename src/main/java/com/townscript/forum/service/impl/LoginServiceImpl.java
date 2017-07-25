@@ -11,6 +11,14 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private UserHibernateDao userDao;
 	
+	public UserHibernateDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserHibernateDao userDao) {
+		this.userDao = userDao;
+	}
+
 	public boolean checkLogin(String username, String password){
 		boolean isValidLogin = false;
 		

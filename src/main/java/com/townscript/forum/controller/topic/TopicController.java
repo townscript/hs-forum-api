@@ -28,7 +28,7 @@ import com.townscript.forum.vo.HttpResponseVo;
 @RequestMapping(value="/topic")
 public class TopicController {
 	
-	private TopicService topicService;
+	/*private TopicService topicService;
 	
 	public TopicController() {
 		super();
@@ -81,14 +81,14 @@ public class TopicController {
 		}
 		
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topicList, null), null, HttpStatus.OK);
-	}
+	}*/
 	
 	@RequestMapping(value="/getDummyTopic", method=RequestMethod.GET)
 	public String dummyMethod(){
 		return "dummy topic";
 	}
 	
-	//@Secured("ROLE_ADMIN")
+	/*//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getTopicById", method=RequestMethod.POST)
 	public ResponseEntity<HttpResponseVo> getTopicById(@RequestParam(value="topicId") long topicId) {
 		TopicHibernate topic = null;
@@ -115,6 +115,6 @@ public class TopicController {
 		}
 		
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topicList, null), null, HttpStatus.OK);
-	}
+	}*/
 	
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +32,7 @@ public class LoginController {
         }
 	}
 	
-	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
+	/*@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
 	public ResponseEntity<HttpResponseVo> checkLogin(String loginJsonStr){
 		LoginVo loginVo = null;
 		try{
@@ -55,6 +56,26 @@ public class LoginController {
 		}
 		
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.LOGIN_ERROR, Constants.LOGIN_ERROR, isvalidLogin, null), null, HttpStatus.BAD_REQUEST);
+	}*/
+	
+	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
+	public String checkLogin(@RequestParam(value="username") String username, @RequestParam(value="password") String password){
+		
+		boolean isvalidLogin = false;
+		try {
+			isvalidLogin = loginService.checkLogin(username, password);
+			if (isvalidLogin) {
+				return Constants.MSG_SUCCESS;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Constants.MSG_FAIL;
 	}
 	
+	@RequestMapping(value="/loginSuccess", method=RequestMethod.POST)
+	public String loginSuccess(){
+		
+		return null;
+	}
 }
