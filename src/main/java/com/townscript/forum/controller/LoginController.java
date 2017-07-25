@@ -59,7 +59,7 @@ public class LoginController {
 	}*/
 	
 	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
-	public String checkLogin(@RequestParam(value="username") String username, @RequestParam(value="password") String password){
+	public String checkLogin(String username, String password){
 		
 		boolean isvalidLogin = false;
 		try {

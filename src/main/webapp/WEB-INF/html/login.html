@@ -24,7 +24,7 @@
 						<label> User Name </label> 
 					</div>
 					<div class='col-md-6'>
-						<input type='text' name='username' autocomplete="off" required="" value="">
+						<input type="text" id="username" name="username" autocomplete="off" required=""/>
 					</div>
 				</div>
 				<div class='row well-md'>
@@ -32,7 +32,7 @@
 						<label> Password </label> 
 					</div>
 					<div class='col-md-6'>
-						<input type='password' name='password' autocomplete="off" required="" value="">
+						<input type="password" id="password" name="password" autocomplete="off" required=""/>
 					</div>
 				</div>
 				<div class='row well-md'>
@@ -62,17 +62,18 @@
 	
 	//$('#userlogin').click(function(event) {
 	function loginCheck(){
-		//var username = $('#username').val();
-		var username = document.getElementById("username").value;
-		var password = document.getElementById("password").value;
+		var username = $("#username").val();
+		var password = $("#password").val();
 		var json = {"username":username,"password":password};
-		alert(json);
 		var jsonStr= JSON.stringify(json);
-		alert(jsonStr);
 		var loginUrl="http://localhost:8080/forum-api/login/checkLogin";
+		
 		$.ajax({
 			url: loginUrl,
-			data: jsonStr,
+			data: {
+				username: username,
+				password: password
+			},
 			type: "POST",
 			success: function(smartphone) {
 				if(data.status == "success"){

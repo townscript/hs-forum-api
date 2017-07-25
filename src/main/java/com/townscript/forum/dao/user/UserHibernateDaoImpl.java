@@ -95,10 +95,12 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 			String queryString = "FROM "+UserHibernate.class.getName()+" WHERE userName=:user";
 			Query query = session.createQuery(queryString);
 			query.setParameter("user", userName);
+			
+			@SuppressWarnings("unchecked")
 			List<UserHibernate> lists = query.list();
 			
-			return lists.get(0);
-            
+			return lists.iterator().next();
+			
 		} catch(HibernateException ex) {
 			ex.printStackTrace();
 		}

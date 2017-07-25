@@ -12,12 +12,8 @@
 
 <servlet-mapping>
 	<servlet-name>rest</servlet-name>
-	<url-pattern>/forum-api/*</url-pattern>
+	<url-pattern>/*</url-pattern>
 </servlet-mapping>
-
-<welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-</welcome-file-list>
 
   <!-- <welcome-file-list>
     <welcome-file>index.html</welcome-file>
