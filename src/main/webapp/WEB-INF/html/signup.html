@@ -105,12 +105,13 @@
 				userEmail : email,
 				userMobile : mobile
 			},
-			dataType: "text",
+			//dataType: "text",
 			success: function(data) {
 				//alert(data);
 				if(data){
 					window.location.href="http://localhost:8080/forum-api/login/checkLogin";
-				}else{
+					
+				} else {
 				    alert("Some error, please try again!");
 				}
 			}
@@ -123,10 +124,7 @@
 		var pwd = $("#password").val();
 		var pwd2 = $("#password2").val();
 		
-		alert("pwd1: "+pwd);
-		alert("pwd2: "+pwd2);
-		
-		if(pwd.length != pwd2 && pwd!=pwd2){
+		if(pwd!=pwd2){
 			alert("Both passwords did not match, try again!");
 			$("#password").val("");
 			$("#password2").val("");
