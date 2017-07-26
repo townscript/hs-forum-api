@@ -8,6 +8,7 @@ import com.townscript.forum.model.user.UserHibernate;
 public interface TopicService {
 		long createTopic(TopicHibernate topic, UserHibernate user);
 		String updateTopic(TopicHibernate topic);
+		TopicHibernate getUserByUsername(String username);
 	    String deleteTopicById(long id);
 		Collection<TopicHibernate> getAllTopics();
 		Collection<TopicHibernate> getAllTopicsOnLoad();

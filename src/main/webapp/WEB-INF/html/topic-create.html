@@ -38,7 +38,7 @@
 				<label> Title </label> 
 			</div>
 			<div class='col-md-5'>
-				<input type='text' name='title' required=''/>
+				<input type='text' id='title' name='title' required/>
 			</div>
 		</div>
 		<div class='row'>
@@ -46,7 +46,7 @@
 				<label> Description </label> 
 			</div>
 			<div class='col-md-5'>
-				<input type='textarea' name='description' required=''/>
+				<input type='text' id='description' name='description' required/>
 			</div>
 		</div>
 		<div class='row'>
@@ -54,7 +54,7 @@
 				<label> Tags </label> 
 			</div>
 			<div class='col-md-5'>
-				<input type='text' name='tags' placeholder='e.g. sports,music, etc'/>
+				<input type='text' id='tags' name='tags' placeholder='e.g. sports,music, etc'/>
 			</div>
 		</div>
 		<div class='row'>
@@ -65,7 +65,7 @@
 				<input type='submit' name='submit' class='btn btn-success'/>
 			</div>
 			<div class='col-md-1'>
-				<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
+				<input type='button' value="Cancel" name='cancel' class='btn btn-danger' onclick="createTopic()"/>
 			</div>
 		</div>
 		
@@ -75,6 +75,35 @@
 
 <script src="'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="../static/js/bootstrap.js"></script>
+
+<script type="text/javascript">
+	function createTopic() {
+		var title= $("#title").val()
+		var description= $("#description").val()
+		var tags= $("#tags").val()
+		
+		var createTopicUrl = "http://localhost:8080/forum-api/topic/createTopic";
+		
+		$.ajax({
+			type: "POST",
+			url: createTopicUrl,
+			data: {
+				title: title,
+				description: description,
+				tags : tags
+			},
+			dataType: "text",
+			success: function(data) {
+				//alert(data);
+				if(data == "success"){
+					window.location.href="http://localhost:8080/forum-api/topic/getAllTopics";
+				}else{
+				    alert("Some error, please try again!");
+				}
+			}
+		});
+	}
+</script>
 
 </body>
 </html>

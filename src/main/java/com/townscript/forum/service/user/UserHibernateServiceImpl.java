@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.townscript.forum.dao.user.UserHibernateDao;
+import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.user.UserHibernate;
 
 @Service
@@ -37,7 +38,13 @@ public class UserHibernateServiceImpl implements UserHibernateService{
 			
 		return userDao.getAllUsers();
 	}
+	
+	@Override
+	public UserHibernate getUserByUsername(String userName) {
 		
+		return userDao.getUserByUserName(userName);
+	}
+	
 	@Override
 	public boolean isUniqueUser(String username) {
 		boolean isUnique = true;	

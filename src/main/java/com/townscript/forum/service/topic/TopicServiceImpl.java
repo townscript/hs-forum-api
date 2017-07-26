@@ -54,6 +54,12 @@ public class TopicServiceImpl implements TopicService{
 	}
 
 	@Override
+	public TopicHibernate getUserByUsername(String username) {
+		// TODO Auto-generated method stub
+		return topicDao.getUserByUsername(username);
+	}
+	
+	@Override
 	public String updateTopic(TopicHibernate topic) {
 		// TODO Auto-generated method stub
 		return topicDao.updateTopic(topic);
