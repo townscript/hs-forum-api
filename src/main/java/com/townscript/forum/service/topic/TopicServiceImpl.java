@@ -52,12 +52,6 @@ public class TopicServiceImpl implements TopicService{
         }
         return Constants.DEF_ID;
 	}
-
-	@Override
-	public TopicHibernate getUserByUsername(String username) {
-		// TODO Auto-generated method stub
-		return topicDao.getUserByUsername(username);
-	}
 	
 	@Override
 	public String updateTopic(TopicHibernate topic) {

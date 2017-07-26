@@ -65,7 +65,6 @@ public class LoginController {
 		try {
 			isvalidLogin = loginService.checkLogin(username, password);
 			if (isvalidLogin) {
-			System.out.println("###############################################");
 				return Constants.MSG_SUCCESS;
 			}
 		} catch(Exception e) {

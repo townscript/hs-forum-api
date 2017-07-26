@@ -49,6 +49,14 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     	<property name="userDao" ref="UserHibernateDaoImpl"/>
     </bean>
     
+    <bean id="TopicHibernateDaoImpl" class="com.townscript.forum.dao.topic.TopicHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="TopicServiceImpl" class="com.townscript.forum.service.topic.TopicServiceImpl">
+    	<property name="topicDao" ref="TopicHibernateDaoImpl"/>
+    </bean>
+    
     <bean id="LoginServiceImpl" class="com.townscript.forum.service.impl.LoginServiceImpl">
     	<property name="userDao" ref="UserHibernateDaoImpl"/>
     </bean>

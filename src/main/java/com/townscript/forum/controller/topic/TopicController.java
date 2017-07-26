@@ -42,7 +42,7 @@ public class TopicController {
             ApplicationContext context = new ClassPathXmlApplicationContext(
                             "com/townscript/forum/main-bean.xml");
             userService = (UserHibernateService) context
-                            .getBean("UserServiceImpl");
+                            .getBean("UserHibernateServiceImpl");
         }
 	}
 	
