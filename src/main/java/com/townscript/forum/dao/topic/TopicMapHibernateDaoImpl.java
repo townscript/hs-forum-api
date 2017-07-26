@@ -1,11 +1,13 @@
 package com.townscript.forum.dao.topic;
 
 
+import java.util.Collection;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.topic.TopicMapHibernate;
 
 public class TopicMapHibernateDaoImpl extends HibernateDaoSupport implements TopicMapHibernateDao{
@@ -41,5 +43,24 @@ public class TopicMapHibernateDaoImpl extends HibernateDaoSupport implements Top
 			ex.printStackTrace();
 		}
 		return false;
+	}
+	
+	@Override
+	public Collection<TopicMapHibernate> getTopicMapByUserId(long userId)
+	{
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try
+		{
+			String queryString = "FROM TopicMapHibernate WHERE userId=:userId";
+			Query query = session.createQuery(queryString);
+			query.setParameter("userId", userId);
+			Collection<TopicMapHibernate> topicMapList = query.list();
+			return topicMapList;
+		}
+		catch(HibernateException ex)
+		{
+			ex.printStackTrace();
+		}
+		return null;
 	}
 }

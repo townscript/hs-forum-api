@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans     
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
@@ -13,42 +11,40 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
         http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security-3.2.xsd
-        http://xmlns.jcp.org/xml/ns/javaee
-        http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+        http://www.springframework.org/schema/security/spring-security-4.0.xsd"
         
-        default-lazy-init="true">
-        
-    	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-               <property name="messageConverters">
-                       <list>
-                               <ref bean="jsonMessageConverter" />
-                       </list>
-               </property>
-       </bean>
-       <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-       </bean>
-       
+
+	default-lazy-init="true">
+
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="jsonMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	</bean>
+
 	<context:component-scan base-package="com.townscript.forum" />
 
-   	<bean class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
-    	<property name = "prefix" value = "/WEB-INF/jsp/" />
-    	<property name = "suffix" value = ".jsp" />
-    </bean>
-	
+	<!-- <bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean> -->
+
 	<mvc:annotation-driven />
-	
+	<!-- <mvc:default-servlet-handler/> -->
+<!-- http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd -->
 	<!-- <security:global-method-security secured-annotations="enabled" /> -->
-	<!-- <mvc:interceptors>
-		<bean id="authenticationInterceptor" class="com.townscript.musicapi.authentication.AuthenticationInterceptor">
-			<property name="authenticationManager" ref="authenticationManager" />
-		</bean>
-	</mvc:interceptors>
-    <security:authentication-manager  alias="authenticationManager">
-                <security:authentication-provider>
-                        <security:user-service id="userService">
-                         <security:user name="townscript" password="DCHcdkh^%9qwHKH" authorities="ROLE_ADMIN" />
-                        </security:user-service>
-                </security:authentication-provider>
-        </security:authentication-manager> -->
-  </beans>
+	<!-- <mvc:interceptors> <bean id="authenticationInterceptor" class="com.townscript.musicapi.authentication.AuthenticationInterceptor"> 
+		<property name="authenticationManager" ref="authenticationManager" /> </bean> 
+		</mvc:interceptors> <security:authentication-manager alias="authenticationManager"> 
+		<security:authentication-provider> <security:user-service id="userService"> 
+		<security:user name="townscript" password="DCHcdkh^%9qwHKH" authorities="ROLE_ADMIN" 
+		/> </security:user-service> </security:authentication-provider> </security:authentication-manager> -->
+</beans>

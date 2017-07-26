@@ -173,6 +173,33 @@ public class UserHibernateServiceTest{
 			ex.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void getUserIdByUserNameTest()
+	{
+		Connection connection = ConnectionWithDatabase.getConnection();
+
+		try{
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO user_data_table VALUES (1,?,?,?,?,?,?)");
+			ps.setString(1, userNameTest1);
+			ps.setString(2, userEmailTest1);
+			ps.setString(3, passwordTest1);
+			ps.setString(4, userMobileTest1);
+			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String date = formatter.format(userDateTimeTest1);
+			ps.setString(5, date);
+			ps.setBytes(6, userPropicTest1);
+
+			ps.executeUpdate();
+			
+			long tempId = userService.getUserIdByUserName(userNameTest1);
+			assertEquals(1,tempId);
+		}
+		catch(SQLException ex)
+		{
+			ex.printStackTrace();
+		}
+	}
 
 	@Test
 	public void updateUserTest()

@@ -2,13 +2,10 @@ package com.townscript.forum.controller.topic;
 
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +17,7 @@ import com.townscript.forum.constants.ErrorCodes;
 import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.service.topic.TopicService;
+import com.townscript.forum.service.user.UserHibernateService;
 import com.townscript.forum.vo.CreateTopicVo;
 import com.townscript.forum.vo.HttpResponseVo;
 
@@ -29,6 +27,7 @@ import com.townscript.forum.vo.HttpResponseVo;
 public class TopicController {
 	
 	private TopicService topicService;
+	private UserHibernateService userService;
 	
 	public TopicController() {
 		super();
@@ -38,10 +37,17 @@ public class TopicController {
                 topicService = (TopicService) context
                                 .getBean("TopicServiceImpl");
         }
+        if(userService == null)
+        {
+        	ApplicationContext context = new ClassPathXmlApplicationContext(
+                    "com/townscript/forum/main-bean.xml");
+        	userService = (UserHibernateService) context
+                    .getBean("UserHibernateServiceImpl");
+        }
 	}
 	
 	//@Secured("ROLE_ADMIN")
-	@RequestMapping(value="/createTopic", method=RequestMethod.POST)
+	@RequestMapping(value="/createTopic", headers="*", method=RequestMethod.POST)
 	public ResponseEntity<HttpResponseVo> createTopic(String topicJsonStr){
 		CreateTopicVo createTopicVo = null;
 		try{
@@ -57,6 +63,9 @@ public class TopicController {
 		TopicHibernate topic=new TopicHibernate();
 		topic.setTopicTitle(createTopicVo.getTitle());
 		topic.setTopicDescription(createTopicVo.getDescription());
+		
+		UserHibernate user = new UserHibernate();
+		user.setUserId(userService.getUserIdByUserName(createTopicVo.getUserName()));
 		
 		//TODO: topicUserMap table: set userId by userName for new topic entry
 		//TODO: rollback logic
@@ -84,7 +93,7 @@ public class TopicController {
 	}
 	
 	//@Secured("ROLE_ADMIN")
-	@RequestMapping(value="/getTopicById", method=RequestMethod.POST)
+	@RequestMapping(value="/getTopicById", headers="*", method=RequestMethod.POST)
 	public ResponseEntity<HttpResponseVo> getTopicById(@RequestParam(value="topicId") long topicId) {
 		TopicHibernate topic = null;
 		try{

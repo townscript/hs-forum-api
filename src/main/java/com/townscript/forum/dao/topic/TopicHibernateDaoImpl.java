@@ -67,7 +67,7 @@ public class TopicHibernateDaoImpl extends HibernateDaoSupport implements TopicH
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
-			getHibernateTemplate().update(topic);
+			session.update(topic);
 			return Constants.MSG_SUCCESS;
 			
 		} catch(HibernateException ex) {

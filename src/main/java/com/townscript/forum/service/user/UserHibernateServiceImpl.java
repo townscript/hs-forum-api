@@ -30,6 +30,12 @@ public class UserHibernateServiceImpl implements UserHibernateService{
 	
 		return userDao.getUser(id);
 	}
+	
+	@Override
+	public long getUserIdByUserName(String userName)
+	{
+		return userDao.getUserIdByUserName(userName);
+	}
 
 	@Override
 	public Collection<UserHibernate> getAllUsers() {
