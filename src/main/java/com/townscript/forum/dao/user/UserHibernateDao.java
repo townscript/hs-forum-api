@@ -6,6 +6,7 @@ import com.townscript.forum.model.user.UserHibernate;
 
 public interface UserHibernateDao {
 	UserHibernate getUser(long id);
+	long getUserIdByUserName(String userName);
     Collection<UserHibernate> getAllUsers();
     UserHibernate getUserByUserName(String userName);
     UserHibernate getUserByUserNameAndPassword(String userName,String userPassword);

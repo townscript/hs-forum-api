@@ -299,4 +299,42 @@ public class TopicJDBCBasedServiceTest{
 			ex.printStackTrace();
 		}
 	}
-}
+	
+	/*@Test
+	public void getTopicsByUsernameTest()
+	{
+		Connection connection = ConnectionWithDatabase.getConnection();
+		try
+		{
+			String[] topicTitleList = new String[]{"Bada hi Awesome Topic1","Bada hi Awesome Topic2","Bada hi Awesome Topic3"};
+			String[] topicTagsList = {"#awesome1,#bada1","#awesome2,#bada2","#awesome3,#bada3"};
+			String[] topicUrlList = {"ABCD1","ABCD2","ABCD3"};
+			String[] topicDescriptionList = {"ABCD1","ABCD2","ABCD3"};
+			long[] userIdList = new long[]{1,1,2};
+			long[] topicIdList = new long[]{1,2,3};
+			
+			for(int i=0;i<3;i++)
+			{
+				PreparedStatement ps = connection.prepareStatement("INSERT INTO topic_data_table VALUES (1,?,?,?,?,?)");
+				ps.setString(1, topicTitleList[i]);
+				ps.setString(2, topicTagsList[i]);
+				Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String date = formatter.format(topicDateTime);
+				ps.setString(3, date);
+				ps.setString(4, topicUrlList[i]);
+				ps.setString(5, topicDescriptionList[i]);
+
+				ps.executeUpdate();
+				ps = connection.prepareStatement("INSERT INTO topic_map_table VALUES (?,?)");
+				ps.setLong(1, topicIdList[i]);
+				ps.setLong(2, userIdList[i]);
+			}
+			
+			
+		}
+		catch(SQLException ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+*/}

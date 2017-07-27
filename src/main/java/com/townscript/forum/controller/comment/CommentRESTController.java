@@ -1,5 +1,7 @@
 package com.townscript.forum.controller.comment;
 
+import java.util.Date;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -7,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,14 +19,11 @@ import com.townscript.forum.model.comment.CommentHibernate;
 import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.service.comment.CommentHibernateService;
-import com.townscript.forum.utility.valueObject.comment.CommentVo;
-import com.townscript.forum.utility.valueObject.topic.TopicVo;
-import com.townscript.forum.utility.valueObject.user.UserVo;
-import com.townscript.forum.utility.valueObject.vote.VoteVo;
+import com.townscript.forum.service.user.UserHibernateService;
+import com.townscript.forum.vo.AddCommentVo;
 import com.townscript.forum.vo.HttpResponseVo;
+import com.townscript.forum.vo.SubmitVoteVo;
 
-
-//@ContextConfiguration(locations="/com/townscript/forum/main-bean.xml")
 @RestController
 @RequestMapping(value="/comment")
 public class CommentRESTController {
@@ -36,69 +36,57 @@ public class CommentRESTController {
                 commentService = (CommentHibernateService) context
                                 .getBean("CommentHibernateServiceImpl");
         }
+        if (userService == null) {
+            ApplicationContext context = new ClassPathXmlApplicationContext(
+                            "com/townscript/forum/main-bean.xml");
+            userService = (UserHibernateService) context
+                            .getBean("UserHibernateServiceImpl");
+        }
 	}
 	private CommentHibernateService commentService;
+	private UserHibernateService userService;
 	
-	@Secured("ROLE_ADMIN")
+	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/newComment", method=RequestMethod.POST)
-	public ResponseEntity<HttpResponseVo> addComment(String commentJsonStr)
-	{		
-		TopicVo topicVo = null;
-		CommentVo commentVo = null;
-		UserVo userVo = null;
+	public CommentHibernate addComment(@RequestParam(value="data-json") String commentJsonStr) {
+		AddCommentVo commentVo = null;
 		
-		try{
+		try {
 			ObjectMapper mapper = new ObjectMapper();
-			topicVo = mapper.readValue(commentJsonStr, TopicVo.class);
-			commentVo = mapper.readValue(commentJsonStr, CommentVo.class);
-			userVo = mapper.readValue(commentJsonStr, UserVo.class);
-		}
-		catch(Exception e) {
+			commentVo = mapper.readValue(commentJsonStr, AddCommentVo.class);
+		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+			return null;
 		}
 		
 		CommentHibernate comment = new CommentHibernate();
 		comment.setCommentId(commentVo.getId());
-		comment.setCommentDateTime(commentVo.getCreatedAt());
-		comment.setCommentType(commentVo.getType());
-		comment.setCommentValue(commentVo.getValue());
+		Date commentDateTime = new Date();
+		comment.setCommentDateTime(commentDateTime);
+		comment.setCommentType(Constants.COMMENT_TYPE_TEXT);
+		comment.setCommentValue(commentVo.getCommentValue());
 		
+		//need to find topic using topicId (commentVo.getTopicId())
 		TopicHibernate topic = new TopicHibernate();
-		topic.setTopicDateTime(topicVo.getCreatedAt());
-		topic.setTopicDescription(topicVo.getDescription());
-		topic.setTopicId(topicVo.getId());
-		topic.setTopicTags(topicVo.getTags());
-		topic.setTopicTitle(topicVo.getTitle());
-		topic.setTopicUrl(topicVo.getUrl());
 		
 		UserHibernate user = new UserHibernate();
-		user.setUserDateTime(userVo.getUserDateTime());
-		user.setUserEmail(userVo.getUserEmail());
-		user.setUserId(userVo.getUserId());
-		user.setUserMobile(userVo.getUserMobile());
-		user.setUserName(userVo.getUserName());
-		user.setUserPropic(userVo.getUserPropic());
+		user.setUserId(userService.getUserIdByUserName(commentVo.getUserName()));
 		
 		long commentId = commentService.addComment(topic,comment,user);
 		comment.setCommentId(commentId);
 		
-		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, comment, commentId), null, HttpStatus.OK);
+		return comment;
 	}
-	/*
+	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/submitVote", method=RequestMethod.POST)
-	public String submitVote(String voteJsonStr)
+	public String submitVote(@RequestParam(value="data-json") String voteJsonStr)
 	{
-		TopicVo topicVo = null;
-		UserVo userVo = null;
-		VoteVo voteVo = null;
+		SubmitVoteVo submitVoteVo = null;
 		
 		try{
 			ObjectMapper mapper = new ObjectMapper();
-			topicVo = mapper.readValue(voteJsonStr, TopicVo.class);
-			userVo = mapper.readValue(voteJsonStr, UserVo.class);
-			voteVo = mapper.readValue(voteJsonStr, VoteVo.class);
+			submitVoteVo = mapper.readValue(voteJsonStr, SubmitVoteVo.class);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -106,24 +94,14 @@ public class CommentRESTController {
 		}
 		
 		TopicHibernate topic = new TopicHibernate();
-		topic.setTopicDateTime(topicVo.getTopicDateTime());
-		topic.setTopicDescription(topicVo.getTopicDescription());
-		topic.setTopicId(topicVo.getTopicId());
-		topic.setTopicTags(topicVo.getTopicTags());
-		topic.setTopicTitle(topicVo.getTopicTitle());
-		topic.setTopicUrl(topicVo.getTopicUrl());
+		topic.setTopicId(submitVoteVo.getTopicId());
 		
 		UserHibernate user = new UserHibernate();
-		user.setUserDateTime(userVo.getUserDateTime());
-		user.setUserEmail(userVo.getUserEmail());
-		user.setUserId(userVo.getUserId());
-		user.setUserMobile(userVo.getUserMobile());
-		user.setUserName(userVo.getUserName());
-		user.setUserPropic(userVo.getUserPropic());
+		user.setUserId(userService.getUserIdByUserName(submitVoteVo.getUserName()));
 		
-		boolean submitVoteFlag = commentService.submitVote(topic, user, voteVo.getVoteValue());
+		boolean submitVoteFlag = commentService.submitVote(topic, user, submitVoteVo.getVoteValue());
 		
 		return ErrorCodes.SUCCESS;
 	}
-*/	
+	
 }

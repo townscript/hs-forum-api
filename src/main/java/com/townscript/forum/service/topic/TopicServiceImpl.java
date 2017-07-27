@@ -1,5 +1,6 @@
 package com.townscript.forum.service.topic;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.townscript.forum.dao.topic.TopicMapHibernateDao;
 import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.topic.TopicMapHibernate;
 import com.townscript.forum.model.user.UserHibernate;
+import com.townscript.forum.service.user.UserHibernateService;
 
 @Service
 @Transactional
@@ -22,6 +24,8 @@ public class TopicServiceImpl implements TopicService{
 	private TopicHibernateDao topicDao;
 	@Autowired
 	private TopicMapHibernateDao topicMapDao;
+	@Autowired
+	private UserHibernateService userService;
 	
 	public TopicHibernateDao gettopicDao() {
 		return topicDao;
@@ -37,6 +41,14 @@ public class TopicServiceImpl implements TopicService{
 
 	public void setTopicMapDao(TopicMapHibernateDao topicMapDao) {
 		this.topicMapDao = topicMapDao;
+	}
+	
+	public UserHibernateService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserHibernateService userService) {
+		this.userService = userService;
 	}
 
 	@Override
@@ -99,7 +111,15 @@ public class TopicServiceImpl implements TopicService{
 		// TODO Auto-generated method stub
 		//return topicDao.getTopicsByUsername();
 		//need to modify it: use userTopicMap table
-		return null;
+		long userId = userService.getUserIdByUserName(userName);
+		Collection<TopicMapHibernate> topicMapColl = topicMapDao.getTopicMapByUserId(userId);
+		List<TopicMapHibernate> topicMapList = new ArrayList(topicMapColl);
+		List<TopicHibernate> topicList = new ArrayList();
+		for(int i=0;i<topicMapList.size();i++)
+		{
+			topicList.add(topicDao.getTopicById(topicMapList.get(i).getTopicId()));
+		}
+		return topicList;
 	}
 
 }

@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.townscript.forum.constants.Constants;
 import com.townscript.forum.model.user.UserHibernate;
 
 public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHibernateDao{
@@ -38,6 +39,25 @@ public class UserHibernateDaoImpl extends HibernateDaoSupport implements UserHib
 		}
 
 		return null;
+	}
+	
+	@Override
+	public long getUserIdByUserName(String userName)
+	{
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try{
+//			tx = session.beginTransaction();
+			String queryString = "FROM "+UserHibernate.class.getName()+" WHERE userName=:userName";
+			Query query = session.createQuery(queryString);
+			query.setParameter("userName", userName);
+			List<UserHibernate> userList = query.list();
+			return userList.get(0).getUserId();			
+		}
+		catch(HibernateException ex)
+		{
+			ex.printStackTrace();
+		}
+		return Constants.DEF_ID;
 	}
 
 	@Override

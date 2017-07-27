@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.townscript.forum.constants.Constants;
 import com.townscript.forum.constants.ErrorCodes;
 import com.townscript.forum.model.topic.TopicHibernate;
@@ -20,6 +21,7 @@ import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.service.topic.TopicService;
 import com.townscript.forum.service.user.UserHibernateService;
 import com.townscript.forum.utility.valueObject.topic.TopicListVo;
+import com.townscript.forum.vo.CreateTopicVo;
 import com.townscript.forum.vo.HttpResponseVo;
 
 //@ContextConfiguration(locations="/com/townscript/forum/main-bean.xml")
@@ -39,22 +41,19 @@ public class TopicController {
                                 .getBean("TopicServiceImpl");
         }
         
-        if (userService == null) {
-            ApplicationContext context = new ClassPathXmlApplicationContext(
-                            "com/townscript/forum/main-bean.xml");
-            userService = (UserHibernateService) context
-                            .getBean("UserHibernateServiceImpl");
+        if(userService == null) {
+        	ApplicationContext context = new ClassPathXmlApplicationContext(
+                    "com/townscript/forum/main-bean.xml");
+        	userService = (UserHibernateService) context
+                    .getBean("UserHibernateServiceImpl");
         }
 	}
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/createTopic", method=RequestMethod.POST)
-	public ResponseEntity<HttpResponseVo> createTopic(@RequestParam(value="title") String title,
-			@RequestParam(value="description") String description,
-			@RequestParam(value="tags") String tags,
-			@RequestParam(value="userName") String userName){
+	public TopicHibernate createTopic(@RequestParam(value="data-json") String topicJsonStr){
+		CreateTopicVo createTopicVo = null;
 		
-		/*CreateTopicVo createTopicVo = null;
 		try{
 			ObjectMapper mapper = new ObjectMapper();
 			createTopicVo = mapper.readValue(topicJsonStr, CreateTopicVo.class);
@@ -62,41 +61,46 @@ public class TopicController {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
-		}*/
+			return null;
+		}
 		
 		TopicHibernate topic=new TopicHibernate();
-		topic.setTopicTitle(title);
-		topic.setTopicDescription(description);
-		topic.setTopicTags(tags);
+		topic.setTopicTitle(createTopicVo.getTitle());
+		topic.setTopicDescription(createTopicVo.getDescription());
+		topic.setTopicTags(createTopicVo.getTags());
 		topic.setTopicDateTime(new Date());
 		//topic.setTopicUrl("");
 		
+		UserHibernate user = new UserHibernate();
+		user.setUserId(userService.getUserIdByUserName(createTopicVo.getUserName()));
+		
+		//TODO: topicUserMap table: set userId by userName for new topic entry
 		//TODO: rollback logic
 		
-		UserHibernate user = userService.getUserByUsername(userName);
+		//UserHibernate user = userService.getUserByUsername(userName);
 		Long topicId = topicService.createTopic(topic,user);
 		
 		//TODO: create entry in user-topic-map table
 		//Long topicUserMapId = topicService.createTopicMap(user.getId, topicId);
 		//topic.setTopicId(topicId);
 		
-		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topic, topicId), null, HttpStatus.OK);
+		return topic;
 	}
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getAllTopics", method=RequestMethod.GET/*, produces=("application/json")*/)
 	public ResponseEntity<HttpResponseVo> getAllTopics(){
 		Collection<TopicListVo> topicList = null;
+		
 		try{
 			//topicList = topicService.getAllTopics();
-			
 			topicList= new ArrayList<TopicListVo>();
 			//topicList.add(topic);
+			//need to create json from service method
 		
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+			return null;
 		}
 		
 		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topicList, null), null, HttpStatus.OK);
@@ -110,31 +114,31 @@ public class TopicController {
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getTopicById", method=RequestMethod.POST)
-	public ResponseEntity<HttpResponseVo> getTopicById(@RequestParam(value="topicId") long topicId) {
+	public TopicHibernate getTopicById(@RequestParam(value="topicId") long topicId) {
 		TopicHibernate topic = null;
 		try{
 			topic = topicService.getTopicById(topicId);
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+			return topic;
 		}
 		
-		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topic, null), null, HttpStatus.OK);
+		return topic;
 	}
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getTopicsByUserName", method=RequestMethod.POST)
-	public ResponseEntity<HttpResponseVo> getTopicsByUserName(@RequestParam(value="userName") String userName) {
+	public Collection<TopicHibernate> getTopicsByUserName(@RequestParam(value="userName") String userName) {
 		Collection<TopicHibernate> topicList = null;
 		try{
 			UserHibernate user = null;
 			topicList = topicService.getTopicsByUsername(userName);
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+			return topicList;
 		}
 		
-		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, topicList, null), null, HttpStatus.OK);
+		return topicList;
 	}
 	
 }
