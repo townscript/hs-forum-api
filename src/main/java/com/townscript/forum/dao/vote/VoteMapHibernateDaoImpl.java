@@ -59,4 +59,21 @@ public class VoteMapHibernateDaoImpl extends HibernateDaoSupport implements Vote
 		}
 		return null;
 	}
+	
+	@Override
+	public Collection<VoteMapHibernate> getVoteByTopicId(long topicId){
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try{
+			String queryString = "FROM VoteMapHibernate WHERE topicId=:topicId";
+			Query query = session.createQuery(queryString);
+			query.setParameter("topicId", topicId);
+			Collection<VoteMapHibernate> voteMapList = query.list();
+			
+			return voteMapList;
+			
+		} catch(HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
 }

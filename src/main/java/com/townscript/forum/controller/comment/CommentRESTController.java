@@ -59,18 +59,18 @@ public class CommentRESTController {
 		}
 		
 		CommentHibernate comment = new CommentHibernate();
-		comment.setCommentId(commentVo.getCommentId());
-		comment.setCommentDateTime(commentVo.getCommentDateTime());
-		comment.setCommentType(commentVo.getCommentType());
-		comment.setCommentValue(commentVo.getCommentValue());
+		comment.setCommentId(commentVo.getId());
+		comment.setCommentDateTime(commentVo.getCreatedAt());
+		comment.setCommentType(commentVo.getType());
+		comment.setCommentValue(commentVo.getValue());
 		
 		TopicHibernate topic = new TopicHibernate();
-		topic.setTopicDateTime(topicVo.getTopicDateTime());
-		topic.setTopicDescription(topicVo.getTopicDescription());
-		topic.setTopicId(topicVo.getTopicId());
-		topic.setTopicTags(topicVo.getTopicTags());
-		topic.setTopicTitle(topicVo.getTopicTitle());
-		topic.setTopicUrl(topicVo.getTopicUrl());
+		topic.setTopicDateTime(topicVo.getCreatedAt());
+		topic.setTopicDescription(topicVo.getDescription());
+		topic.setTopicId(topicVo.getId());
+		topic.setTopicTags(topicVo.getTags());
+		topic.setTopicTitle(topicVo.getTitle());
+		topic.setTopicUrl(topicVo.getUrl());
 		
 		UserHibernate user = new UserHibernate();
 		user.setUserDateTime(userVo.getUserDateTime());

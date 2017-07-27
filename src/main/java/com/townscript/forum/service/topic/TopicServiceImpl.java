@@ -1,6 +1,7 @@
 package com.townscript.forum.service.topic;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,6 +73,11 @@ public class TopicServiceImpl implements TopicService{
 	@Override
 	public Collection<TopicHibernate> getAllTopics() {
 		// TODO Auto-generated method stub
+		
+		Collection<TopicHibernate> topicList = topicDao.getAllTopics();
+		
+		
+		
 		return topicDao.getAllTopics();
 	}
 

@@ -5,7 +5,7 @@
 <link href="../static/css/bootstrap.css" rel="stylesheet">
 <link href="../static/css/main.css" rel="stylesheet">
 </head>
-<body>
+<body onLoad="getAllTopics()">
 
 <div id='container' class='container navbar navbar-default'>
 	<!--<a href='index.html' class='navbar-brand'>ForumApp</a>-->
@@ -77,28 +77,40 @@
 <script src="../static/js/bootstrap.js"></script>
 
 <script type="text/javascript">
-	function createTopic() {
-		var title= $("#title").val()
-		var description= $("#description").val()
-		var tags= $("#tags").val()
+	
+	$(document).ready(function() {
 		
-		var createTopicUrl = "http://localhost:8080/forum-api/topic/createTopic";
+		getAllTopics();
+		
+	    /* Add a click handler to the rows - this could be used as a callback */
+	    $("#viewTable tbody").click(function(event) {
+	        if (oTable == null)
+	            return;
+	
+	        $(oTable.fnSettings().aoData).each(function() {
+	            $(this.nTr).removeClass('row_selected');
+	        });
+	        $(event.target.parentNode).addClass('row_selected');
+	
+	        rowId = $("td:eq(0)", event.target.parentNode).text();
+	    });
+	});
+
+	//to get all topics on home page
+	function getAllTopics() {
+		//var title= $("#title").val()
+		var topicsUrl = "http://localhost:8080/forum-api/topic/getAllTopics";
 		
 		$.ajax({
-			type: "POST",
-			url: createTopicUrl,
-			data: {
-				title: title,
-				description: description,
-				tags : tags
-			},
-			dataType: "text",
+			type: "GET",
+			url: topicsUrl,
+			dataType: "json",
 			success: function(data) {
 				//alert(data);
-				if(data == "success"){
-					window.location.href="http://localhost:8080/forum-api/topic/getAllTopics";
+				if(data.status == "success"){
+					
 				}else{
-				    alert("Some error, please try again!");
+				    alert("Some error in loading, please try again!");
 				}
 			}
 		});

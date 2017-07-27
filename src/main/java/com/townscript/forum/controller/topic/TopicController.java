@@ -19,6 +19,7 @@ import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.service.topic.TopicService;
 import com.townscript.forum.service.user.UserHibernateService;
+import com.townscript.forum.utility.valueObject.topic.TopicListVo;
 import com.townscript.forum.vo.HttpResponseVo;
 
 //@ContextConfiguration(locations="/com/townscript/forum/main-bean.xml")
@@ -85,17 +86,13 @@ public class TopicController {
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getAllTopics", method=RequestMethod.GET/*, produces=("application/json")*/)
-	public ResponseEntity<HttpResponseVo> getAllTopics(/*@RequestParam(value="userName") String userName*/){
-		Collection<TopicHibernate> topicList = null;
+	public ResponseEntity<HttpResponseVo> getAllTopics(){
+		Collection<TopicListVo> topicList = null;
 		try{
 			//topicList = topicService.getAllTopics();
-			TopicHibernate topic = new TopicHibernate();
-			topic.setTopicDateTime(new Date());
-			topic.setTopicTitle("title1");
-			topic.setTopicTags("sports");
-			topic.setTopicDescription("my topic");
-			topicList= new ArrayList<TopicHibernate>();
-			topicList.add(topic);
+			
+			topicList= new ArrayList<TopicListVo>();
+			//topicList.add(topic);
 		
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -3,33 +3,40 @@ package com.townscript.forum.utility.valueObject.comment;
 import java.util.Date;
 
 public class CommentVo {
-	private long commentId;
-	private char commentType;
-	private String commentValue;
-	private Date commentDateTime;
+	private Long id;
+	private char type;
+	private String value;
+	private Date createdAt;
+	private String createdBy;
 	
-	public long getCommentId() {
-		return commentId;
+	public Long getId() {
+		return id;
 	}
-	public void setCommentId(long commentId) {
-		this.commentId = commentId;
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public char getCommentType() {
-		return commentType;
+	public char getType() {
+		return type;
 	}
-	public void setCommentType(char commentType) {
-		this.commentType = commentType;
+	public void setType(char type) {
+		this.type = type;
 	}
-	public String getCommentValue() {
-		return commentValue;
+	public String getValue() {
+		return value;
 	}
-	public void setCommentValue(String commentValue) {
-		this.commentValue = commentValue;
+	public void setValue(String value) {
+		this.value = value;
 	}
-	public Date getCommentDateTime() {
-		return commentDateTime;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setCommentDateTime(Date commentDateTime) {
-		this.commentDateTime = commentDateTime;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 }
