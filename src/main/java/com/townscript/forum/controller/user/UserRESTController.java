@@ -2,15 +2,21 @@ package com.townscript.forum.controller.user;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.townscript.forum.constants.Constants;
+import com.townscript.forum.constants.ErrorCodes;
 import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.service.user.UserHibernateService;
 import com.townscript.forum.vo.AddUserVo;
+import com.townscript.forum.vo.HttpResponseVo;
 
 @RestController
 @RequestMapping(value="/user")
@@ -34,12 +40,12 @@ public class UserRESTController {
 	}
 	
 	//@Secured("ROLE_ADMIN")
-	@RequestMapping(value="/newUser", headers="*", method=RequestMethod.POST)
-	//ResponseEntity<HttpResponseVo>
-	//@RequestParam(value="data-json", required=true) 
-	public boolean insertUser(String userJsonStr)
+	@RequestMapping(value="/newUser", method=RequestMethod.POST) 
+	public UserHibernate insertUser(@RequestParam(value="data-json") String userJsonStr)
 	{
 		AddUserVo addUserVo = null;
+		UserHibernate user = null;
+		
 		try{
 			/*Gson gson = new GsonBuilder().create();
 			addUserVo = gson.fromJson(userJsonStr, AddUserVo.class);*/
@@ -48,21 +54,26 @@ public class UserRESTController {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			/*return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);*/
-			return false;
+			//return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
 		}
 		
-		UserHibernate user = new UserHibernate();
+		
 		user.setPassword(addUserVo.getUserPassword());
 		user.setUserEmail(addUserVo.getUserEmail());
 		user.setUserMobile(addUserVo.getUserMobile());
 		user.setUserName(addUserVo.getUserName());
 		user.setUserPropic(addUserVo.getUserPropic());
-		/*Date userDateTime = new Date();
-		user.setUserDateTime(userDateTime);*/
+		//Date userDateTime = new Date();
+		user.setUserDateTime(null);
+
+		if(userService.insertUser(user))
+		{
+			return user;
+			//return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, user, null), null, HttpStatus.BAD_REQUEST);
+		}
 		
-		/*return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, user, null), null, HttpStatus.BAD_REQUEST);*/
-		return userService.insertUser(user);
+		 return user;
+		//return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
 	}
 	
 	//@Secured("ROLE_ADMIN")
@@ -72,6 +83,7 @@ public class UserRESTController {
 		
 		try{
 			isUnique = userService.isUniqueUser(userName);
+			return isUnique;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

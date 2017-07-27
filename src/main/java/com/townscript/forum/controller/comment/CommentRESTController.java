@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,9 +46,9 @@ public class CommentRESTController {
 	private CommentHibernateService commentService;
 	private UserHibernateService userService;
 	
-	@Secured("ROLE_ADMIN")
+	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/newComment", method=RequestMethod.POST)
-	public ResponseEntity<HttpResponseVo> addComment(String commentJsonStr)
+	public CommentHibernate addComment(@RequestParam(value="data-json") String commentJsonStr)
 	{		
 		AddCommentVo commentVo = null;
 		
@@ -57,7 +58,7 @@ public class CommentRESTController {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+			return null;
 		}
 		
 		CommentHibernate comment = new CommentHibernate();
@@ -75,12 +76,12 @@ public class CommentRESTController {
 		long commentId = commentService.addComment(topic,comment,user);
 		comment.setCommentId(commentId);
 		
-		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.MSG_SUCCESS, comment, commentId), null, HttpStatus.OK);
+		return comment;
 	}
 	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/submitVote", method=RequestMethod.POST)
-	public String submitVote(String voteJsonStr)
+	public String submitVote(@RequestParam(value="data-json") String voteJsonStr)
 	{
 		SubmitVoteVo submitVoteVo = null;
 		

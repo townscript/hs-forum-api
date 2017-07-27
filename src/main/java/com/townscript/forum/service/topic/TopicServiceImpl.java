@@ -42,6 +42,14 @@ public class TopicServiceImpl implements TopicService{
 	public void setTopicMapDao(TopicMapHibernateDao topicMapDao) {
 		this.topicMapDao = topicMapDao;
 	}
+	
+	public UserHibernateService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserHibernateService userService) {
+		this.userService = userService;
+	}
 
 	@Override
 	public long createTopic(TopicHibernate topic, UserHibernate user) {
@@ -101,7 +109,7 @@ public class TopicServiceImpl implements TopicService{
 		long userId = userService.getUserIdByUserName(userName);
 		Collection<TopicMapHibernate> topicMapColl = topicMapDao.getTopicMapByUserId(userId);
 		List<TopicMapHibernate> topicMapList = new ArrayList(topicMapColl);
-		Collection<TopicHibernate> topicList = null;
+		List<TopicHibernate> topicList = new ArrayList();
 		for(int i=0;i<topicMapList.size();i++)
 		{
 			topicList.add(topicDao.getTopicById(topicMapList.get(i).getTopicId()));

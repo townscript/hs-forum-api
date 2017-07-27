@@ -83,6 +83,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     <bean id="TopicServiceImpl" class="com.townscript.forum.service.topic.TopicServiceImpl">
     	<property name="topicDao" ref="TopicHibernateDaoImpl"/>
     	<property name="topicMapDao" ref="TopicMapHibernateDaoImpl"/>
+    	<property name="userService" ref="UserHibernateServiceImpl"/>
     </bean>
     
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate" lazy-init="true">

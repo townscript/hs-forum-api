@@ -23,7 +23,7 @@ public class TopicHibernateDaoImpl extends HibernateDaoSupport implements TopicH
 			Query query = session.createQuery(queryString);
 			query.setParameter("topicId", id);
 			List<TopicHibernate> topicList = query.list();
-			return topicList.iterator().next();	
+			return topicList.get(0);	
 			
 		} catch(HibernateException ex) {
 			ex.printStackTrace();
