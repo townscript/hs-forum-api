@@ -6,14 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.townscript.forum.constants.Constants;
 import com.townscript.forum.constants.ErrorCodes;
 import com.townscript.forum.service.LoginService;
-import com.townscript.forum.vo.LoginVo;
 import com.townscript.forum.vo.HttpResponseVo;
+import com.townscript.forum.vo.LoginVo;
 
 @RestController
 @RequestMapping(value="/login")
@@ -32,7 +33,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
-	public ResponseEntity<HttpResponseVo> checkLogin(String loginJsonStr){
+	public boolean checkLogin(@RequestParam(value="data-json") String loginJsonStr){
 		LoginVo loginVo = null;
 		try{
 			ObjectMapper mapper = new ObjectMapper();
@@ -40,21 +41,21 @@ public class LoginController {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+			return false;
 		}
 		
 		boolean isvalidLogin = false;
 		try {
 			isvalidLogin = loginService.checkLogin(loginVo.getUserName(), loginVo.getPassword());
 			if (isvalidLogin) {
-				return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.SUCCESS, Constants.LOGIN_SUCCESS, isvalidLogin, null), null, HttpStatus.OK);
+				return isvalidLogin;
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.FAIL, Constants.MSG_FAIL, null, null), null, HttpStatus.BAD_REQUEST);
+			return false;
 		}
 		
-		return new ResponseEntity<HttpResponseVo>(new HttpResponseVo(ErrorCodes.LOGIN_ERROR, Constants.LOGIN_ERROR, isvalidLogin, null), null, HttpStatus.BAD_REQUEST);
+		return false;
 	}
 	
 }
