@@ -28,31 +28,8 @@
 		<div id="topicList">
    			
 		</div>
-		
-		
-		<div class='row'>
-			<div class='col-md-1'>
-				<label> Title </label> 
-			</div>
-			<div class='col-md-5'>
-				<input type='text' id='title' name='title' required/>
-			</div>
-		</div>
-		
-		<div class='row'>
-			<p></p>
-		</div>
-		<div class='row'>
-			<div class='col-md-1'>
-				<input type='submit' name='submit' class='btn btn-success'/>
-			</div>
-			<div class='col-md-1'>
-				<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
-			</div>
-		</div>
-		
 	</div>
-
+	
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -75,10 +52,10 @@
 						"topicList" : [
 						               {
 						            	   	"id":"1",
-											"title":"title1",
+											"title":"pune marathon last month",
 											"description":"sample topic",
 											"createdAt":"2017-07-23 16:11:10",
-											"createdBy":"swapnil solanki",
+											"createdBy":"Swapnil Solanki",
 											"voteCount":"10",
 											"tags":"sports",
 											"topicUrl":"testTopic1",
@@ -86,19 +63,27 @@
 															{
 																"id":"1",
 																"type":"T",
-																"value":"",
+																"value":"awesome marathon",
 																"createdAt":"2017-07-24 16:11:10",
-																"createdBy":"swapnil",
+																"createdBy":"punjabi",
 																"topicId":"1"
-																}
+															},
+															{
+																"id":"3",
+																"type":"T",
+																"value":"loved it!",
+																"createdAt":"2017-07-25 12:11:10",
+																"createdBy":"Ankit",
+																"topicId":"1"
+															}
 															]
 										},
 										{
 						            	   	"id":"2",
-											"title":"title2",
+											"title":"TEDx event in bangalore",
 											"description":"sample topic2",
 											"createdAt":"2017-07-21 16:11:10",
-											"createdBy":"swapnil solanki",
+											"createdBy":"Himanshu Singh",
 											"voteCount":"20",
 											"tags":"music",
 											"topicUrl":"testTopic2",
@@ -106,9 +91,9 @@
 															{
 																"id":"2",
 																"type":"T",
-																"value":"",
+																"value":"it as nice one!",
 																"createdAt":"2017-07-22 16:11:10",
-																"createdBy":"swapnil",
+																"createdBy":"balaji",
 																"topicId":"2"
 																}
 															]
@@ -123,7 +108,6 @@
 			
 			//$.getJSON( jsonData , function( data ) {
 			for (var i = 0; i < data.length; i++) {
-				
 				var id;
 				var title;
 				var description;
@@ -132,34 +116,91 @@
 				var voteCount;
 				var tags;
 				var topicUrl;
-				
 				var commentList;
-				var commentId;
-				var commentType;
-				var commentValue;
-				var commentCreatedAt;
-				var commentCreatedBy;
-				var topicId;
-								
-							
-				//alert("i: "+i);
+				
 				var j = 0;
-				var items = [];
-				items.push("<div class='row well well-lg'>");
+				var topics = [];
+				topics.push("<div id='topic' class='row well well-lg'>");
 				$.each( data[i] , function( key, val ) {
-					
-					items.push( "<li id='" + key + "'>" + val + "</li>" );
+					if(key.toString()=="id"){
+						id=val;
+					} else if(key.toString()=="title"){
+						title=val;
+					} else if(key.toString()=="description"){
+						description=val;
+					} else if(key.toString()=="createdAt"){
+						createdAt=val;
+					} else if(key.toString()=="createdBy"){
+						createdBy=val;
+					} else if(key.toString()=="voteCount"){
+						voteCount=val;
+					} else if(key.toString()=="tags"){
+						tags=val;
+					} else if(key.toString()=="topicUrl"){
+						topicUrl=val;
+					} else if(key.toString()=="commentList"){
+						commentList=val;
+					}
+					//topics.push( "<li id='" + key + "'>" + val + "</li>" );
 					j++;
-					
 				});
-				items.push("</div>");
+				
+				topics.push( "<label class='row well strong lead col-md-12 large text-primary' id='title'>" + title + "</label>" );
+				/* topics.push( "</br><label id='description'>" + description + "</label>" ); */
+				topics.push( "</br><label class='small' id='voteCount'>"+ voteCount + " Votes </label>" );
+				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small text-info' id='createdBy'> Created By: "+ createdBy + "</label>" );
+				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdAt'> Created At: "+ createdAt + "</label>" );
+				
+				topics.push( "<div id='commentList'>" );   //start commentList logic
+				for (var l = 0; l < commentList.length; l++) {
+					var commentId;
+					var commentType;
+					var commentValue;
+					var commentCreatedAt;
+					var commentCreatedBy;
+					var topicId;
+					var comments = [];
+					var k=0;
+					//alert("comments length: "+commentList.length);
+					$.each( commentList[l] , function( key, val ) {
+						//alert("key: "+key +" ,value: "+val);
+						if(key.toString()=="id"){
+							commentId=val;
+						} else if(key.toString()=="type"){
+							commentType=val;
+						} else if(key.toString()=="value"){
+							commentValue=val;
+						} else if(key.toString()=="createdAt"){
+							commentCreatedAt=val;
+						} else if(key.toString()=="createdBy"){
+							commentCreatedBy=val;
+						} else if(key.toString()=="topicId"){
+							topicId=val;
+						}
+						//comments.push( "<label class='row well small' id='commentCreatedBy'>" + commentCreatedBy + "</label>");	
+						//comments.push( "&nbsp&nbsp&nbsp<label class='small' id='commentValue'>" + commentValue + "</label>");
+						
+						//$(comments.join( "" )).appendTo( "#commentList" );
+						k++;
+					});
+					
+					comments.push( "<div class='row'>");
+						comments.push( "<label class='col-md-offset-1 col-md-2 small ' id='commentCreatedBy'>" + commentCreatedBy + "</label>");
+						comments.push( "&nbsp&nbsp&nbsp&nbsp<label class='small col-md-8' id='commentValue'>"+ commentValue + "</label>" );
+					comments.push( "</div>");
+					
+					comments.push("</div>");   //end commentList logic
+					$(comments.join( "" )).appendTo( "#commentList" );
+				}
+				
+				topics.push("</div>");
 				
 				/* $( "<ul/>", {
 				//$( "", {
-					html: items.join( "" )
+					html: topics.join( "" )
 				}).appendTo( "#topicList" ); */
 				//$( "<ul/>", {
-				$(items.join( "" )).appendTo( "#topicList" );
+				$(topics.join( "" )).appendTo( "#topicList" );
 			}
 			//});
 			
