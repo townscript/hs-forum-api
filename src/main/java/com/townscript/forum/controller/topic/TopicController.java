@@ -1,25 +1,30 @@
 package com.townscript.forum.controller.topic;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.townscript.forum.constants.Constants;
 import com.townscript.forum.constants.ErrorCodes;
+import com.townscript.forum.model.comment.CommentHibernate;
+import com.townscript.forum.model.comment.CommentMapHibernate;
 import com.townscript.forum.model.topic.TopicHibernate;
+import com.townscript.forum.model.topic.TopicMapHibernate;
 import com.townscript.forum.model.user.UserHibernate;
+import com.townscript.forum.service.comment.CommentHibernateService;
+import com.townscript.forum.service.topic.TopicMapService;
 import com.townscript.forum.service.topic.TopicService;
 import com.townscript.forum.service.user.UserHibernateService;
 import com.townscript.forum.vo.CreateTopicVo;
-import com.townscript.forum.vo.HttpResponseVo;
 
 //@ContextConfiguration(locations="/com/townscript/forum/main-bean.xml")
 @RestController
@@ -28,6 +33,8 @@ public class TopicController {
 	
 	private TopicService topicService;
 	private UserHibernateService userService;
+	private CommentHibernateService commentService;
+	private TopicMapService topicMapService;
 	
 	public TopicController() {
 		super();
@@ -43,6 +50,19 @@ public class TopicController {
                     "com/townscript/forum/main-bean.xml");
         	userService = (UserHibernateService) context
                     .getBean("UserHibernateServiceImpl");
+        }
+        if(commentService == null)
+        {
+        	ApplicationContext context = new ClassPathXmlApplicationContext(
+                    "com/townscript/forum/main-bean.xml");
+        	commentService = (CommentHibernateService) context
+                    .getBean("CommentHibernateServiceImpl");
+        }
+        if (topicMapService == null) {
+            ApplicationContext context = new ClassPathXmlApplicationContext(
+                            "com/townscript/forum/main-bean.xml");
+            topicMapService = (TopicMapService) context
+                            .getBean("TopicMapServiceImpl");
         }
 	}
 	
@@ -79,17 +99,68 @@ public class TopicController {
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getAllTopics", method=RequestMethod.GET)
-	public Collection<TopicHibernate> getAllTopics(){
-		Collection<TopicHibernate> topicList = null;
-		try{
-			topicList = topicService.getAllTopics();
+	public String getAllTopics()
+	{
+		String message;
+		
+		try
+		{
+			JSONObject json = new JSONObject();
+			json.put("Message", ErrorCodes.SUCCESS);
+			JSONArray array = new JSONArray();
+			
+			Collection<TopicHibernate> topicColl = topicService.getAllTopics();
+			List<TopicHibernate> topicList = new ArrayList(topicColl);
+			Collection<TopicMapHibernate> topicMapColl = topicMapService.getAllTopicMaps();
+			List<TopicMapHibernate> topicMapList = new ArrayList(topicMapColl);
+			if(topicList.size()==topicMapList.size())
+			{
+				for(int i=0;i<topicList.size();i++)
+				{
+					JSONObject item = new JSONObject();
+					item.put("id", topicList.get(i).getTopicId());
+					item.put("title", topicList.get(i).getTopicTitle());
+					item.put("description", topicList.get(i).getTopicDescription());
+					item.put("createdAt", topicList.get(i).getTopicDateTime());
+					item.put("tags", topicList.get(i).getTopicTags());
+					item.put("topicUrl", topicList.get(i).getTopicUrl());
+					item.put("createdBy", userService.getUser(topicMapList.get(i).getUserId()).getUserName());
+					item.put("upVotes", topicService.getVoteCountByTopicId(1, topicList.get(i).getTopicId()));
+					item.put("downVotes", topicService.getVoteCountByTopicId(2, topicList.get(i).getTopicId()));
+					array.put(item);
+				}
+				json.put("topicList", array);
+				array = new JSONArray();
+			}
+			Collection<CommentHibernate> commentColl = commentService.getAllComments();
+			List<CommentHibernate> commentList = new ArrayList(commentColl);
+			Collection<CommentMapHibernate> commentMapColl = commentService.getAllCommentMaps();
+			List<CommentMapHibernate> commentMapList = new ArrayList(commentMapColl);
+			if(commentList.size()==commentMapList.size())
+			{
+				for(int i=0;i<commentList.size();i++)
+				{
+					JSONObject item = new JSONObject();
+					item.put("id", commentList.get(i).getCommentId());
+					item.put("type", commentList.get(i).getCommentType());
+					item.put("value", commentList.get(i).getCommentValue());
+					item.put("createdAt", commentList.get(i).getCommentDateTime());
+					item.put("createdBy", userService.getUser(commentMapList.get(i).getUserId()).getUserName());
+					item.put("topicId", commentMapList.get(i).getTopicId());
+					array.put(item);
+				}
+				json.put("commentList", array);
+				array = null;
+				
+			}
+			message = json.toString();
+			return message;
 		
 		} catch(Exception e) {
 			e.printStackTrace();
-			return topicList;
 		}
 		
-		return topicList;
+		return ErrorCodes.FAIL;
 	}
 	
 	//@Secured("ROLE_ADMIN")

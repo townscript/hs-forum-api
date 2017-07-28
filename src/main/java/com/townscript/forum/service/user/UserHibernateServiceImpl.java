@@ -25,7 +25,7 @@ public class UserHibernateServiceImpl implements UserHibernateService{
 	}
 
 	@Override
-	public UserHibernate getUser(int id) {
+	public UserHibernate getUser(long id) {
 		// TODO Auto-generated method stub
 	
 		return userDao.getUser(id);
