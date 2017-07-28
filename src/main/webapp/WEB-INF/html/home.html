@@ -5,7 +5,7 @@
 <link href="../static/css/bootstrap.css" rel="stylesheet">
 <link href="../static/css/main.css" rel="stylesheet">
 </head>
-<body onLoad="getAllTopics()">
+<body>
 
 <div id='container' class='container navbar navbar-default'>
 	<!--<a href='index.html' class='navbar-brand'>ForumApp</a>-->
@@ -21,18 +21,15 @@
 		<ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
 			<li><a class='nav navbar-nav navbar-brand' href='home.html'>Home</a></li>
 			<li><a class='nav navbar-nav navbar-brand' href='mytopics.html'>My Topics</a></li>
-			<!-- <li>
-				<a class='nav navbar-nav navbar-brand' href='#'>Settings<span class='caret'></span></a>
-				<ul class='dropdown-menu'>
-					<li><a href='update-password.html'>Update Password</a></li>
-					<li><a href='contact-details.html'>Contact Details</a></li>
-					<li><a href='notification-settings.html'>Notification Settings</a></li>
-				</ul>
-			</li> -->
 		</ul>
 	</div>
 	
 	<div class='row well well-lg'>
+		<div id="topicList">
+   			
+		</div>
+		
+		
 		<div class='row'>
 			<div class='col-md-1'>
 				<label> Title </label> 
@@ -41,28 +38,13 @@
 				<input type='text' id='title' name='title' required/>
 			</div>
 		</div>
-		<div class='row'>
-			<div class='col-md-1'>
-				<label> Description </label> 
-			</div>
-			<div class='col-md-5'>
-				<input type='text' id='description' name='description' required/>
-			</div>
-		</div>
-		<div class='row'>
-			<div class='col-md-1'>
-				<label> Tags </label> 
-			</div>
-			<div class='col-md-5'>
-				<input type='text' id='tags' name='tags' placeholder='e.g. sports,music, etc'/>
-			</div>
-		</div>
+		
 		<div class='row'>
 			<p></p>
 		</div>
 		<div class='row'>
 			<div class='col-md-1'>
-				<input type='submit' name='submit' class='btn btn-success' onClick="createTopic()"/>
+				<input type='submit' name='submit' class='btn btn-success'/>
 			</div>
 			<div class='col-md-1'>
 				<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
@@ -82,26 +64,108 @@
 		
 		getAllTopics();
 		
-	    /* Add a click handler to the rows - this could be used as a callback */
-	    $("#viewTable tbody").click(function(event) {
-	        if (oTable == null)
-	            return;
-	
-	        $(oTable.fnSettings().aoData).each(function() {
-	            $(this.nTr).removeClass('row_selected');
-	        });
-	        $(event.target.parentNode).addClass('row_selected');
-	
-	        rowId = $("td:eq(0)", event.target.parentNode).text();
-	    });
 	});
 
 	//to get all topics on home page
 	function getAllTopics() {
-		//var title= $("#title").val()
+		//alert("inside getAllTopics");
 		var topicsUrl = "http://localhost:8080/forum-api/topic/getAllTopics";
 		
-		$.ajax({
+		var jsonData={ 	"status" : "success",
+						"topicList" : [
+						               {
+						            	   	"id":"1",
+											"title":"title1",
+											"description":"sample topic",
+											"createdAt":"2017-07-23 16:11:10",
+											"createdBy":"swapnil solanki",
+											"voteCount":"10",
+											"tags":"sports",
+											"topicUrl":"testTopic1",
+											"commentList" :[
+															{
+																"id":"1",
+																"type":"T",
+																"value":"",
+																"createdAt":"2017-07-24 16:11:10",
+																"createdBy":"swapnil",
+																"topicId":"1"
+																}
+															]
+										},
+										{
+						            	   	"id":"2",
+											"title":"title2",
+											"description":"sample topic2",
+											"createdAt":"2017-07-21 16:11:10",
+											"createdBy":"swapnil solanki",
+											"voteCount":"20",
+											"tags":"music",
+											"topicUrl":"testTopic2",
+											"commentList" :[
+															{
+																"id":"2",
+																"type":"T",
+																"value":"",
+																"createdAt":"2017-07-22 16:11:10",
+																"createdBy":"swapnil",
+																"topicId":"2"
+																}
+															]
+										}
+						               ]
+						};
+					
+		
+		if(jsonData.status=="success") {
+			//alert("jsonData length: "+jsonData.length);
+			var data = jsonData.topicList;
+			
+			//$.getJSON( jsonData , function( data ) {
+			for (var i = 0; i < data.length; i++) {
+				
+				var id;
+				var title;
+				var description;
+				var createdAt;
+				var createdBy;
+				var voteCount;
+				var tags;
+				var topicUrl;
+				
+				var commentList;
+				var commentId;
+				var commentType;
+				var commentValue;
+				var commentCreatedAt;
+				var commentCreatedBy;
+				var topicId;
+								
+							
+				//alert("i: "+i);
+				var j = 0;
+				var items = [];
+				items.push("<div class='row well well-lg'>");
+				$.each( data[i] , function( key, val ) {
+					
+					items.push( "<li id='" + key + "'>" + val + "</li>" );
+					j++;
+					
+				});
+				items.push("</div>");
+				
+				/* $( "<ul/>", {
+				//$( "", {
+					html: items.join( "" )
+				}).appendTo( "#topicList" ); */
+				//$( "<ul/>", {
+				$(items.join( "" )).appendTo( "#topicList" );
+			}
+			//});
+			
+		}
+		
+		/* $.ajax({
 			type: "GET",
 			url: topicsUrl,
 			dataType: "json",
@@ -113,7 +177,7 @@
 				    alert("Some error in loading, please try again!");
 				}
 			}
-		});
+		}); */
 	}
 </script>
 
