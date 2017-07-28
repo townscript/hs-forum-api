@@ -1,5 +1,7 @@
 package com.townscript.forum.service.comment;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,5 +85,23 @@ public class CommentHibernateServiceImpl implements CommentHibernateService{
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public CommentMapHibernate getCommentMapByCommentId(long commentId)
+	{
+		return commentMapDao.getCommentMapByCommentId(commentId);
+	}
+	
+	@Override
+	public Collection<CommentMapHibernate> getAllCommentMaps()
+	{
+		return commentMapDao.getAllCommentMaps();
+	}
+	
+	@Override
+	public Collection<CommentHibernate> getAllComments()
+	{
+		return commentDao.getAllComments();
 	}
 }

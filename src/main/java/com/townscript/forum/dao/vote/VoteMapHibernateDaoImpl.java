@@ -44,24 +44,24 @@ public class VoteMapHibernateDaoImpl extends HibernateDaoSupport implements Vote
 	@Override
 	public Collection<VoteMapHibernate> getVoteByUserIdAndTopicId(long userId, long topicId){
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-		try{
+		try {
 			String queryString = "FROM VoteMapHibernate WHERE userId=:userId AND topicId=:topicId";
 			Query query = session.createQuery(queryString);
 			query.setParameter("userId", userId);
 			query.setParameter("topicId", topicId);
 			Collection<VoteMapHibernate> voteMapList = query.list(); 
 			
-			return voteMapList;		
-		}
-		catch(HibernateException ex)
-		{
+			return voteMapList;
+			
+		} catch(HibernateException ex) {
 			ex.printStackTrace();
 		}
 		return null;
 	}
 	
+	//not yet tested
 	@Override
-	public Collection<VoteMapHibernate> getVoteByTopicId(long topicId){
+	public Collection<VoteMapHibernate> getVotesByTopicId(long topicId){
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
 			String queryString = "FROM VoteMapHibernate WHERE topicId=:topicId";
@@ -75,5 +75,20 @@ public class VoteMapHibernateDaoImpl extends HibernateDaoSupport implements Vote
 			ex.printStackTrace();
 		}
 		return null;
+	}
+	
+	public long getVoteCountByTopicId(int voteValue, long topicId) {
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try {
+			String queryString = "select count(*) FROM VoteMapHibernate vm WHERE vm.topicId=:topicId AND vm.voteValue=:voteValue";
+			Query query = session.createQuery(queryString);
+			query.setParameter("topicId", topicId);
+			query.setParameter("voteValue", voteValue);
+			return (long)query.uniqueResult();
+			
+		} catch(HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return 0;
 	}
 }

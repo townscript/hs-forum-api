@@ -8,5 +8,6 @@ public interface VoteMapHibernateDao {
 	boolean addVoteMap(VoteMapHibernate voteMap);
 	boolean updateVoteMap(VoteMapHibernate voteMap);
 	Collection<VoteMapHibernate> getVoteByUserIdAndTopicId(long userId, long topicId);
-	Collection<VoteMapHibernate> getVoteByTopicId(long topicId);
+	long getVoteCountByTopicId(int voteValue, long topicId);
+	Collection<VoteMapHibernate> getVotesByTopicId(long topicId);
 }

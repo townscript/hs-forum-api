@@ -1,6 +1,7 @@
 package com.townscript.forum.dao.comment;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -47,5 +48,20 @@ public class CommentHibernateDaoImpl extends HibernateDaoSupport implements Comm
 			ex.printStackTrace();
 		}
 		return 0;
+	}
+	
+	@Override
+	public Collection<CommentHibernate> getAllComments()
+	{
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+		try
+		{
+			return session.createQuery("FROM CommentHibernate").list();
+		}
+		catch(HibernateException ex)
+		{
+			ex.printStackTrace();
+		}
+		return null;
 	}
 }

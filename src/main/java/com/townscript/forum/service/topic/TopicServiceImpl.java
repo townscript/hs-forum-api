@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.townscript.forum.constants.Constants;
 import com.townscript.forum.dao.topic.TopicHibernateDao;
 import com.townscript.forum.dao.topic.TopicMapHibernateDao;
+import com.townscript.forum.dao.vote.VoteMapHibernateDao;
 import com.townscript.forum.model.topic.TopicHibernate;
 import com.townscript.forum.model.topic.TopicMapHibernate;
 import com.townscript.forum.model.user.UserHibernate;
@@ -26,6 +27,8 @@ public class TopicServiceImpl implements TopicService{
 	private TopicMapHibernateDao topicMapDao;
 	@Autowired
 	private UserHibernateService userService;
+	@Autowired
+	private VoteMapHibernateDao voteMapDao;
 	
 	public TopicHibernateDao gettopicDao() {
 		return topicDao;
@@ -49,6 +52,14 @@ public class TopicServiceImpl implements TopicService{
 
 	public void setUserService(UserHibernateService userService) {
 		this.userService = userService;
+	}
+	
+	public VoteMapHibernateDao getVoteMapDao() {
+		return voteMapDao;
+	}
+
+	public void setVoteMapDao(VoteMapHibernateDao voteMapDao) {
+		this.voteMapDao = voteMapDao;
 	}
 
 	@Override
@@ -120,6 +131,12 @@ public class TopicServiceImpl implements TopicService{
 			topicList.add(topicDao.getTopicById(topicMapList.get(i).getTopicId()));
 		}
 		return topicList;
+	}
+	
+	@Override
+	public long getVoteCountByTopicId(int voteValue, long topicId)
+	{
+		return voteMapDao.getVoteCountByTopicId(voteValue, topicId);
 	}
 
 }

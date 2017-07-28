@@ -13,4 +13,5 @@ public interface TopicService {
 		Collection<TopicHibernate> getAllTopicsOnLoad();
 		TopicHibernate getTopicById(long topicId);
 		Collection<TopicHibernate> getTopicsByUsername(String userName);
+		long getVoteCountByTopicId(int voteValue, long topicId);
 }

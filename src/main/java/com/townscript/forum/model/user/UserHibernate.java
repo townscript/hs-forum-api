@@ -14,7 +14,7 @@ public class UserHibernate {
 	
 	@Id @GeneratedValue
 	@Column(name="USER_ID")
-	private Long userId;
+	private long userId;
 	
 	@Column(name="USER_NAME")
 	private String userName;
@@ -37,7 +37,7 @@ public class UserHibernate {
 	public UserHibernate() {
 	}
 
-	public UserHibernate(Long userId, String userName, String password, String userEmail, String userMobile,
+	public UserHibernate(long userId, String userName, String password, String userEmail, String userMobile,
 			Date userDateTime, byte[] userPropic) {
 		super();
 		this.userId = userId;
@@ -49,11 +49,11 @@ public class UserHibernate {
 		this.userPropic = userPropic;
 	}
 
-	public Long getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 
