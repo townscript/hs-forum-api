@@ -8,19 +8,10 @@
 <body>
 
 <div id='container' class='container navbar navbar-default'>
-	<!--<a href='index.html' class='navbar-brand'>ForumApp</a>-->
-
-	<!--<ul class='nav navbar-nav navbar-right'>
-		<li><a class='nav navbar navbar-brand navbar-right' href='index.html'>Home</a></li>
-		<li><a class='nav navbar navbar-brand navbar-right' href='profile.html'>My Profile</a></li>
-		<li><a class='nav navbar navbar-brand navbar-right' href='settings.html'>Settings</a></li>
-	</ul>-->
-
 	<div class='row'>
 		<a href='home.html' class='nav navbar-brand'>ForumApp</a>
 		<ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
 			<li><a class='nav navbar-nav navbar-brand' href='home.html'>Home</a></li>
-			<!-- <li><a class='nav navbar-nav navbar-brand' href='mytopics.html'>My Topics</a></li> -->
 		</ul>
 	</div>
 	
@@ -30,23 +21,20 @@
 		</div>
 		</br>
 		<div id="topicList">
+			<!-- <div id="commentList">
+			</div> -->
 		</div>
 	</div>
 	
 </div>
 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
 <script src="../static/js/jquery.1.10.2.min.js"></script>
 <script src="../static/js/bootstrap.js"></script>
 
 <script type="text/javascript">
-	
 	$(document).ready(function() {
-		
 		getAllTopics();
-		
 	});
-
 	
 	$('#createTopic').click(function(event) {
 		//window.location.href="http://localhost:8080/forum-api/topic/createTopic";
@@ -55,12 +43,11 @@
 	
 	//to get all topics on home page
 	function getAllTopics() {
-		//alert("inside getAllTopics");
 		var topicsUrl = "http://localhost:8080/forum-api/topic/getAllTopics";
 		
 		var jsonData={ 	"status" : "success",
 						"topicList" : [
-						               {
+						              	{
 						            	   	"id":"1",
 											"title":"pune marathon last month",
 											"description":"sample topic",
@@ -88,7 +75,7 @@
 																//"topicId":"1"
 															}
 															]
-										},
+										} ,
 										{
 						            	   	"id":"2",
 											"title":"TEDx event in Mumbai",
@@ -136,10 +123,7 @@
 					
 		
 		if(jsonData.status=="success") {
-			//alert("jsonData length: "+jsonData.length);
 			var data = jsonData.topicList;
-			
-			//$.getJSON( jsonData , function( data ) {
 			for (var i = 0; i < data.length; i++) {
 				var id;
 				var title;
@@ -154,7 +138,8 @@
 				
 				var j = 0;
 				var topics = [];
-				topics.push("<div id='topic' class='row well well-lg'>");
+				var topicI="topic-"+i;
+				topics.push("<div id='"+topicI+"' class='row well well-lg'>");
 				$.each( data[i] , function( key, val ) {
 					if(key.toString()=="id"){
 						id=val;
@@ -181,16 +166,19 @@
 				});
 				
 				topics.push( "<label class='row well strong lead col-md-12 large bg-faded text-primary' id='title'>" + title + "</label>" );
-				/* topics.push( "</br><label id='description'>" + description + "</label>" ); */
 				topics.push( "</br><label class='small text-warning' id='voteCount'>"+ voteCount + " Votes </label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small text-info' id='createdBy'> Created By: "+ createdBy + "</label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdAt'> Created At: "+ createdAt + "</label>" );
 				
-				//alert("topic: "+i+" ,commentList.length: "+commentList.length);
 				
-				//var commentListVar="commentList"+i;
-				//topics.push( "<div id='"+commentListVar+"'>" );   //start commentList logic
-				topics.push( "<div id='commentList'>" );   //start commentList logic
+				var commentListVar="commentList"+i;
+				topics.push( "<div id='"+commentListVar+"'>" );   //start commentList logic
+				//topics.push( "<div id='commentList'>" );   //start commentList logic
+				//topics.push( "</div>" );
+				
+				topics.push("</div>");
+				$(topics.join( "" )).appendTo( "#topicList" );
+				
 				for (var l = 0; l < commentList.length; l++) {
 					var commentId;
 					var commentType;
@@ -213,44 +201,42 @@
 						} else if(key.toString()=="createdBy"){
 							commentCreatedBy=val;
 						}
-						//comments.push( "<label class='row well small' id='commentCreatedBy'>" + commentCreatedBy + "</label>");	
-						//comments.push( "&nbsp&nbsp&nbsp<label class='small' id='commentValue'>" + commentValue + "</label>");
-						
-						//$(comments.join( "" )).appendTo( "#commentList" );
 						k++;
 					});
 					
 					//for existing comments
 					comments.push( "<div class='row well'>");
-						comments.push( "<label class='col-md-offset-1 col-md-1 small ' id='commentCreatedBy'>" + commentCreatedBy + "</label>");
-						comments.push( "&nbsp&nbsp&nbsp&nbsp<input class='small col-md-6 bg-gray' readonly='true' id='commentValue' value='"+ commentValue + "'></input>" );
+						comments.push( "<label class='col-md-offset-1 col-md-1 small' id='commentCreatedBy'>" + commentCreatedBy + "</label>");
+						comments.push( "&nbsp&nbsp&nbsp&nbsp<input class='small col-md-6' readonly='true' id='commentValue' value='"+ commentValue + "'></input>" );
 					comments.push( "</div>");
 					
 					//for new comment
-					comments.push( "<div class='row well'>");
+					/*  comments.push( "<div class='row well'>");
 						comments.push( "<input type='text' class='col-md-offset-2 small col-md-6' id='newComment' name='newComment' placeholder='add new comment'></input>");
 						comments.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right'></input>");
+					comments.push( "</div>"); */
 					
-					comments.push( "</div>");
+					//$(comments.join( "" )).appendTo( "#commentList" );
 					
-				}
-					comments.push("</div>");   //end commentList logic
+				//}
+					//comments.push("</div>");   //end commentList logic
 					
 					//alert("topic: "+i+" ,comments: "+comments);
 					//var commentListVar="commentList"+i;
 					//alert("commentListVar: "+commentListVar);
-					//$(comments.join( "" )).appendTo( "#"+commentListVar);
-					$(comments.join( "" )).appendTo( "#commentList" );
-				//}
+					$(comments.join( "" )).appendTo( "#"+commentListVar);
+					//$(comments.join( "" )).appendTo( "#commentList" );
+				}
+				var newComment=[];
+				//for new comment
+				 newComment.push( "<div class='row well'>");
+				 	newComment.push( "<input type='text' class='col-md-offset-2 small col-md-6' id='newComment' name='newComment' placeholder='add new comment'></input>");
+				 	newComment.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right'></input>");
+				 newComment.push( "</div>");
+				$(newComment.join( "" )).appendTo( "#"+commentListVar);
 				
-				topics.push("</div>");
-				
-				/* $( "<ul/>", {
-				//$( "", {
-					html: topics.join( "" )
-				}).appendTo( "#topicList" ); */
-				//$( "<ul/>", {
-				$(topics.join( "" )).appendTo( "#topicList" );
+				//topics.push("</div>");
+				//$(topics.join( "" )).appendTo( "#topicList" );
 			}
 			//});
 			
