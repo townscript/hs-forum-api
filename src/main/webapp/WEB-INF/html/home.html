@@ -23,9 +23,9 @@
 		<div id="topicList">
 		</div>
 		<div id="userIdDiv">
-			<hidden id='userName' name='userName' value='swapnil.solanki'></hidden>
-			<hidden id='userId' name='userId' value='6'></hidden>
-			<hidden id='emailId' name='emailId' value='swapnil.solanki@townscript.com'></hidden>
+			<input type='hidden' id='userName' name='userName' value='swapnil'></input>
+			<input type='hidden' id='userId' name='userId' value='6'></input>
+			<input type='hidden' id='emailId' name='emailId' value='swapnil.solanki@townscript.com'></input>
 		</div>
 	</div>
 	
@@ -53,10 +53,12 @@
 						              	{
 						            	   	"id":"1",
 											"title":"pune marathon in july 2017",
-											"description":"sample topic",
+											"description":"this topic is based on the the marathod happened in pune in july 2017. want to know reviews on the same.",
 											"createdAt":"2017-07-23 16:11:10",
 											"createdBy":"Swapnil Solanki",
 											"voteCount":"10",
+											"isVoted":"Y",
+											"voteValue":"1",
 											"tags":"sports",
 											"topicUrl":"testTopic1",
 											"topicId":"1",
@@ -82,10 +84,12 @@
 										{
 						            	   	"id":"2",
 											"title":"TEDx event in Mumbai",
-											"description":"sample topic2",
+											"description":"i want to know more details about TEDx event happened in mumbai in April 2017",
 											"createdAt":"2017-07-21 16:11:10",
 											"createdBy":"Himanshu Singh",
 											"voteCount":"20",
+											"isVoted":"Y",
+											"voteValue":"2",
 											"tags":"general",
 											"topicUrl":"testTopic2",
 											"topicId":"2",
@@ -103,10 +107,12 @@
 										{
 						            	   	"id":"3",
 											"title":"IEEE event at IISc bangalore",
-											"description":"sample topic3",
+											"description":"how was the IEEE event happened at IISc bangalore June 2017?",
 											"createdAt":"2017-07-11 16:11:10",
 											"createdBy":"Sushant Pawar",
 											"voteCount":"15",
+											"isVoted":"N",
+											"voteValue":"0",
 											"tags":"technical",
 											"topicUrl":"testTopic3",
 											"topicId":"3",
@@ -170,10 +176,18 @@
 					j++;
 				});
 				
+				/* var myDate = new Date('2011-07-14 11:23:00');
+				alert("full-year: "+myDate.getFullYear())
+				alert("day: "+myDate.getDay())
+				alert("date: "+myDate.getDate()) */
+				
 				topics.push( "<label class='row well strong lead col-md-12 large bg-faded text-primary' id='title'>" + title + "</label>" );
+				topics.push( "</br><label class='row well col-md-12 medium bg-faded' id='description'><label class='small text-info'>Description:</label> </br> " + description + "</label>" );
+				topics.push( "</br><button class='btn btn-xs' id='upvote-btn' name='upvote-btn'><img class='upvote-img' id='upvote'></img></button>" );
+				topics.push( "&nbsp&nbsp<button class='btn btn-xs' id='downvote-btn' name='downvote-btn'><img class='downvote-img' id='downvote'></img></button>" );
 				topics.push( "</br><label class='small text-warning' id='voteCount'>"+ voteCount + " Votes </label>" );
-				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small text-info' id='createdBy'> Created By: "+ createdBy + "</label>" );
-				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdAt'> Created At: "+ createdAt + "</label>" );
+				topics.push( "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdBy'> <label class='text-muted'>Created By: </label> "+ createdBy + "</label>" );
+				topics.push( "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdAt'> <label class='text-muted'>Created At: </label> "+ createdAt + "</label>" );
 				
 				var commentListVar="commentList-"+i;
 				topics.push( "<div id='"+commentListVar+"'>" );   //start commentList logic
@@ -206,23 +220,22 @@
 					
 					//for existing comments
 					comments.push( "<div class='row well'>");
-						comments.push( "<label class='col-md-offset-1 col-md-1 small' id='commentCreatedBy'>" + commentCreatedBy + "</label>");
-						comments.push( "&nbsp&nbsp&nbsp&nbsp<input class='small col-md-6' readonly='true' id='commentValue' value='"+ commentValue + "'></input>" );
+						comments.push( "<label class='col-md-offset-0 col-md-1 small' id='commentCreatedBy'>" + commentCreatedBy + "</label>");
+						comments.push( "&nbsp&nbsp&nbsp&nbsp<input class='small col-md-7' readonly='true' id='commentValue' value='"+ commentValue + "'></input>" );
 					comments.push( "</div>");
 					
 					$(comments.join( "" )).appendTo( "#"+commentListVar);
 				}
-				var newComment=[];
+				
 				//for new comment
 				var newCommentFieldId="add-comment-"+topicI+"-comment-"+commentListSize;
-				//var userName = $("#userName").val();
-				//var userName = document.getElementById("userName").val;
-				var userName = "Swapnil";
+				var userName = document.getElementById('userName').value;
+				var newComment=[];
 				newComment.push( "<div class='row well'>");
-					newComment.push( "<label class='col-md-offset-1 col-md-1 small' id='newCommentCreatedBy'>" + userName + "</label>");
+					newComment.push( "<label class='col-md-offset-0 col-md-1 small' id='newCommentCreatedBy'>" + userName + "</label>");
 					var onClickFunc="newComment('field','12','swapnil')";
-					newComment.push( "<input type='text' class='small col-md-6' id='"+newCommentFieldId+"' name='"+newCommentFieldId+"' placeholder='add new comment'></input>");
-				 	newComment.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right' onclick='addNewComment('"+newCommentFieldId+"','"+topicId+"','swapnil')'></input>");
+					newComment.push( "<input type='text' class='small col-md-7' id='"+newCommentFieldId+"' name='"+newCommentFieldId+"' placeholder='add new comment'></input>");
+				 	newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment('"+newCommentFieldId+"','"+topicId+"','swapnil')'></input>");
 				 	//newComment.push( "<input type='button' value='Add Comment' name='newComment' id='newComment' class='btn btn-info btn-sm pull-right' onclick='"+onClickFunc+"'></input>");
 				 	//newComment.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right' onclick='addNewComment()'></input>");
 				newComment.push( "</div>");
@@ -233,31 +246,37 @@
 			//});
 			
 		}
-	
-		/* $.ajax({
-			type: "GET",
-			url: topicsUrl,
-			dataType: "json",
-			success: function(data) {
-				//alert(data);
-				if(data.status == "success"){
-					
-				}else{
-				    alert("Some error in loading, please try again!");
-				}
-			}
-		}); */
 	}
 	
 </script>
 
 <script type="text/javascript">
-	function newComment(commentFieldId, topicId, userId) {
-	//function addNewComment() {
-		//alert("commentFieldId: ");
-		alert("commentFieldId: "+commentFieldId);
+	function newComment(commentFieldId, topicId, userName) {
+		/* alert("commentFieldId: "+commentFieldId);
 		alert("topicId: "+topicId);
-		alert("userId: "+userId);
+		alert("userId: "+userId); */
+		var commentValue = document.getElementById(commentFieldId).value;
+		var newCommentURL = "http://localhost:8080/forum-api/comment/newComment";
+		
+		$.ajax({
+			type: "POST",
+			url: newCommentURL,
+			dataType: "json",
+			data : {
+				topicId : topicId,
+				userName : userId,
+				commentValue : commentValue
+			},
+			success: function(data) {
+				//alert(data);
+				//if(data.status == "success"){
+				if(data != null){
+					location.reload();
+				}else{
+				    alert("Some error, please try again!");
+				}
+			}
+		});
 	}
 </script>
 

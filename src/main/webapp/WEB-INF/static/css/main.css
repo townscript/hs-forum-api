@@ -1,7 +1,22 @@
 
 #headercontent {
-	background: url(/forum-api/static/images/ts-logo.jpg) no-repeat;
+	background: url(../static/images/ts-logo.jpg) no-repeat;
 	height: 90px;
 }
 
+.upvote-img{
+    background: url(../images/upvote.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    width:31px;
+    height:31px;
+}
+
+.downvote-img{
+    background: url(../images/downvote.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    width:31px;
+    height:31px;
+}
 
