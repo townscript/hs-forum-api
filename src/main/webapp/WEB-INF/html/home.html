@@ -20,19 +20,23 @@
 		<a href='home.html' class='nav navbar-brand'>ForumApp</a>
 		<ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
 			<li><a class='nav navbar-nav navbar-brand' href='home.html'>Home</a></li>
-			<li><a class='nav navbar-nav navbar-brand' href='mytopics.html'>My Topics</a></li>
+			<!-- <li><a class='nav navbar-nav navbar-brand' href='mytopics.html'>My Topics</a></li> -->
 		</ul>
 	</div>
 	
 	<div class='row well well-lg'>
+		<div class='row right'>
+			<input type='button' value='Create Topic' name='createTopic' id='createTopic' class='btn btn-primary btn-md pull-right'></input>
+		</div>
+		</br>
 		<div id="topicList">
-   			
 		</div>
 	</div>
 	
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+<script src="../static/js/jquery.1.10.2.min.js"></script>
 <script src="../static/js/bootstrap.js"></script>
 
 <script type="text/javascript">
@@ -43,6 +47,12 @@
 		
 	});
 
+	
+	$('#createTopic').click(function(event) {
+		//window.location.href="http://localhost:8080/forum-api/topic/createTopic";
+		window.location.href="topic-create.html";
+	});
+	
 	//to get all topics on home page
 	function getAllTopics() {
 		//alert("inside getAllTopics");
@@ -59,42 +69,65 @@
 											"voteCount":"10",
 											"tags":"sports",
 											"topicUrl":"testTopic1",
+											"topicId":"1",
 											"commentList" :[
 															{
 																"id":"1",
 																"type":"T",
 																"value":"awesome marathon",
 																"createdAt":"2017-07-24 16:11:10",
-																"createdBy":"punjabi",
-																"topicId":"1"
+																"createdBy":"punjabi"
+																//"topicId":"1"
 															},
 															{
 																"id":"3",
 																"type":"T",
 																"value":"loved it!",
 																"createdAt":"2017-07-25 12:11:10",
-																"createdBy":"Ankit",
-																"topicId":"1"
+																"createdBy":"Ankit"
+																//"topicId":"1"
 															}
 															]
 										},
 										{
 						            	   	"id":"2",
-											"title":"TEDx event in bangalore",
+											"title":"TEDx event in Mumbai",
 											"description":"sample topic2",
 											"createdAt":"2017-07-21 16:11:10",
 											"createdBy":"Himanshu Singh",
 											"voteCount":"20",
-											"tags":"music",
+											"tags":"general",
 											"topicUrl":"testTopic2",
+											"topicId":"2",
 											"commentList" :[
 															{
 																"id":"2",
 																"type":"T",
-																"value":"it as nice one!",
+																"value":"it is nice one!",
 																"createdAt":"2017-07-22 16:11:10",
-																"createdBy":"balaji",
-																"topicId":"2"
+																"createdBy":"balaji"
+																//"topicId":"2"
+																}
+															]
+										},
+										{
+						            	   	"id":"3",
+											"title":"IEEE event at IISc bangalore",
+											"description":"sample topic3",
+											"createdAt":"2017-07-11 16:11:10",
+											"createdBy":"Sushant Pawar",
+											"voteCount":"15",
+											"tags":"technical",
+											"topicUrl":"testTopic3",
+											"topicId":"3",
+											"commentList" :[
+															{
+																"id":"4",
+																"type":"T",
+																"value":"really good one!",
+																"createdAt":"2017-07-22 16:11:10",
+																"createdBy":"Aakash"
+																//"topicId":"3"
 																}
 															]
 										}
@@ -116,7 +149,8 @@
 				var voteCount;
 				var tags;
 				var topicUrl;
-				var commentList;
+				var topicId;
+				var commentList=[];
 				
 				var j = 0;
 				var topics = [];
@@ -140,17 +174,22 @@
 						topicUrl=val;
 					} else if(key.toString()=="commentList"){
 						commentList=val;
+					} else if(key.toString()=="topicId"){
+						topicId=val;
 					}
-					//topics.push( "<li id='" + key + "'>" + val + "</li>" );
 					j++;
 				});
 				
-				topics.push( "<label class='row well strong lead col-md-12 large text-primary' id='title'>" + title + "</label>" );
+				topics.push( "<label class='row well strong lead col-md-12 large bg-faded text-primary' id='title'>" + title + "</label>" );
 				/* topics.push( "</br><label id='description'>" + description + "</label>" ); */
-				topics.push( "</br><label class='small' id='voteCount'>"+ voteCount + " Votes </label>" );
+				topics.push( "</br><label class='small text-warning' id='voteCount'>"+ voteCount + " Votes </label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small text-info' id='createdBy'> Created By: "+ createdBy + "</label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdAt'> Created At: "+ createdAt + "</label>" );
 				
+				//alert("topic: "+i+" ,commentList.length: "+commentList.length);
+				
+				//var commentListVar="commentList"+i;
+				//topics.push( "<div id='"+commentListVar+"'>" );   //start commentList logic
 				topics.push( "<div id='commentList'>" );   //start commentList logic
 				for (var l = 0; l < commentList.length; l++) {
 					var commentId;
@@ -158,7 +197,6 @@
 					var commentValue;
 					var commentCreatedAt;
 					var commentCreatedBy;
-					var topicId;
 					var comments = [];
 					var k=0;
 					//alert("comments length: "+commentList.length);
@@ -174,8 +212,6 @@
 							commentCreatedAt=val;
 						} else if(key.toString()=="createdBy"){
 							commentCreatedBy=val;
-						} else if(key.toString()=="topicId"){
-							topicId=val;
 						}
 						//comments.push( "<label class='row well small' id='commentCreatedBy'>" + commentCreatedBy + "</label>");	
 						//comments.push( "&nbsp&nbsp&nbsp<label class='small' id='commentValue'>" + commentValue + "</label>");
@@ -184,14 +220,28 @@
 						k++;
 					});
 					
-					comments.push( "<div class='row'>");
-						comments.push( "<label class='col-md-offset-1 col-md-2 small ' id='commentCreatedBy'>" + commentCreatedBy + "</label>");
-						comments.push( "&nbsp&nbsp&nbsp&nbsp<label class='small col-md-8' id='commentValue'>"+ commentValue + "</label>" );
+					//for existing comments
+					comments.push( "<div class='row well'>");
+						comments.push( "<label class='col-md-offset-1 col-md-1 small ' id='commentCreatedBy'>" + commentCreatedBy + "</label>");
+						comments.push( "&nbsp&nbsp&nbsp&nbsp<input class='small col-md-6 bg-gray' readonly='true' id='commentValue' value='"+ commentValue + "'></input>" );
 					comments.push( "</div>");
 					
-					comments.push("</div>");   //end commentList logic
-					$(comments.join( "" )).appendTo( "#commentList" );
+					//for new comment
+					comments.push( "<div class='row well'>");
+						comments.push( "<input type='text' class='col-md-offset-2 small col-md-6' id='newComment' name='newComment' placeholder='add new comment'></input>");
+						comments.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right'></input>");
+					
+					comments.push( "</div>");
+					
 				}
+					comments.push("</div>");   //end commentList logic
+					
+					//alert("topic: "+i+" ,comments: "+comments);
+					//var commentListVar="commentList"+i;
+					//alert("commentListVar: "+commentListVar);
+					//$(comments.join( "" )).appendTo( "#"+commentListVar);
+					$(comments.join( "" )).appendTo( "#commentList" );
+				//}
 				
 				topics.push("</div>");
 				
