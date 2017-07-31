@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html>
 <head>
 
 <link href="../static/css/bootstrap.css" rel="stylesheet">
@@ -21,8 +21,11 @@
 		</div>
 		</br>
 		<div id="topicList">
-			<!-- <div id="commentList">
-			</div> -->
+		</div>
+		<div id="userIdDiv">
+			<hidden id='userName' name='userName' value='swapnil.solanki'></hidden>
+			<hidden id='userId' name='userId' value='6'></hidden>
+			<hidden id='emailId' name='emailId' value='swapnil.solanki@townscript.com'></hidden>
 		</div>
 	</div>
 	
@@ -49,7 +52,7 @@
 						"topicList" : [
 						              	{
 						            	   	"id":"1",
-											"title":"pune marathon last month",
+											"title":"pune marathon in july 2017",
 											"description":"sample topic",
 											"createdAt":"2017-07-23 16:11:10",
 											"createdBy":"Swapnil Solanki",
@@ -124,7 +127,9 @@
 		
 		if(jsonData.status=="success") {
 			var data = jsonData.topicList;
-			for (var i = 0; i < data.length; i++) {
+			
+			var topicListSize = data.length;
+			for (var i = 0; i < topicListSize; i++) {
 				var id;
 				var title;
 				var description;
@@ -170,16 +175,13 @@
 				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small text-info' id='createdBy'> Created By: "+ createdBy + "</label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdAt'> Created At: "+ createdAt + "</label>" );
 				
-				
-				var commentListVar="commentList"+i;
+				var commentListVar="commentList-"+i;
 				topics.push( "<div id='"+commentListVar+"'>" );   //start commentList logic
-				//topics.push( "<div id='commentList'>" );   //start commentList logic
-				//topics.push( "</div>" );
-				
 				topics.push("</div>");
 				$(topics.join( "" )).appendTo( "#topicList" );
 				
-				for (var l = 0; l < commentList.length; l++) {
+				var commentListSize = commentList.length;
+				for (var l = 0; l < commentListSize; l++) {
 					var commentId;
 					var commentType;
 					var commentValue;
@@ -187,9 +189,7 @@
 					var commentCreatedBy;
 					var comments = [];
 					var k=0;
-					//alert("comments length: "+commentList.length);
 					$.each( commentList[l] , function( key, val ) {
-						//alert("key: "+key +" ,value: "+val);
 						if(key.toString()=="id"){
 							commentId=val;
 						} else if(key.toString()=="type"){
@@ -210,38 +210,30 @@
 						comments.push( "&nbsp&nbsp&nbsp&nbsp<input class='small col-md-6' readonly='true' id='commentValue' value='"+ commentValue + "'></input>" );
 					comments.push( "</div>");
 					
-					//for new comment
-					/*  comments.push( "<div class='row well'>");
-						comments.push( "<input type='text' class='col-md-offset-2 small col-md-6' id='newComment' name='newComment' placeholder='add new comment'></input>");
-						comments.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right'></input>");
-					comments.push( "</div>"); */
-					
-					//$(comments.join( "" )).appendTo( "#commentList" );
-					
-				//}
-					//comments.push("</div>");   //end commentList logic
-					
-					//alert("topic: "+i+" ,comments: "+comments);
-					//var commentListVar="commentList"+i;
-					//alert("commentListVar: "+commentListVar);
 					$(comments.join( "" )).appendTo( "#"+commentListVar);
-					//$(comments.join( "" )).appendTo( "#commentList" );
 				}
 				var newComment=[];
 				//for new comment
-				 newComment.push( "<div class='row well'>");
-				 	newComment.push( "<input type='text' class='col-md-offset-2 small col-md-6' id='newComment' name='newComment' placeholder='add new comment'></input>");
-				 	newComment.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right'></input>");
-				 newComment.push( "</div>");
+				var newCommentFieldId="add-comment-"+topicI+"-comment-"+commentListSize;
+				//var userName = $("#userName").val();
+				//var userName = document.getElementById("userName").val;
+				var userName = "Swapnil";
+				newComment.push( "<div class='row well'>");
+					newComment.push( "<label class='col-md-offset-1 col-md-1 small' id='newCommentCreatedBy'>" + userName + "</label>");
+					var onClickFunc="newComment('field','12','swapnil')";
+					newComment.push( "<input type='text' class='small col-md-6' id='"+newCommentFieldId+"' name='"+newCommentFieldId+"' placeholder='add new comment'></input>");
+				 	newComment.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right' onclick='addNewComment('"+newCommentFieldId+"','"+topicId+"','swapnil')'></input>");
+				 	//newComment.push( "<input type='button' value='Add Comment' name='newComment' id='newComment' class='btn btn-info btn-sm pull-right' onclick='"+onClickFunc+"'></input>");
+				 	//newComment.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right' onclick='addNewComment()'></input>");
+				newComment.push( "</div>");
+				
 				$(newComment.join( "" )).appendTo( "#"+commentListVar);
 				
-				//topics.push("</div>");
-				//$(topics.join( "" )).appendTo( "#topicList" );
 			}
 			//});
 			
 		}
-		
+	
 		/* $.ajax({
 			type: "GET",
 			url: topicsUrl,
@@ -255,6 +247,17 @@
 				}
 			}
 		}); */
+	}
+	
+</script>
+
+<script type="text/javascript">
+	function newComment(commentFieldId, topicId, userId) {
+	//function addNewComment() {
+		//alert("commentFieldId: ");
+		alert("commentFieldId: "+commentFieldId);
+		alert("topicId: "+topicId);
+		alert("userId: "+userId);
 	}
 </script>
 
