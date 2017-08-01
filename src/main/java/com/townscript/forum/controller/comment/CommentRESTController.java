@@ -48,7 +48,7 @@ public class CommentRESTController {
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/newComment", method=RequestMethod.POST)
-	public CommentHibernate addComment(@RequestParam(value="data-json") String commentJsonStr)
+	public CommentHibernate addComment(@RequestParam(value="dataJson") String commentJsonStr)
 	{		
 		AddCommentVo commentVo = null;
 		
@@ -81,7 +81,7 @@ public class CommentRESTController {
 	
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/submitVote", method=RequestMethod.POST)
-	public String submitVote(@RequestParam(value="data-json") String voteJsonStr)
+	public String submitVote(@RequestParam(value="dataJson") String voteJsonStr)
 	{
 		SubmitVoteVo submitVoteVo = null;
 		

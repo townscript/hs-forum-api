@@ -104,4 +104,16 @@ public class CommentHibernateServiceImpl implements CommentHibernateService{
 	{
 		return commentDao.getAllComments();
 	}
+	
+	@Override
+	public Collection<CommentMapHibernate> getCommentMapByTopicId(long topicId)
+	{
+		return commentMapDao.getCommentMapByTopicId(topicId);
+	}
+	
+	@Override
+	public CommentHibernate getCommentById(long commentId)
+	{
+		return commentDao.getCommentById(commentId);
+	}
 }

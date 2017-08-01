@@ -79,7 +79,7 @@ public class UserRESTController {
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/newUser", method=RequestMethod.POST) 
-	public UserHibernate insertUser(@RequestParam(value="data-json") String userJsonStr)
+	public UserHibernate insertUser(@RequestParam(value="dataJson") String userJsonStr)
 	{
 		AddUserVo addUserVo = null;
 		UserHibernate user = null;

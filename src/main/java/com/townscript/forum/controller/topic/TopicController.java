@@ -68,7 +68,7 @@ public class TopicController {
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/createTopic", method=RequestMethod.POST)
-	public TopicHibernate createTopic(@RequestParam(value="data-json") String topicJsonStr){
+	public TopicHibernate createTopic(@RequestParam(value="dataJson") String topicJsonStr){
 		CreateTopicVo createTopicVo = null;
 		try{
 			ObjectMapper mapper = new ObjectMapper();
@@ -109,6 +109,7 @@ public class TopicController {
 			json.put("Message", ErrorCodes.SUCCESS);
 			JSONArray array = new JSONArray();
 			
+			
 			Collection<TopicHibernate> topicColl = topicService.getAllTopics();
 			List<TopicHibernate> topicList = new ArrayList(topicColl);
 			Collection<TopicMapHibernate> topicMapColl = topicMapService.getAllTopicMaps();
@@ -127,15 +128,35 @@ public class TopicController {
 					item.put("createdBy", userService.getUser(topicMapList.get(i).getUserId()).getUserName());
 					item.put("upVotes", topicService.getVoteCountByTopicId(1, topicList.get(i).getTopicId()));
 					item.put("downVotes", topicService.getVoteCountByTopicId(2, topicList.get(i).getTopicId()));
+					
+					Collection<CommentMapHibernate> commentMapColl = commentService.getCommentMapByTopicId(topicList.get(i).getTopicId());
+					List<CommentMapHibernate> commentMapList = new ArrayList(commentMapColl);
+					
+					JSONArray arrayComm = new JSONArray();
+					for(int j=0;j<commentMapList.size();j++)
+					{
+						JSONObject itemComm = new JSONObject();
+						CommentHibernate comment = commentService.getCommentById(commentMapList.get(j).getCommentId());
+						itemComm.put("id", comment.getCommentId());
+						itemComm.put("type", comment.getCommentType());
+						itemComm.put("value", comment.getCommentValue());
+						itemComm.put("createdAt", comment.getCommentDateTime());
+						itemComm.put("createdBy", userService.getUser(commentMapList.get(j).getUserId()).getUserName());
+						itemComm.put("topicId", commentMapList.get(j).getTopicId());
+						arrayComm.put(itemComm);
+					}
 					array.put(item);
+					JSONObject itemComm = new JSONObject();
+					itemComm.put("commentList", arrayComm);
+					array.put(itemComm);
+					
 				}
 				json.put("topicList", array);
 				array = new JSONArray();
 			}
-			Collection<CommentHibernate> commentColl = commentService.getAllComments();
+			/*Collection<CommentHibernate> commentColl = commentService.getAllComments();
 			List<CommentHibernate> commentList = new ArrayList(commentColl);
-			Collection<CommentMapHibernate> commentMapColl = commentService.getAllCommentMaps();
-			List<CommentMapHibernate> commentMapList = new ArrayList(commentMapColl);
+			
 			if(commentList.size()==commentMapList.size())
 			{
 				for(int i=0;i<commentList.size();i++)
@@ -152,7 +173,7 @@ public class TopicController {
 				json.put("commentList", array);
 				array = null;
 				
-			}
+			}*/
 			message = json.toString();
 			return message;
 		

@@ -33,7 +33,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
-	public boolean checkLogin(@RequestParam(value="data-json") String loginJsonStr){
+	public boolean checkLogin(@RequestParam(value="dataJson") String loginJsonStr){
 		LoginVo loginVo = null;
 		try{
 			ObjectMapper mapper = new ObjectMapper();
