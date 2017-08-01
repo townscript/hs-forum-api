@@ -197,6 +197,9 @@
 				
 				var voteValue4Up=1;
 				var voteValue4Down=2;
+
+				var syncVotesFunc4Up = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Up+"\","+upVoteCount+","+downVoteCount+")";
+				var syncVotesFunc4Down = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Down+"\","+upVoteCount+","+downVoteCount+")";
 				
 				topics.push( "<label class='row well strong lead col-md-12 large bg-faded text-primary' id='title'>" + title + "</label>" );
 				topics.push( "</br><label class='row well col-md-12 medium bg-faded' id='description'><label class='small text-info'>Description:</label></br> " + description + "</label>" );
@@ -204,8 +207,8 @@
 				topics.push( "&nbsp&nbsp&nbsp&nbsp&nbsp<label class='small text-warning' id='"+downvoteLblVar+"'>"+ downVoteCount +" DownVotes</label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdBy'><label class='text-muted'>Created By: </label> "+ createdBy + "</label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdAt'><label class='text-muted'>Created At: </label> "+ createdAt + "</label>" );
-				topics.push( "</br>&nbsp&nbsp<button class='btn btn-xs' id='"+upvoteBtnVar+"' name='"+upvoteBtnVar+"' onclick='syncVotes('"+upvoteLblVar+"','"+downvoteLblVar+"','"+voteValue4Up+"','"+upVoteCount+"','"+downVoteCount+"')'><img class='upvote-img' id='upvote'></img></button>" );
-				topics.push( "&nbsp&nbsp<button class='btn btn-xs' id='"+downvoteBtnVar+"' name='"+downvoteBtnVar+"' onclick='syncVotes('"+upvoteLblVar+"','"+downvoteLblVar+"','"+voteValue4Up+"','"+upVoteCount+"','"+downVoteCount+"')'><img class='downvote-img' id='downvote'></img></button>" );
+				topics.push( "</br>&nbsp&nbsp<button class='btn btn-xs' id='"+upvoteBtnVar+"' name='"+upvoteBtnVar+"' onclick='"+syncVotesFunc4Up+"'><img class='upvote-img' id='upvote'></img></button>" );
+				topics.push( "&nbsp&nbsp<button class='btn btn-xs' id='"+downvoteBtnVar+"' name='"+downvoteBtnVar+"' onclick='"+syncVotesFunc4Down+"')'><img class='downvote-img' id='downvote'></img></button>" );
 				
 				//validate up/down vote buttons
 				validateUpDownBtn(upvoteBtnVar,downvoteBtnVar,isVoted,voteValue);
@@ -271,10 +274,6 @@
 		}
 	}
 	
-</script>
-
-<script type="text/javascript">
-	
 	function generateNewEmptyComment(topicI,commentListSize,newCommentFieldId,userName,commentListVar){
 		var newCommentFieldId="add-comment-"+topicI+"-comment-"+commentListSize;
 		var newComment=[];
@@ -323,7 +322,6 @@
 		
 	//start syncVotes
 	function syncVotes(upvoteLblVar,downvoteLblVar,voteValue,upVoteCount,downVoteCount){
-		alert("inside syncVotes");
 		if (voteValue != null && upvoteLblVar != null && upvoteLblVar != null ) {
 			if(voteValue==1) {
 				upVoteCount+=1;
@@ -334,10 +332,9 @@
 				downVoteCount+=1;
 			}
 			
-			//document.getElementById('+upvoteLblVar+').innerHTML = upVoteCount+" UpVotes";
-			document.getElementById('+upvoteLblVar+').innerText = upVoteCount+" UpVotes";
-			document.getElementById('+downvoteLblVar+').innerText = downVoteCount+" DownVotes";
-			//$('#label-ID').text("new text");
+			$("#"+upvoteLblVar).text(""+upVoteCount+" UpVotes");
+			//document.getElementById('+downvoteLblVar+').innerHTML = downVoteCount+" DownVotes";
+			$("#"+downvoteLblVar).text(""+downVoteCount+" DownVotes");
 			
 			//do ajax call and sync with DB
 			
