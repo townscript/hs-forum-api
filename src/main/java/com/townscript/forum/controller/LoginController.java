@@ -73,9 +73,9 @@ public class LoginController {
 		return Constants.MSG_FAIL;
 	}
 	
-	@RequestMapping(value="/loginSuccess", method=RequestMethod.POST)
+	@RequestMapping(value="/loginSuccess", method=RequestMethod.GET)
 	public String loginSuccess(){
 		
-		return null;
+		return "login success";
 	}
 }

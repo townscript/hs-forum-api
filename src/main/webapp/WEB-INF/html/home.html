@@ -245,7 +245,7 @@
 					//for existing comments
 					comments.push( "<div class='row well'>");
 						comments.push( "<label class='col-md-offset-0 col-md-1 small' id='commentCreatedBy'>" + commentCreatedBy + "</label>");
-						comments.push( "&nbsp&nbsp&nbsp&nbsp<input class='small col-md-7' readonly='true' id='commentValue' value='"+ commentValue + "'></input>" );
+						comments.push( "&nbsp&nbsp&nbsp&nbsp<input class='small col-md-7 bg-success' readonly='true' id='commentValue' value='"+ commentValue + "'></input>" );
 					comments.push( "</div>");
 					
 					$(comments.join( "" )).appendTo( "#"+commentListVar);
@@ -260,7 +260,7 @@
 					newComment.push( "<label class='col-md-offset-0 col-md-1 small' id='newCommentCreatedBy'>" + userName + "</label>");
 					var onClickFunc="newComment('field','12','swapnil')";
 					newComment.push( "<input type='text' class='small col-md-7' id='"+newCommentFieldId+"' name='"+newCommentFieldId+"' placeholder='add new comment'></input>");
-				 	newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment('"+newCommentFieldId+"','"+topicId+"','swapnil')'></input>");
+				 	newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment(\""+newCommentFieldId+"\",\""+topicId+"\",\""+userName+"\")'></input>");
 				 	//newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment()'></input>");
 				 	//newComment.push( "<input type='button' value='Add Comment' name='newComment' id='newComment' class='btn btn-info btn-sm pull-right' onclick='"+onClickFunc+"'></input>");
 				 	//newComment.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right' onclick='addNewComment()'></input>");
@@ -297,16 +297,26 @@
 		alert("topicId: "+topicId);
 		alert("userId: "+userId); */
 		var commentValue = document.getElementById(commentFieldId).value;
+		
+		if(commentValue==null || commentValue.length==0){
+			alert("Comment value should not be empty!");
+			return;
+		}
+		
 		var newCommentURL = "http://localhost:8080/forum-api/comment/newComment";
+		//alert("commentFieldId: "+commentFieldId +" ;topicId: "+topicId +" ;userName: "+userName +" ;commentValue: "+commentValue);
+		
+		var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userId+"\",\"commentValue\":\""+commentValue+"\"}";
 		
 		$.ajax({
 			type: "POST",
 			url: newCommentURL,
 			dataType: "json",
 			data : {
-				topicId : topicId,
+				/* topicId : topicId,
 				userName : userId,
-				commentValue : commentValue
+				commentValue : commentValue */
+				dataJson : dataJson
 			},
 			success: function(data) {
 				//alert(data);
