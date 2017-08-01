@@ -4,7 +4,7 @@
 	height: 90px;
 }
 
-.upvote-img{
+.upvote-img {
     background: url(../images/upvote.png) no-repeat;
     cursor:pointer;
     border:none;
@@ -12,7 +12,7 @@
     height:31px;
 }
 
-.downvote-img{
+.downvote-img {
     background: url(../images/downvote.png) no-repeat;
     cursor:pointer;
     border:none;
@@ -20,3 +20,14 @@
     height:31px;
 }
 
+.marginRow {
+	margin-bottom:1px !important; 
+
+}
+.marginContents {
+	margin-bottom:3px !important; 
+}
+
+.marginTopics {
+	margin-bottom:10px !important; 
+}
