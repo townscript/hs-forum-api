@@ -36,6 +36,12 @@
 <script src="../static/js/custom.js"></script>
 
 <script type="text/javascript">
+	$('#createTopic').click(function(event) {
+		//window.location.href="http://localhost:8080/forum-api/topic/createTopic";
+		//window.location.href="topic-create.html";
+		formatDateAbs();
+	});
+
 	$(document).ready(function() {
 		getAllTopics();
 	});
