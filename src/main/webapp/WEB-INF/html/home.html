@@ -8,8 +8,8 @@
 <body>
 
 <div id='container' class='container navbar navbar-default'>
-	<div class='row'>
-		<a href='home.html' class='nav navbar-brand'>ForumApp</a>
+	<div class='row bg-info text-primary'>
+		<a href='home.html' class='nav navbar-brand'><b>ForumApp</b></a>
 		<ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
 			<li><a class='nav navbar-nav navbar-brand' href='home.html'>Home</a></li>
 		</ul>
@@ -201,7 +201,7 @@
 				var syncVotesFunc4Up = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Up+"\","+upVoteCount+","+downVoteCount+")";
 				var syncVotesFunc4Down = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Down+"\","+upVoteCount+","+downVoteCount+")";
 				
-				topics.push( "<label class='row well strong lead col-md-12 large bg-faded text-primary' id='title'>" + title + "</label>" );
+				topics.push( "<label class='row well strong lead col-md-12 large bg-faded text-primary' id='title-topic-"+id+"'>" + title + "</label>" );
 				topics.push( "</br><label class='row well col-md-12 medium bg-faded' id='description'><label class='small text-info'>Description:</label></br> " + description + "</label>" );
 				topics.push( "</br><label class='small text-warning' id='"+upvoteLblVar+"'>"+ upVoteCount + " UpVotes</label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp&nbsp<label class='small text-warning' id='"+downvoteLblVar+"'>"+ downVoteCount +" DownVotes</label>" );
@@ -274,21 +274,22 @@
 		}
 	}
 	
-	function generateNewEmptyComment(topicI,commentListSize,newCommentFieldId,userName,commentListVar){
+	//start generateNewEmptyComment
+	function generateNewEmptyComment(topicId,topicI,commentListSize,newCommentFieldId,userName,commentListVar){
 		var newCommentFieldId="add-comment-"+topicI+"-comment-"+commentListSize;
 		var newComment=[];
 		newComment.push( "<div class='row well'>");
 			newComment.push( "<label class='col-md-offset-0 col-md-1 small' id='newCommentCreatedBy'>" + userName + "</label>");
-			var onClickFunc="newComment('field','12','swapnil')";
+			var onClickAddCommentFunc="addNewComment(\""+newCommentFieldId+"\",\""+topicId+"\",\""+userName+"\")";
 			newComment.push( "<input type='text' class='small col-md-7' id='"+newCommentFieldId+"' name='"+newCommentFieldId+"' placeholder='add new comment'></input>");
 		 	//newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment('"+newCommentFieldId+"','"+topicId+"','swapnil')'></input>");
-		 	newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment()'></input>");
+		 	newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick=\""+onClickAddCommentFunc+"\"></input>");
 		 	//newComment.push( "<input type='button' value='Add Comment' name='newComment' id='newComment' class='btn btn-info btn-sm pull-right' onclick='"+onClickFunc+"'></input>");
 		 	//newComment.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right' onclick='addNewComment()'></input>");
 		newComment.push( "</div>");
 		
 		$(newComment.join( "" )).appendTo( "#"+commentListVar);
-	}
+	}//end generateNewEmptyComment
 
 	//start addNewComment
 	function addNewComment(commentFieldId, topicId, userName) {
@@ -305,7 +306,6 @@
 		
 		var newCommentURL = "http://localhost:8080/forum-api/comment/newComment";
 		//alert("commentFieldId: "+commentFieldId +" ;topicId: "+topicId +" ;userName: "+userName +" ;commentValue: "+commentValue);
-		
 		var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userId+"\",\"commentValue\":\""+commentValue+"\"}";
 		
 		$.ajax({
@@ -326,6 +326,9 @@
 				}else{
 				    alert("Some error, please try again!");
 				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+                alert("Some error. Please try again.");
 			}
 		});
 	}//end addNewComment
@@ -347,7 +350,29 @@
 			$("#"+downvoteLblVar).text(""+downVoteCount+" DownVotes");
 			
 			//do ajax call and sync with DB
+			var newCommentURL = "http://localhost:8080/forum-api/votet/syncVotes";
+			var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userId+"\",\"upVoteCount\":\""+upVoteCount+"\",\"downVoteCount\":\""+downVoteCount+"\"}";
 			
+			$.ajax({
+				type: "POST",
+				url: newCommentURL,
+				dataType: "json",
+				data : {
+					dataJson : dataJson
+				},
+				success: function(data) {
+					//alert(data);
+					//if(data.status == "success"){
+					if(data != null){
+						//location.reload();
+					}else{
+					    alert("Some error, please try again!");
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+	                alert("Connection error. Please try again.");
+				}
+			});
 			
 		}
 	}//end syncVotes
