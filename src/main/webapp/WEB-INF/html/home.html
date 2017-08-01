@@ -152,7 +152,7 @@
 				var j = 0;
 				var topics = [];
 				var topicI="topic-"+i;
-				topics.push("<div id='"+topicI+"' class='row well well-lg'>");
+				topics.push("<div id='"+topicI+"' class='row well well-lg marginTopics'>");
 				$.each( data[i] , function( key, val ) {
 					if(key.toString()=="id"){
 						id=val;
@@ -201,8 +201,8 @@
 				var syncVotesFunc4Up = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Up+"\","+upVoteCount+","+downVoteCount+")";
 				var syncVotesFunc4Down = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Down+"\","+upVoteCount+","+downVoteCount+")";
 				
-				topics.push( "<label class='row well strong lead col-md-12 large bg-faded text-primary' id='title-topic-"+id+"'>" + title + "</label>" );
-				topics.push( "</br><label class='row well col-md-12 medium bg-faded' id='description'><label class='small text-info'>Description:</label></br> " + description + "</label>" );
+				topics.push( "<label class='row well strong lead col-md-12 large bg-faded text-primary marginContents' id='title-topic-"+id+"'>" + title + "</label>" );
+				topics.push( "</br><label class='row well col-md-12 medium marginContents' id='description'><label class='small text-info'>Description:</label></br> " + description + "</label>" );
 				topics.push( "</br><label class='small text-warning' id='"+upvoteLblVar+"'>"+ upVoteCount + " UpVotes</label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp&nbsp<label class='small text-warning' id='"+downvoteLblVar+"'>"+ downVoteCount +" DownVotes</label>" );
 				topics.push( "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<label class='small' id='createdBy'><label class='text-muted'>Created By: </label> "+ createdBy + "</label>" );
@@ -214,7 +214,7 @@
 				validateUpDownBtn(upvoteBtnVar,downvoteBtnVar,isVoted,voteValue);
 				
 				var commentListVar="commentList-"+i;
-				topics.push( "<div id='"+commentListVar+"'>" );   //start commentList logic
+				topics.push( "<div id='"+commentListVar+"' class='marginRow'>" );   //start commentList logic
 				topics.push("</div>");
 				$(topics.join( "" )).appendTo( "#topicList" );
 				
@@ -243,7 +243,7 @@
 					});
 					
 					//for existing comments
-					comments.push( "<div class='row well'>");
+					comments.push( "<div class='row well marginRow'>");
 						comments.push( "<label class='col-md-offset-0 col-md-1 small' id='commentCreatedBy'>" + commentCreatedBy + "</label>");
 						comments.push( "&nbsp&nbsp&nbsp&nbsp<input class='small col-md-7 bg-success' readonly='true' id='commentValue' value='"+ commentValue + "'></input>" );
 					comments.push( "</div>");
@@ -256,9 +256,8 @@
 				commentListSize+=1;
 				var userName = document.getElementById('userName').value;
 				var newComment=[];
-				newComment.push( "<div class='row well'>");
+				newComment.push( "<div class='row well marginRow'>");
 					newComment.push( "<label class='col-md-offset-0 col-md-1 small' id='newCommentCreatedBy'>" + userName + "</label>");
-					var onClickFunc="newComment('field','12','swapnil')";
 					newComment.push( "<input type='text' class='small col-md-7' id='"+newCommentFieldId+"' name='"+newCommentFieldId+"' placeholder='add new comment'></input>");
 				 	newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment(\""+newCommentFieldId+"\",\""+topicId+"\",\""+userName+"\")'></input>");
 				 	//newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment()'></input>");
