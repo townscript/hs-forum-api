@@ -126,8 +126,8 @@ public class TopicController {
 					item.put("tags", topicList.get(i).getTopicTags());
 					item.put("topicUrl", topicList.get(i).getTopicUrl());
 					item.put("createdBy", userService.getUser(topicMapList.get(i).getUserId()).getUserName());
-					item.put("upVotes", topicService.getVoteCountByTopicId(1, topicList.get(i).getTopicId()));
-					item.put("downVotes", topicService.getVoteCountByTopicId(2, topicList.get(i).getTopicId()));
+					item.put("upVoteCount", topicService.getVoteCountByTopicId(1, topicList.get(i).getTopicId()));
+					item.put("downVoteCount", topicService.getVoteCountByTopicId(2, topicList.get(i).getTopicId()));
 					
 					Collection<CommentMapHibernate> commentMapColl = commentService.getCommentMapByTopicId(topicList.get(i).getTopicId());
 					List<CommentMapHibernate> commentMapList = new ArrayList(commentMapColl);

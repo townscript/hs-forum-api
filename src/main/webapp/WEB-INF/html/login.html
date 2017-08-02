@@ -66,20 +66,18 @@
 		var password = $("#password").val();
 		//var json = {"username":username,"password":password};
 		//var jsonStr= JSON.stringify(json);
-		var loginUrl="http://localhost:8080/forum-api/login/checkLogin";
-		
+		var loginUrl="http://localhost:8080/rest/login/checkLogin?dataJson=";
+		var dataJson="{\"userName\":\""+username+"\",\"password\":\""+password+"\"}";
+		//alert(loginUrl+dataJson);
 		$.ajax({
 			type: "POST",
-			url: loginUrl,
-			data: {
-				username: username,
-				password: password
-			},
-			dataType: "text",
+			url: loginUrl+dataJson,
+			//dataType: "text",
 			success: function(data) {
 				//alert(data);
-				if(data == "success"){
-					window.location.href="http://localhost:8080/forum-api/login/loginSuccess";
+				if(data){
+					//window.location.href="http://localhost:8080/rest/topic/getAllTopics";
+					window.location.href="home.html?userName="+username;
 				}else{
 				    alert("Incorrect username and/or password!");
 				}

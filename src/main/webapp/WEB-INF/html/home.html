@@ -23,9 +23,9 @@
 		<div id="topicList">
 		</div>
 		<div id="userIdDiv">
-			<input type='hidden' id='userName' name='userName' value='swapnil'></input>
+			<input type='hidden' id='userName' name='userName' value='hims1990'></input>
 			<input type='hidden' id='userId' name='userId' value='6'></input>
-			<input type='hidden' id='emailId' name='emailId' value='swapnil.solanki@townscript.com'></input>
+			<input type='hidden' id='emailId' name='emailId' value='himanshusingh20091@gmail.com'></input>
 		</div>
 	</div>
 	
@@ -38,8 +38,8 @@
 <script type="text/javascript">
 	$('#createTopic').click(function(event) {
 		//window.location.href="http://localhost:8080/forum-api/topic/createTopic";
-		//window.location.href="topic-create.html";
-		formatDateAbs();
+		window.location.href="topic-create.html?userName="+$.urlParam("userName");
+		//formatDateAbs();
 	});
 
 	$(document).ready(function() {

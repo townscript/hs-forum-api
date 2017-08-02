@@ -31,7 +31,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
-	public String checkLogin(@RequestParam(value="dataJson") String loginJsonStr) throws UnsupportedEncodingException{
+	public boolean checkLogin(@RequestParam(value="dataJson") String loginJsonStr) throws UnsupportedEncodingException{
 		loginJsonStr = URLDecoder.decode(loginJsonStr, "UTF-8");
 		LoginVo loginVo = null;
 		try{
@@ -40,21 +40,21 @@ public class LoginController {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-			return "false";
+			return false;
 		}
 		
 		boolean isvalidLogin = false;
 		try {
 			isvalidLogin = loginService.checkLogin(loginVo.getUserName(), loginVo.getPassword());
 			if (isvalidLogin) {
-				return "true";
+				return true;
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
-			return "false";
+			return false;
 		}
 		
-		return "false";
+		return false;
 	}
 	
 }

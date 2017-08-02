@@ -93,23 +93,20 @@
 		var password = $("#password").val();
 		var mobile = $("#mobile").val();
 		var email = $("#email").val();
+		var proPic = null;
 		
-		var signUpUrl="http://localhost:8080/forum-api/user/newUser";
+		var signUpUrl="http://localhost:8080/rest/user/newUser?dataJson=";
+		var dataJson="{\"userName\":\""+username+"\",\"userPassword\":\""+password+"\",\"userEmail\":\""+email+"\",\"userMobile\":\""+mobile+"\",\"userPropic\":\""+proPic+"\"}";
 		
 		$.ajax({
 			type: "POST",
-			url: signUpUrl,
-			data: {
-				userName: username,
-				userPassword: password,
-				userEmail : email,
-				userMobile : mobile
-			},
+			url: signUpUrl+dataJson,
 			//dataType: "text",
 			success: function(data) {
 				//alert(data);
 				if(data){
-					window.location.href="http://localhost:8080/forum-api/login/checkLogin";
+					//window.location.href="http://localhost:8080/rest/login/checkLogin";
+					window.location.href="login.html";
 					
 				} else {
 				    alert("Some error, please try again!");
