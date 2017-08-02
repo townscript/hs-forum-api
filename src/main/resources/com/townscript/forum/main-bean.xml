@@ -74,9 +74,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     	<property name="userDao" ref="UserHibernateDaoImpl"/>
     </bean>
     
-    <!-- <bean id="LoginServiceImpl" class="com.townscript.forum.service.impl.LoginServiceImpl">
+    <bean id="LoginServiceImpl" class="com.townscript.forum.service.impl.LoginServiceImpl">
     	<property name="userDao" ref="UserHibernateDaoImpl"/>
-    </bean> -->
+    </bean>
     
     <bean id="TopicMapServiceImpl" class="com.townscript.forum.service.topic.TopicMapServiceImpl">
     	<property name="topicMapDao" ref="TopicMapHibernateDaoImpl"/>
@@ -90,10 +90,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     
     <bean id="TopicServiceImpl" class="com.townscript.forum.service.topic.TopicServiceImpl">
     	<property name="topicDao" ref="TopicHibernateDaoImpl"/>
-    </bean>
-    
-    <bean id="LoginServiceImpl" class="com.townscript.forum.service.impl.LoginServiceImpl">
-    	<property name="userDao" ref="UserHibernateDaoImpl"/>
     	<property name="topicMapDao" ref="TopicMapHibernateDaoImpl"/>
     	<property name="userService" ref="UserHibernateServiceImpl"/>
     	<property name="voteMapDao" ref="VoteMapHibernateDaoImpl"/>
