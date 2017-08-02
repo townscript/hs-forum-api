@@ -74,7 +74,7 @@
 						<input type='button' value="Submit" name='submit' class='btn btn-success' onClick="doSignUp()"/>
 					</div>
 					<div class='col-md-2'>
-						<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
+						<input type='button' value="Cancel" name='cancel' class='btn btn-danger' onclick='redirectToLogin()'/>
 					</div>
 				</div>
 				
@@ -127,6 +127,11 @@
 			$("#password2").val("");
 		}
 	}
+	
+	function redirectToLogin(){
+		window.location.href="login.html";
+	}
+	
 </script>
 
 </body>

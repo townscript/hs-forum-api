@@ -43,7 +43,7 @@
 						<input type='button' value="Submit" name="Submit" class='btn btn-success'  onclick="loginCheck()"/>
 					</div>
 					<div class='col-md-1'>
-						<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
+						<input type='button' value="Cancel" name='cancel' class='btn btn-danger' onclick='clearFields()'/>
 					</div>
 				</div>
 			</div>
@@ -89,6 +89,13 @@
 
 </script>
 
+<script type="text/javascript">
+	function clearFields() {
+		$("#username").val("");
+		$("#password").val("");
+	}
+</script>
+	
 <!-- <script src="../static/js/jquery.1.10.2.min.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="../static/js/bootstrap.js"></script>

@@ -62,10 +62,10 @@
 		</div>
 		<div class='row'>
 			<div class='col-md-1'>
-				<input type='submit' name='submit' class='btn btn-success' onClick="createTopic()"/>
+				<input type='submit' name='submit' id='submit' class='btn btn-success' onClick="createTopic()"/>
 			</div>
 			<div class='col-md-1'>
-				<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
+				<input type='button' value="Cancel" name='cancel' id='cancel' class='btn btn-danger' onclick='redirectToAllTopics()'/>
 			</div>
 		</div>
 		
@@ -102,6 +102,12 @@
 			}
 		});
 	}
+	
+	function redirectToAllTopics(){
+		var username=$.urlParam("userName");
+		window.location.href="home.html?userName="+username;
+	}
+	
 </script>
 
 </body>

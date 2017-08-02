@@ -3,6 +3,7 @@
 function getAllTopics() {
 	var topicsUrl = "http://localhost:8080/rest/topic/getAllTopics";
 	var obj;
+	$('#loading-image').show();
 	$.ajax({
 		type: "GET",
 		url: topicsUrl,
@@ -83,8 +84,8 @@ function getAllTopics() {
 					var voteValue4Up=1;
 					var voteValue4Down=2;
 
-					var syncVotesFunc4Up = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Up+"\","+upVoteCount+","+downVoteCount+")";
-					var syncVotesFunc4Down = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Down+"\","+upVoteCount+","+downVoteCount+")";
+					var syncVotesFunc4Up = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Up+"\","+upVoteCount+","+downVoteCount+","+id+")";
+					var syncVotesFunc4Down = "syncVotes(\""+upvoteLblVar+"\",\""+downvoteLblVar+"\",\""+voteValue4Down+"\","+upVoteCount+","+downVoteCount+","+id+")";
 
 					topics.push( "<label class='row well strong lead col-md-12 large bg-faded text-primary marginContents' id='title-topic-"+id+"'>" + title + "</label>" );
 					topics.push( "</br><label class='row well col-md-12 medium marginContents' id='description'><label class='small text-info'>Description:</label></br> " + description + "</label>" );
@@ -172,6 +173,7 @@ function getAllTopics() {
 			//obj = JSON.parse(this);
 			//alert(this);
 		}
+		, complete: function(){ $('#loading-image').hide(); }
 	});
 	var jsonData={ 	"status" : "success",
 			"topicList" : [
@@ -291,7 +293,6 @@ function addNewComment(commentFieldId, topicId, userName) {
 	var newCommentURL = "http://localhost:8080/forum-api/comment/newComment";
 	//alert("commentFieldId: "+commentFieldId +" ;topicId: "+topicId +" ;userName: "+userName +" ;commentValue: "+commentValue);
 	var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userId+"\",\"commentValue\":\""+commentValue+"\"}";
-
 	$.ajax({
 		type: "POST",
 		url: newCommentURL,
@@ -318,14 +319,18 @@ function addNewComment(commentFieldId, topicId, userName) {
 }//end addNewComment
 
 //start syncVotes
-function syncVotes(upvoteLblVar,downvoteLblVar,voteValue,upVoteCount,downVoteCount){
+function syncVotes(upvoteLblVar,downvoteLblVar,voteValue,upVoteCount,downVoteCount,topicId){
 	if (voteValue != null && upvoteLblVar != null && upvoteLblVar != null ) {
 		if(voteValue==1) {
 			upVoteCount+=1;
-			downVoteCount-=1;
+			if(downVoteCount>0){
+				downVoteCount-=1;
+			}
 
 		} else if (voteValue==2) {
-			upVoteCount-=1;
+			if(upVoteCount>0){
+				upVoteCount-=1;
+			}
 			downVoteCount+=1;
 		}
 
@@ -334,20 +339,17 @@ function syncVotes(upvoteLblVar,downvoteLblVar,voteValue,upVoteCount,downVoteCou
 		$("#"+downvoteLblVar).text(""+downVoteCount+" DownVotes");
 
 		//do ajax call and sync with DB
-		var newCommentURL = "http://localhost:8080/forum-api/votet/syncVotes";
-		var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userId+"\",\"upVoteCount\":\""+upVoteCount+"\",\"downVoteCount\":\""+downVoteCount+"\"}";
-
+		var userName = $.urlParam("userName");
+		var submitVoteURL = "http://localhost:8080/rest/comment/submitVote?dataJson=";
+		var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userName+"\",\"voteValue\":\""+voteValue+"\"}";
+		
 		$.ajax({
 			type: "POST",
-			url: newCommentURL,
-			dataType: "json",
-			data : {
-				dataJson : dataJson
-			},
+			url: submitVoteURL+dataJson,
 			success: function(data) {
 				//alert(data);
 				//if(data.status == "success"){
-				if(data != null){
+				if(data != null && data == "Forum_SUCCESS"){
 					//location.reload();
 				}else{
 					alert("Some error, please try again!");
