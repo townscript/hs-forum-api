@@ -1,29 +1,34 @@
 package com.townscript.forum.controller.user;
 
+<<<<<<< HEAD
 import java.util.Date;
+=======
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+>>>>>>> test
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.townscript.forum.constants.Constants;
-import com.townscript.forum.constants.ErrorCodes;
 import com.townscript.forum.model.user.UserHibernate;
+import com.townscript.forum.service.LoginService;
 import com.townscript.forum.service.user.UserHibernateService;
 import com.townscript.forum.vo.AddUserVo;
-import com.townscript.forum.vo.HttpResponseVo;
 
 @RestController
 @RequestMapping(value="/user")
 public class UserRESTController {
 	
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private UserHibernateService userService;
+	private LoginService loginService;
 	public UserRESTController() {
 		super();
         if (userService == null) {
@@ -32,18 +37,58 @@ public class UserRESTController {
                 userService = (UserHibernateService) context
                                 .getBean("UserHibernateServiceImpl");
         }
+        if (loginService == null) {
+            ApplicationContext context = new ClassPathXmlApplicationContext(
+                            "com/townscript/forum/main-bean.xml");
+            loginService = (LoginService) context
+                            .getBean("LoginServiceImpl");
+    }
 	}
-	private UserHibernateService userService;
+	
 
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/getUser", method=RequestMethod.POST)
 	public UserHibernate getUserByUserNameAndPassword(@RequestParam(value="userName") String userName, @RequestParam(value="userPassword") String userPassword){
-		return userService.getUserByUserNameAndPassword(userName, userPassword);
+		if(loginService.checkLogin(userName, userPassword))
+		{
+			UserHibernate user = userService.getUserByUserNameAndPassword(userName, userPassword);
+			request.getSession().setAttribute("userId",user.getUserId());
+			request.getSession().setAttribute("userName",user.getUserName());
+			return user;
+		}
+		return null;
+		
+	}
+	
+	@RequestMapping(value ="/checkSession",method = RequestMethod.GET)
+	public long checkSession(HttpServletRequest request, HttpServletResponse response){
+		System.out.println("Inside checksession controller");
+		//HttpSession session = request.getSession();
+		if(request.getSession().getAttribute("userId")!=null){
+			System.out.println(request.getSession().getAttribute("userId"));
+			System.out.println("returning true in checksession");
+			return (long)request.getSession().getAttribute("Id");
+		}
+		System.out.println("returning false in checksession");
+		return Constants.DEF_ID;
+	}
+	
+	@RequestMapping(value ="/logout",method = RequestMethod.GET)
+	public void logoutUser(HttpServletRequest request, HttpServletResponse response){
+			 System.out.println("Inside logout controller");
+			 //HttpSession session=request.getSession();  
+			 request.getSession().invalidate();
+		     
 	}
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/newUser", method=RequestMethod.POST) 
+<<<<<<< HEAD
 	public UserHibernate insertUser(@RequestParam(value="data-json") String userJsonStr) {
+=======
+	public UserHibernate insertUser(@RequestParam(value="dataJson") String userJsonStr)
+	{
+>>>>>>> test
 		AddUserVo addUserVo = null;
 		UserHibernate user = null;
 		

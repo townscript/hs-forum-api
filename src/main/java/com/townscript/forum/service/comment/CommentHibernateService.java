@@ -14,4 +14,6 @@ public interface CommentHibernateService
 		CommentMapHibernate getCommentMapByCommentId(long commentId);
 		Collection<CommentMapHibernate> getAllCommentMaps();
 		Collection<CommentHibernate> getAllComments();
+		Collection<CommentMapHibernate> getCommentMapByTopicId(long topicId);
+		CommentHibernate getCommentById(long commentId);
 }

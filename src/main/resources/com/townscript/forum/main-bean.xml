@@ -74,6 +74,10 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     	<property name="userDao" ref="UserHibernateDaoImpl"/>
     </bean>
     
+    <!-- <bean id="LoginServiceImpl" class="com.townscript.forum.service.impl.LoginServiceImpl">
+    	<property name="userDao" ref="UserHibernateDaoImpl"/>
+    </bean> -->
+    
     <bean id="TopicMapServiceImpl" class="com.townscript.forum.service.topic.TopicMapServiceImpl">
     	<property name="topicMapDao" ref="TopicMapHibernateDaoImpl"/>
     </bean>

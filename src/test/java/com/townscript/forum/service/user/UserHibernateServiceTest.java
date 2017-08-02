@@ -125,7 +125,7 @@ public class UserHibernateServiceTest{
 
 			UserHibernate user = userService.getUserByUserNameAndPassword(userNameTest1, passwordTest1);
 			if(i==1){
-				Long id = new Long(1);
+				long id = 1;
 				assertEquals(id, user.getUserId());
 				assertEquals(userEmailTest1,user.getUserEmail());
 				assertEquals(userMobileTest1,user.getUserMobile());

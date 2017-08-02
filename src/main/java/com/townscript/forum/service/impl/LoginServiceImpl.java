@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.townscript.forum.dao.user.UserHibernateDao;
-import com.townscript.forum.model.user.UserHibernate;
 import com.townscript.forum.service.LoginService;;
 
 @Service
@@ -26,9 +25,7 @@ public class LoginServiceImpl implements LoginService {
 	public boolean checkLogin(String username, String password){
 		boolean isValidLogin = false;
 		
-		UserHibernate user= userDao.getUserByUserName(username);
-		
-		String savedPassword = user.getPassword();
+		String savedPassword = userDao.getUserByUserName(username).getPassword();
 		
 		if(password.equals(savedPassword)) {
 			isValidLogin = true;
