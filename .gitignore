@@ -1,4 +1,2 @@
-.classpath
-build/
 src/main/webapp/WEB-INF/lib
-bin/
+build/
