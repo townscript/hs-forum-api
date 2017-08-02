@@ -106,7 +106,7 @@ public class TopicController {
 		try
 		{
 			JSONObject json = new JSONObject();
-			json.put("Message", ErrorCodes.SUCCESS);
+			json.put("status", "success");
 			JSONArray array = new JSONArray();
 			
 			

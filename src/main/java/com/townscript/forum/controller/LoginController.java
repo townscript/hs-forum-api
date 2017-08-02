@@ -1,19 +1,17 @@
 package com.townscript.forum.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.townscript.forum.constants.Constants;
-import com.townscript.forum.constants.ErrorCodes;
 import com.townscript.forum.service.LoginService;
-import com.townscript.forum.vo.HttpResponseVo;
 import com.townscript.forum.vo.LoginVo;
 
 @RestController
@@ -33,7 +31,8 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
-	public boolean checkLogin(@RequestParam(value="dataJson") String loginJsonStr){
+	public String checkLogin(@RequestParam(value="dataJson") String loginJsonStr) throws UnsupportedEncodingException{
+		loginJsonStr = URLDecoder.decode(loginJsonStr, "UTF-8");
 		LoginVo loginVo = null;
 		try{
 			ObjectMapper mapper = new ObjectMapper();
@@ -41,21 +40,21 @@ public class LoginController {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-			return false;
+			return "false";
 		}
 		
 		boolean isvalidLogin = false;
 		try {
 			isvalidLogin = loginService.checkLogin(loginVo.getUserName(), loginVo.getPassword());
 			if (isvalidLogin) {
-				return isvalidLogin;
+				return "true";
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
-			return false;
+			return "false";
 		}
 		
-		return false;
+		return "false";
 	}
 	
 }
