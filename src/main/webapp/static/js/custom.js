@@ -2,25 +2,33 @@
 //to get all topics on home page
 function getAllTopics() {
 	var topicsUrl = "http://localhost:8080/rest/topic/getAllTopics";
-	var obj;
-	$('#loading-image').show();
+	//$('.ajax-loader').css("visibility", "visible");
+
 	$.ajax({
 		type: "GET",
 		url: topicsUrl,
 		//dataType: "text",
-		success: function(data) {
+		success: function(data2) {
 			//alert(data);
 			//if(data.status == "success"){
 			//if(data != null){
-			//alert(data);
-			obj = JSON.parse(data);
+			//alert(data2);
+			var obj = JSON.parse(data2);
+			//alert(JSON.stringify(obj));
 			//alert(obj.status);
 			if(obj.status=="success")
 			{
 				var data = obj.topicList;
-
-				var topicListSize = data.length;
-				for (var i = 0; i < topicListSize; i++) {
+				//alert(data);
+				//var topicListSize = data.length;
+				var topicListSize = Object.keys(data).length;
+				//alert(topicListSize);
+				for (var i = 0; i < topicListSize; i++) {//todo i++ - figure out how to do
+					
+					/*if(i>=topicListSize-2){
+						continue;
+					}*/
+					
 					var id;
 					var title;
 					var description;
@@ -147,7 +155,7 @@ function getAllTopics() {
 					newComment.push( "<div class='row well marginRow'>");
 					newComment.push( "<label class='col-md-offset-0 col-md-1 small' id='newCommentCreatedBy'>" + userName + "</label>");
 					newComment.push( "<input type='text' class='small col-md-7' id='"+newCommentFieldId+"' name='"+newCommentFieldId+"' placeholder='add new comment'></input>");
-					newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment(\""+newCommentFieldId+"\",\""+topicId+"\",\""+userName+"\")'></input>");
+					newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment(\""+newCommentFieldId+"\",\""+id+"\",\""+userName+"\")'></input>");
 					//newComment.push( "&nbsp&nbsp&nbsp&nbsp<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-xs' onclick='addNewComment()'></input>");
 					//newComment.push( "<input type='button' value='Add Comment' name='newComment' id='newComment' class='btn btn-info btn-sm pull-right' onclick='"+onClickFunc+"'></input>");
 					//newComment.push( "<input type='button' value='Add' name='addComment' id='addComment' class='btn btn-info btn-md pull-right' onclick='addNewComment()'></input>");
@@ -173,9 +181,9 @@ function getAllTopics() {
 			//obj = JSON.parse(this);
 			//alert(this);
 		}
-		, complete: function(){ $('#loading-image').hide(); }
+		/*, complete: function(){ $('.ajax-loader').css("visibility", "hidden"); }*/
 	});
-	var jsonData={ 	"status" : "success",
+	/*var jsonData={ 	"status" : "success",
 			"topicList" : [
 			               {
 			            	   "id":"1",
@@ -254,7 +262,7 @@ function getAllTopics() {
 			            	                   ]
 			               }
 			               ]
-	};
+	};*/
 
 
 
@@ -290,24 +298,32 @@ function addNewComment(commentFieldId, topicId, userName) {
 		return;
 	}
 
-	var newCommentURL = "http://localhost:8080/forum-api/comment/newComment";
+	var newCommentURL = "http://localhost:8080/rest/comment/newComment?dataJson=";
 	//alert("commentFieldId: "+commentFieldId +" ;topicId: "+topicId +" ;userName: "+userName +" ;commentValue: "+commentValue);
-	var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userId+"\",\"commentValue\":\""+commentValue+"\"}";
+	var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userName+"\",\"commentValue\":\""+commentValue+"\"}";
 	$.ajax({
 		type: "POST",
-		url: newCommentURL,
-		dataType: "json",
-		data : {
-			/* topicId : topicId,
-			userName : userId,
-			commentValue : commentValue */
-			dataJson : dataJson
-		},
+		url: newCommentURL+dataJson,
+		//dataType: "text",
 		success: function(data) {
 			//alert(data);
+			if(data != null){
+				//window.location.href="http://localhost:8080/rest/topic/getAllTopics";
+				//window.location.href="home.html?userName="+username;
+				location.reload();
+			}else{
+				alert("Some error, please try again!");
+			}
+		}
+	});
+	/*$.ajax({
+		type: "POST",
+		url: newCommentURL+dataJson,
+		success: function(data) {
+			alert(data);
 			//if(data.status == "success"){
 			if(data != null){
-				location.reload();
+				//location.reload();
 			}else{
 				alert("Some error, please try again!");
 			}
@@ -315,7 +331,7 @@ function addNewComment(commentFieldId, topicId, userName) {
 		error : function(jqXHR, textStatus, errorThrown) {
 			alert("Some error. Please try again.");
 		}
-	});
+	});*/
 }//end addNewComment
 
 //start syncVotes
@@ -342,7 +358,7 @@ function syncVotes(upvoteLblVar,downvoteLblVar,voteValue,upVoteCount,downVoteCou
 		var userName = $.urlParam("userName");
 		var submitVoteURL = "http://localhost:8080/rest/comment/submitVote?dataJson=";
 		var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userName+"\",\"voteValue\":\""+voteValue+"\"}";
-		
+
 		$.ajax({
 			type: "POST",
 			url: submitVoteURL+dataJson,
@@ -452,7 +468,7 @@ $.urlParam = function(name) {
 	var results = new RegExp('[\\?&]' + name + '=([^&#]*)')
 	.exec(window.location.href);
 	if (results != null)
-	return results[1] || 0;
+		return results[1] || 0;
 	else
-	return null;
-	};
+		return null;
+};
