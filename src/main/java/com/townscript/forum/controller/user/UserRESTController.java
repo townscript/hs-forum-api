@@ -1,11 +1,7 @@
 package com.townscript.forum.controller.user;
 
-<<<<<<< HEAD
-import java.util.Date;
-=======
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
->>>>>>> test
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -83,12 +79,7 @@ public class UserRESTController {
 	
 	//@Secured("ROLE_ADMIN")
 	@RequestMapping(value="/newUser", method=RequestMethod.POST) 
-<<<<<<< HEAD
-	public UserHibernate insertUser(@RequestParam(value="data-json") String userJsonStr) {
-=======
-	public UserHibernate insertUser(@RequestParam(value="dataJson") String userJsonStr)
-	{
->>>>>>> test
+	public UserHibernate insertUser(@RequestParam(value="dataJson") String userJsonStr) {
 		AddUserVo addUserVo = null;
 		UserHibernate user = null;
 		
