@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link href="../static/css/bootstrap.css" rel="stylesheet">
+<link href="../static/css/main.css" rel="stylesheet">
+</head>
+<body>
+
+<div id='container' class='container navbar navbar-default'>
+	<div class='row bg-info text-primary'>
+		<a href='home.html' class='nav navbar-brand'><b>ForumApp</b></a>
+		<ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
+			<li><a class='nav navbar-nav navbar-brand' href='home.html'>Home</a></li>
+		</ul>
+	</div>
+	
+	<div class='row well well-lg'>
+		<div class='row right'>
+			<input type='button' value='Create Topic' name='createTopic' id='createTopic' class='btn btn-primary btn-md pull-right'></input>
+		</div>
+		</br>
+		<div id="topicList">
+		</div>
+		<div id="userIdDiv">
+			<input type='hidden' id='userName' name='userName' value='hims1990'></input>
+			<input type='hidden' id='userId' name='userId' value='6'></input>
+			<input type='hidden' id='emailId' name='emailId' value='himanshusingh20091@gmail.com'></input>
+		</div>
+	</div>
+	
+</div>
+
+<script src="../static/js/jquery.1.10.2.min.js"></script>
+<script src="../static/js/bootstrap.js"></script>
+<script src="../static/js/custom.js"></script>
+
+<script type="text/javascript">
+	$('#createTopic').click(function(event) {
+		//window.location.href="/forum-api/topic/createTopic";
+		window.location.href="topic-create.html?userName="+$.urlParam("userName");
+		//formatDateAbs();
+	});
+
+	$(document).ready(function() {
+		getAllTopics();
+	});
+</script>
+
+</body>
+</html>

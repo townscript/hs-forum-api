@@ -9,11 +9,12 @@
 
 <div id='container' class='container navbar navbar-default'>
 	<div class='row bg-info text-primary'>
-		<a href='home.html' class='nav navbar-brand'><b>ForumApp</b></a>
-		<ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
-			<li><a class='nav navbar-nav navbar-brand' href='home.html'>Home</a></li>
-		</ul>
+		<a class='nav navbar-brand'><b>ForumApp</b></a>
+		<!-- <ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
+			<li><a class='nav navbar-nav navbar-brand'>Home</a></li>
+		</ul> -->
 	</div>
+	 <!-- href="home.html?userName='<%=request.getParameter(userName)%>'" -->
 	
 	<div class='row well well-lg'>
 		<div class='row right'>
@@ -37,7 +38,7 @@
 
 <script type="text/javascript">
 	$('#createTopic').click(function(event) {
-		//window.location.href="http://localhost:8080/forum-api/topic/createTopic";
+		//window.location.href="/forum-api/topic/createTopic";
 		window.location.href="topic-create.html?userName="+$.urlParam("userName");
 		//formatDateAbs();
 	});

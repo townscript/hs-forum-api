@@ -1,7 +1,7 @@
 
 //to get all topics on home page
 function getAllTopics() {
-	var topicsUrl = "http://localhost:8080/rest/topic/getAllTopics";
+	var topicsUrl = "/rest/topic/getAllTopics";
 	//$('.ajax-loader').css("visibility", "visible");
 
 	$.ajax({
@@ -14,16 +14,16 @@ function getAllTopics() {
 			//if(data != null){
 			//alert(data2);
 			var obj = JSON.parse(data2);
-			//alert(JSON.stringify(obj));
+			alert(JSON.stringify(obj));
 			//alert(obj.status);
 			if(obj.status=="success")
 			{
 				var data = obj.topicList;
-				//alert(data);
+				alert(JSON.stringify(data));
 				//var topicListSize = data.length;
 				var topicListSize = Object.keys(data).length;
 				//alert(topicListSize);
-				for (var i = 0; i < topicListSize; i++) {//todo i++ - figure out how to do
+				for (var i = topicListSize-2; i >= 0; i--) {//todo i++ - figure out how to do
 					
 					/*if(i>=topicListSize-2){
 						continue;
@@ -298,7 +298,7 @@ function addNewComment(commentFieldId, topicId, userName) {
 		return;
 	}
 
-	var newCommentURL = "http://localhost:8080/rest/comment/newComment?dataJson=";
+	var newCommentURL = "/rest/comment/newComment?dataJson=";
 	//alert("commentFieldId: "+commentFieldId +" ;topicId: "+topicId +" ;userName: "+userName +" ;commentValue: "+commentValue);
 	var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userName+"\",\"commentValue\":\""+commentValue+"\"}";
 	$.ajax({
@@ -308,7 +308,7 @@ function addNewComment(commentFieldId, topicId, userName) {
 		success: function(data) {
 			//alert(data);
 			if(data != null){
-				//window.location.href="http://localhost:8080/rest/topic/getAllTopics";
+				//window.location.href="/rest/topic/getAllTopics";
 				//window.location.href="home.html?userName="+username;
 				location.reload();
 			}else{
@@ -356,7 +356,7 @@ function syncVotes(upvoteLblVar,downvoteLblVar,voteValue,upVoteCount,downVoteCou
 
 		//do ajax call and sync with DB
 		var userName = $.urlParam("userName");
-		var submitVoteURL = "http://localhost:8080/rest/comment/submitVote?dataJson=";
+		var submitVoteURL = "/rest/comment/submitVote?dataJson=";
 		var dataJson= "{\"topicId\":\""+topicId+"\",\"userName\":\""+userName+"\",\"voteValue\":\""+voteValue+"\"}";
 
 		$.ajax({

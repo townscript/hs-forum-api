@@ -17,19 +17,19 @@
 	</ul>-->
 
 	<div class='row'>
-		<a href='home.html' class='nav navbar-brand'>ForumApp</a>
-		<ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
+		<a class='nav navbar-brand'>ForumApp</a>
+		<!-- <ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
 			<li><a class='nav navbar-nav navbar-brand' href='home.html'>Home</a></li>
-			<!-- <li><a class='nav navbar-nav navbar-brand' href='mytopics.html'>My Topics</a></li> -->
-			<!-- <li>
+			<li><a class='nav navbar-nav navbar-brand' href='mytopics.html'>My Topics</a></li>
+			<li>
 				<a class='nav navbar-nav navbar-brand' href='#'>Settings<span class='caret'></span></a>
 				<ul class='dropdown-menu'>
 					<li><a href='update-password.html'>Update Password</a></li>
 					<li><a href='contact-details.html'>Contact Details</a></li>
 					<li><a href='notification-settings.html'>Notification Settings</a></li>
 				</ul>
-			</li> -->
-		</ul>
+			</li>
+		</ul> -->
 	</div>
 	
 	<div class='row well well-lg'>
@@ -84,7 +84,7 @@
 		var tags= $("#tags").val()
 		var username=$.urlParam("userName");
 		
-		var createTopicUrl = "http://localhost:8080/rest/topic/createTopic?dataJson=";
+		var createTopicUrl = "/rest/topic/createTopic?dataJson=";
 		var dataJson="{\"title\":\""+title+"\",\"description\":\""+description+"\",\"userName\":\""+username+"\",\"tags\":\""+tags+"\"}";
 		
 		$.ajax({
@@ -94,7 +94,7 @@
 			success: function(data) {
 				//alert(data);
 				if(data != null){
-					//window.location.href="http://localhost:8080/rest/topic/getAllTopics";
+					//window.location.href="/rest/topic/getAllTopics";
 					window.location.href="home.html?userName="+username;
 				}else{
 				    alert("Some error, please try again!");
