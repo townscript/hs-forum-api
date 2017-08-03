@@ -145,11 +145,8 @@ public class TopicController {
 						itemComm.put("topicId", commentMapList.get(j).getTopicId());
 						arrayComm.put(itemComm);
 					}
-					array.put(item);
-					JSONObject itemComm = new JSONObject();
-					itemComm.put("commentList", arrayComm);
-					array.put(itemComm);
-					
+					item.put("commentList", arrayComm);
+					array.put(item);					
 				}
 				json.put("topicList", array);
 				array = new JSONArray();

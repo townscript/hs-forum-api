@@ -14,16 +14,16 @@ function getAllTopics() {
 			//if(data != null){
 			//alert(data2);
 			var obj = JSON.parse(data2);
-			alert(JSON.stringify(obj));
+			//alert(JSON.stringify(obj));
 			//alert(obj.status);
 			if(obj.status=="success")
 			{
 				var data = obj.topicList;
-				alert(JSON.stringify(data));
+				//alert(JSON.stringify(data));
 				//var topicListSize = data.length;
 				var topicListSize = Object.keys(data).length;
 				//alert(topicListSize);
-				for (var i = topicListSize-2; i >= 0; i--) {//todo i++ - figure out how to do
+				for (var i = topicListSize-1; i >= 0; i--) {//todo i++ - figure out how to do
 					
 					/*if(i>=topicListSize-2){
 						continue;
