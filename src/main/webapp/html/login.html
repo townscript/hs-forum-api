@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+
+<link href="../static/css/bootstrap.css" rel="stylesheet">
+<link href="../static/css/main.css" rel="stylesheet">
+</head>
+<body>
+
+<div id='container' class='container navbar navbar-default navbar-rigth'>
+
+	<div class='row'>
+		<a href='index.html' class='navbar-brand'>ForumApp</a>
+	</div>
+	
+	<div id='userlogin'>
+		<form  action='#'>
+			<div class='row well well-lg'>
+				<div class='row well-md' id="userlogin_header">
+        			<h3><span>User Login</span></h3>
+      			</div>
+				<div class='row well-md'>
+					<div class='col-md-2'>
+						<label> User Name </label> 
+					</div>
+					<div class='col-md-6'>
+						<input type="text" id="username" name="username" autocomplete="off" required/>
+					</div>
+				</div>
+				<div class='row well-md'>
+					<div class='col-md-2'>
+						<label> Password </label> 
+					</div>
+					<div class='col-md-6'>
+						<input type="password" id="password" name="password" autocomplete="off" required/>
+					</div>
+				</div>
+				<div class='row well-md'>
+					<p></p>
+				</div>
+				<div class='row'>
+					<div class='col-md-1'>
+						<input type='button' value="Submit" name="Submit" class='btn btn-success'  onclick="loginCheck()"/>
+					</div>
+					<div class='col-md-1'>
+						<input type='button' value="Cancel" name='cancel' class='btn btn-danger' onclick='clearFields()'/>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class='row well-xs'>
+				<p></p>
+			</div>
+		<div class='userlogin_links	'>Not Registered Yet? 
+			<a href="signup.html" id="register"><strong><span>Register >>></span></strong></a>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	
+	//$('#userlogin').click(function(event) {
+	function loginCheck(){
+		var username = $("#username").val();
+		var password = $("#password").val();
+		//var json = {"username":username,"password":password};
+		//var jsonStr= JSON.stringify(json);
+		var loginUrl="/rest/login/checkLogin?dataJson=";
+		var dataJson="{\"userName\":\""+username+"\",\"password\":\""+password+"\"}";
+		//alert(loginUrl+dataJson);
+		$.ajax({
+			type: "POST",
+			url: loginUrl+dataJson,
+			//dataType: "text",
+			success: function(data) {
+				//alert(data);
+				if(data){
+					//window.location.href="/rest/topic/getAllTopics";
+					window.location.href="home.html?userName="+username;
+				}else{
+				    alert("Incorrect username and/or password!");
+				}
+			}
+		});
+	}
+	//});
+
+
+</script>
+
+<script type="text/javascript">
+	function clearFields() {
+		$("#username").val("");
+		$("#password").val("");
+	}
+</script>
+	
+<!-- <script src="../static/js/jquery.1.10.2.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="../static/js/bootstrap.js"></script>
+
+</body>
+</html>

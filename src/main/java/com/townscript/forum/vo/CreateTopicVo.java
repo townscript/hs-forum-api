@@ -6,12 +6,7 @@ public class CreateTopicVo {
 	private String description;
 	private String userName;
 	private String tags;
-	public String getTags() {
-		return tags;
-	}
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -30,5 +25,10 @@ public class CreateTopicVo {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
+	public String getTags() {
+		return tags;
+	}
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
 }

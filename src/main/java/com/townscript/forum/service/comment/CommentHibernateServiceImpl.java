@@ -1,6 +1,7 @@
 package com.townscript.forum.service.comment;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,19 +71,24 @@ public class CommentHibernateServiceImpl implements CommentHibernateService{
 	public boolean submitVote(TopicHibernate topic, UserHibernate user, int voteValue)
 	{
 		VoteMapHibernate voteMap = new VoteMapHibernate();
-		voteMap.setTopicId(topic.getTopicId());
-		voteMap.setUserId(user.getUserId());
-		voteMap.setVoteValue(voteValue);
+		
 		if(voteMapDao.getVoteByUserIdAndTopicId(user.getUserId(), topic.getTopicId()).isEmpty())
 		{
+			voteMap.setTopicId(topic.getTopicId());
+			voteMap.setUserId(user.getUserId());
+			voteMap.setVoteValue(voteValue);
 			if(voteMapDao.addVoteMap(voteMap))
 			{
 				return true; //define error codes
 			}
 		}
-		else if(voteMapDao.updateVoteMap(voteMap))
+		else
 		{
-			return true;
+			voteMap = voteMapDao.getVoteByUserIdAndTopicId(user.getUserId(), topic.getTopicId()).iterator().next();
+			voteMap.setTopicId(topic.getTopicId());
+			voteMap.setUserId(user.getUserId());
+			voteMap.setVoteValue(voteValue);
+			return voteMapDao.updateVoteMap(voteMap);
 		}
 		return false;
 	}

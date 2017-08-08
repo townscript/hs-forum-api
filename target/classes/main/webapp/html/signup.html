@@ -74,7 +74,7 @@
 						<input type='button' value="Submit" name='submit' class='btn btn-success' onClick="doSignUp()"/>
 					</div>
 					<div class='col-md-2'>
-						<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
+						<input type='button' value="Cancel" name='cancel' class='btn btn-danger' onclick='redirectToLogin()'/>
 					</div>
 				</div>
 				
@@ -93,23 +93,20 @@
 		var password = $("#password").val();
 		var mobile = $("#mobile").val();
 		var email = $("#email").val();
+		var proPic = null;
 		
-		var signUpUrl="http://localhost:8080/forum-api/user/newUser";
+		var signUpUrl="/rest/user/newUser?dataJson=";
+		var dataJson="{\"userName\":\""+username+"\",\"userPassword\":\""+password+"\",\"userEmail\":\""+email+"\",\"userMobile\":\""+mobile+"\",\"userPropic\":\""+proPic+"\"}";
 		
 		$.ajax({
 			type: "POST",
-			url: signUpUrl,
-			data: {
-				userName: username,
-				userPassword: password,
-				userEmail : email,
-				userMobile : mobile
-			},
+			url: signUpUrl+dataJson,
 			//dataType: "text",
 			success: function(data) {
 				//alert(data);
 				if(data){
-					window.location.href="http://localhost:8080/forum-api/login/checkLogin";
+					//window.location.href="/rest/login/checkLogin";
+					window.location.href="login.html";
 					
 				} else {
 				    alert("Some error, please try again!");
@@ -130,6 +127,11 @@
 			$("#password2").val("");
 		}
 	}
+	
+	function redirectToLogin(){
+		window.location.href="login.html";
+	}
+	
 </script>
 
 </body>

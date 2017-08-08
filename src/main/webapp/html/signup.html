@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+
+<link href="../static/css/bootstrap.css" rel="stylesheet">
+<link href="../static/css/main.css" rel="stylesheet">
+</head>
+<body>
+
+<div id='container' class='container navbar navbar-default navbar-rigth'>
+	<!--<a href='index.html' class='navbar-brand'>ForumApp</a>-->
+	<div class='row'>
+		<a href='index.html' class='navbar-brand'>ForumApp</a>
+	</div>
+	<div id='usersignup'>
+		
+		<form action='#'>
+			<div class='row well well-lg'>
+				<div class='row' id="usersignup_header">
+        			<h3><span>User SignUp</span></h3>
+      			</div>
+				<div class='row'>
+					<div class='col-md-2'>
+						<label> Email Id </label> 
+					</div>
+					<div class='col-md-6'>
+						<input type='text' id="email" name='email' required/>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-md-2'>
+						<label> Mobile Number </label> 
+					</div>
+					<div class='col-md-6'>
+						<input type="text" id="mobile" name='mobile' required/>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-md-2'>
+						<label> User Name </label> 
+					</div>
+					<div class='col-md-6'>
+						<input type="text" id="username" name='username' required/>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-md-2'>
+						<label> Password </label> 
+					</div>
+					<div class='col-md-6'>
+						<input type='password' id="password" name='password' autocomplete="off" required/>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-md-2'>
+						<label> Retype Password </label> 
+					</div>
+					<div class='col-md-6'>
+						<input type='password' id="password2" name='password2' autocomplete="off" required onblur="validatePwd()"/>
+					</div>
+				</div>
+				<div class='row'>
+					<p></p>
+				</div>
+				<div class='row'>
+					<div class='col-md-2'>
+						<input type='button' value="Submit" name='submit' class='btn btn-success' onClick="doSignUp()"/>
+					</div>
+					<div class='col-md-2'>
+						<input type='button' value="Cancel" name='cancel' class='btn btn-danger' onclick='redirectToLogin()'/>
+					</div>
+				</div>
+				
+			</div>
+		</form>
+	</div>
+	
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="../static/js/bootstrap.js"></script>
+
+<script type="text/javascript">
+	function doSignUp(){
+		var username = $("#username").val();
+		var password = $("#password").val();
+		var mobile = $("#mobile").val();
+		var email = $("#email").val();
+		var proPic = null;
+		
+		var signUpUrl="/rest/user/newUser?dataJson=";
+		var dataJson="{\"userName\":\""+username+"\",\"userPassword\":\""+password+"\",\"userEmail\":\""+email+"\",\"userMobile\":\""+mobile+"\",\"userPropic\":\""+proPic+"\"}";
+		
+		$.ajax({
+			type: "POST",
+			url: signUpUrl+dataJson,
+			//dataType: "text",
+			success: function(data) {
+				//alert(data);
+				if(data){
+					//window.location.href="/rest/login/checkLogin";
+					window.location.href="login.html";
+					
+				} else {
+				    alert("Some error, please try again!");
+				}
+			}
+		});
+	}
+</script>
+
+<script type="text/javascript">	
+	function validatePwd(){
+		var pwd = $("#password").val();
+		var pwd2 = $("#password2").val();
+		
+		if(pwd!=pwd2){
+			alert("Both passwords did not match, try again!");
+			$("#password").val("");
+			$("#password2").val("");
+		}
+	}
+	
+	function redirectToLogin(){
+		window.location.href="login.html";
+	}
+</script>
+
+</body>
+</html>

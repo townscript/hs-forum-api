@@ -1,0 +1,36 @@
+
+#headercontent {
+	background: url(../static/images/ts-logo.jpg) no-repeat;
+	height: 90px;
+}
+
+.upvote-img {
+    background: url(../images/upvote.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    width:31px;
+    height:31px;
+}
+
+.downvote-img {
+    background: url(../images/downvote.png) no-repeat;
+    cursor:pointer;
+    border:none;
+    width:31px;
+    height:31px;
+}
+
+.marginRow {
+	margin-bottom:1px !important; 
+
+}
+.marginContents {
+	margin-bottom:3px !important; 
+}
+
+.marginTopics {
+	margin-bottom:10px !important; 
+}
+
+.ajax-loader { visibility: hidden; background-color: rgba(255,255,255,0.7); position: absolute; z-index: +100 !important; width: 100%; height:100%; } .ajax-loader img { position: relative; top:50%; left:50%; }
+ 

@@ -17,19 +17,19 @@
 	</ul>-->
 
 	<div class='row'>
-		<a href='home.html' class='nav navbar-brand'>ForumApp</a>
-		<ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
+		<a class='nav navbar-brand'>ForumApp</a>
+		<!-- <ul class='list-unstyled list-inline nav navbar-nav navbar-right'>
 			<li><a class='nav navbar-nav navbar-brand' href='home.html'>Home</a></li>
-			<!-- <li><a class='nav navbar-nav navbar-brand' href='mytopics.html'>My Topics</a></li> -->
-			<!-- <li>
+			<li><a class='nav navbar-nav navbar-brand' href='mytopics.html'>My Topics</a></li>
+			<li>
 				<a class='nav navbar-nav navbar-brand' href='#'>Settings<span class='caret'></span></a>
 				<ul class='dropdown-menu'>
 					<li><a href='update-password.html'>Update Password</a></li>
 					<li><a href='contact-details.html'>Contact Details</a></li>
 					<li><a href='notification-settings.html'>Notification Settings</a></li>
 				</ul>
-			</li> -->
-		</ul>
+			</li>
+		</ul> -->
 	</div>
 	
 	<div class='row well well-lg'>
@@ -62,10 +62,10 @@
 		</div>
 		<div class='row'>
 			<div class='col-md-1'>
-				<input type='submit' name='submit' class='btn btn-success' onClick="createTopic()"/>
+				<input type='submit' name='submit' id='submit' class='btn btn-success' onClick="createTopic()"/>
 			</div>
 			<div class='col-md-1'>
-				<input type='button' value="Cancel" name='cancel' class='btn btn-danger'/>
+				<input type='button' value="Cancel" name='cancel' id='cancel' class='btn btn-danger' onclick='redirectToAllTopics()'/>
 			</div>
 		</div>
 		
@@ -75,35 +75,39 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="../static/js/bootstrap.js"></script>
+<script src="../static/js/custom.js"></script>
 
 <script type="text/javascript">
 	function createTopic() {
 		var title= $("#title").val()
 		var description= $("#description").val()
 		var tags= $("#tags").val()
+		var username=$.urlParam("userName");
 		
-		var createTopicUrl = "http://localhost:8080/forum-api/topic/createTopic";
+		var createTopicUrl = "/rest/topic/createTopic?dataJson=";
+		var dataJson="{\"title\":\""+title+"\",\"description\":\""+description+"\",\"userName\":\""+username+"\",\"tags\":\""+tags+"\"}";
 		
 		$.ajax({
 			type: "POST",
-			url: createTopicUrl,
-			data: {
-				title: title,
-				description: description,
-				tags : tags
-				//need to pass userName from session
-			},
-			dataType: "text",
+			url: createTopicUrl+dataJson,
+			//dataType: "text",
 			success: function(data) {
 				//alert(data);
-				if(data == "success"){
-					window.location.href="http://localhost:8080/forum-api/topic/getAllTopics";
+				if(data != null){
+					//window.location.href="/rest/topic/getAllTopics";
+					window.location.href="home.html?userName="+username;
 				}else{
 				    alert("Some error, please try again!");
 				}
 			}
 		});
 	}
+	
+	function redirectToAllTopics(){
+		var username=$.urlParam("userName");
+		window.location.href="home.html?userName="+username;
+	}
+	
 </script>
 
 </body>

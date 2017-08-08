@@ -38,6 +38,10 @@
 	</bean> -->
 
 	<mvc:annotation-driven />
+	
+	<mvc:resources mapping="/static/**" location="/static/" />
+	<mvc:resources mapping="/html/**" location="/html/" />
+	
 	<!-- <mvc:default-servlet-handler/> -->
 <!-- http://xmlns.jcp.org/xml/ns/javaee
         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd -->

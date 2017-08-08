@@ -118,7 +118,7 @@ public class TopicController {
 		
 		try {
 			JSONObject json = new JSONObject();
-			json.put("Message", ErrorCodes.SUCCESS);
+			json.put("status", "success");
 			JSONArray array = new JSONArray();
 			
 			
@@ -136,8 +136,8 @@ public class TopicController {
 					item.put("tags", topicList.get(i).getTopicTags());
 					item.put("topicUrl", topicList.get(i).getTopicUrl());
 					item.put("createdBy", userService.getUser(topicMapList.get(i).getUserId()).getUserName());
-					item.put("upVotes", topicService.getVoteCountByTopicId(1, topicList.get(i).getTopicId()));
-					item.put("downVotes", topicService.getVoteCountByTopicId(2, topicList.get(i).getTopicId()));
+					item.put("upVoteCount", topicService.getVoteCountByTopicId(1, topicList.get(i).getTopicId()));
+					item.put("downVoteCount", topicService.getVoteCountByTopicId(2, topicList.get(i).getTopicId()));
 					
 					Collection<CommentMapHibernate> commentMapColl = commentService.getCommentMapByTopicId(topicList.get(i).getTopicId());
 					List<CommentMapHibernate> commentMapList = new ArrayList(commentMapColl);
@@ -155,11 +155,8 @@ public class TopicController {
 						itemComm.put("topicId", commentMapList.get(j).getTopicId());
 						arrayComm.put(itemComm);
 					}
-					array.put(item);
-					JSONObject itemComm = new JSONObject();
-					itemComm.put("commentList", arrayComm);
-					array.put(itemComm);
-					
+					item.put("commentList", arrayComm);
+					array.put(item);					
 				}
 				json.put("topicList", array);
 				array = new JSONArray();

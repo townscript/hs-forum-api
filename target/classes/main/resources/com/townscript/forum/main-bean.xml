@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        				http://www.springframework.org/schema/tx 
+        				http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+        destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/forum_database" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>
+	
+	<bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+                <value>com.townscript.forum.model.comment.CommentHibernate</value>
+                <value>com.townscript.forum.model.comment.CommentMapHibernate</value>
+                <value>com.townscript.forum.model.topic.TopicHibernate</value>
+                <value>com.townscript.forum.model.topic.TopicMapHibernate</value>
+                <value>com.townscript.forum.model.user.UserHibernate</value>
+                <value>com.townscript.forum.model.vote.VoteMapHibernate</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+               <!--   <prop key="hibernate.cache.use_second_level_cache">true</prop> 
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop> 
+               <prop key="hibernate.cache.region.factory_class"> 
+     net.sf.ehcache.hibernate.EhCacheRegionFactory</prop> -->
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="hibernateTransactionManager"  
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">  
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean> 
+    
+    <bean id="UserHibernateDaoImpl" class="com.townscript.forum.dao.user.UserHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="CommentHibernateDaoImpl" class="com.townscript.forum.dao.comment.CommentHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="CommentMapHibernateDaoImpl" class="com.townscript.forum.dao.comment.CommentMapHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="VoteMapHibernateDaoImpl" class="com.townscript.forum.dao.vote.VoteMapHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="TopicHibernateDaoImpl" class="com.townscript.forum.dao.topic.TopicHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="TopicMapHibernateDaoImpl" class="com.townscript.forum.dao.topic.TopicMapHibernateDaoImpl">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="UserHibernateServiceImpl" class="com.townscript.forum.service.user.UserHibernateServiceImpl">
+    	<property name="userDao" ref="UserHibernateDaoImpl"/>
+    </bean>
+    
+    <bean id="LoginServiceImpl" class="com.townscript.forum.service.impl.LoginServiceImpl">
+    	<property name="userDao" ref="UserHibernateDaoImpl"/>
+    </bean>
+    
+    <bean id="TopicMapServiceImpl" class="com.townscript.forum.service.topic.TopicMapServiceImpl">
+    	<property name="topicMapDao" ref="TopicMapHibernateDaoImpl"/>
+    </bean>
+    
+    <bean id="CommentHibernateServiceImpl" class="com.townscript.forum.service.comment.CommentHibernateServiceImpl">
+    	<property name="commentDao" ref="CommentHibernateDaoImpl"/>
+    	<property name="commentMapDao" ref="CommentMapHibernateDaoImpl"/>
+    	<property name="voteMapDao" ref="VoteMapHibernateDaoImpl"/>
+    </bean>
+    
+    <bean id="TopicServiceImpl" class="com.townscript.forum.service.topic.TopicServiceImpl">
+    	<property name="topicDao" ref="TopicHibernateDaoImpl"/>
+    	<property name="topicMapDao" ref="TopicMapHibernateDaoImpl"/>
+    	<property name="userService" ref="UserHibernateServiceImpl"/>
+    	<property name="voteMapDao" ref="VoteMapHibernateDaoImpl"/>
+    </bean>
+    
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate" lazy-init="true">
+              <constructor-arg>
+                      <ref bean="sessionFactory" />
+              </constructor-arg>
+    </bean>
+    
+    <tx:annotation-driven transaction-manager="hibernateTransactionManager" />  
+    <tx:annotation-driven proxy-target-class="true"/>
+    
+</beans>

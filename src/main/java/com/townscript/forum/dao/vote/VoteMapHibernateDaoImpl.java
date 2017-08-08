@@ -16,7 +16,7 @@ public class VoteMapHibernateDaoImpl extends HibernateDaoSupport implements Vote
 		// TODO Auto-generated method stub
 		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 		try{
-			session.saveOrUpdate(voteMap);
+			session.save(voteMap);
 			return true;
 		}
 		catch(HibernateException ex)
