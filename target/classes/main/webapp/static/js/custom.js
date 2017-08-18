@@ -19,11 +19,11 @@ function getAllTopics() {
 			if(obj.status=="success")
 			{
 				var data = obj.topicList;
-				//alert(data);
+				//alert(JSON.stringify(data));
 				//var topicListSize = data.length;
 				var topicListSize = Object.keys(data).length;
 				//alert(topicListSize);
-				for (var i = 0; i < topicListSize; i++) {//todo i++ - figure out how to do
+				for (var i = topicListSize-1; i >= 0; i--) {//todo i++ - figure out how to do
 					
 					/*if(i>=topicListSize-2){
 						continue;
@@ -162,7 +162,6 @@ function getAllTopics() {
 					newComment.push( "</div>");
 
 					$(newComment.join( "" )).appendTo( "#"+commentListVar);
-
 				}
 				//});
 

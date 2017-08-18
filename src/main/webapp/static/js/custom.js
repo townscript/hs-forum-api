@@ -162,7 +162,6 @@ function getAllTopics() {
 					newComment.push( "</div>");
 
 					$(newComment.join( "" )).appendTo( "#"+commentListVar);
-
 				}
 				//});
 
